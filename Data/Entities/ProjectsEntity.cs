@@ -13,12 +13,12 @@ public class ProjectsEntity
     public int ClientId { get; set; }
     public virtual ClientsEntity Client { get; set; } = null!;
 
-    public int UserId { get; set; }
+    public string UserId { get; set; } = null!;
     public virtual ApplicationUserEntity User { get; set; } = null!;
 
     public int ProjectStatusId { get; set; }
     public virtual ProjectStatusEntity ProjectStatus { get; set; } = null!;
 
     public virtual ICollection<NotificationEntity> Notifications { get; set; } = [];
-    public virtual ICollection<ProjectUsersEntity> Projects { get; set; } = [];
+    public virtual ICollection<ProjectUsersEntity> ProjectsUsers { get; set; } = [];
 }

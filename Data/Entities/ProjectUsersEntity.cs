@@ -8,6 +8,6 @@ public class ProjectUsersEntity
     public virtual ProjectsEntity Project { get; set; } = null!;
 
 
-    public string? UserId { get; set; }
+    public string UserId { get; set; } = null!;
     public virtual ApplicationUserEntity User { get; set; } = null!;
 }
