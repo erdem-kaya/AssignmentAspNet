@@ -7,18 +7,15 @@ public class ProjectsEntity
     public string? Description { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; }
-    public string Budget { get; set; } = null!;
+    public decimal Budget { get; set; }
     public string? ProjectImage { get; set; }
 
     public int ClientId { get; set; }
     public virtual ClientsEntity Client { get; set; } = null!;
 
-    public string UserId { get; set; } = null!;
-    public virtual ApplicationUserEntity User { get; set; } = null!;
-
     public int ProjectStatusId { get; set; }
     public virtual ProjectStatusEntity ProjectStatus { get; set; } = null!;
 
     public virtual ICollection<NotificationEntity> Notifications { get; set; } = [];
-    public virtual ICollection<ProjectUsersEntity> ProjectsUsers { get; set; } = [];
+    public virtual ICollection<ProjectUsersEntity> ProjectWithUsers { get; set; } = [];
 }

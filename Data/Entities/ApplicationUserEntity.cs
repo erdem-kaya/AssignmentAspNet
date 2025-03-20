@@ -4,5 +4,5 @@ namespace Data.Entities;
 
 public class ApplicationUserEntity : IdentityUser
 {
-    public virtual UsersProfileEntity UsersProfile { get; set; } = null!;
+    public virtual UsersProfileEntity? UsersProfile { get; set; }
 }
