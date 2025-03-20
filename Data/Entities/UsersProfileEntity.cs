@@ -5,6 +5,7 @@ namespace Data.Entities;
 
 public class UsersProfileEntity
 {
+    //Id är samma som Id i ApplicationUser
     [Key]
     [ForeignKey(nameof(ApplicationUser))]
     public string Id { get; set; } = null!;

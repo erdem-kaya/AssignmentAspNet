@@ -9,5 +9,5 @@ public class ProjectUsersEntity
 
 
     public string UserId { get; set; } = null!;
-    public virtual ApplicationUserEntity User { get; set; } = null!;
+    public virtual UsersProfileEntity UserProfile { get; set; } = null!;
 }

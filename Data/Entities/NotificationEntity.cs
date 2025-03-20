@@ -8,7 +8,7 @@ public class NotificationEntity
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public string? UserId { get; set; }
-    public virtual ApplicationUserEntity? User { get; set; }
+    public virtual UsersProfileEntity? User { get; set; }
 
     public int? ProjectId { get; set; }
     public virtual ProjectsEntity? Project { get; set; }

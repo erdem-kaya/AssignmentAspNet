@@ -6,5 +6,6 @@ public class ClientsEntity
     public string ClientName { get; set; } = null!;
     public string? Email { get; set; }
 
+    //Client kan ha flera projekt
     public ICollection<ProjectsEntity> Projects { get; set; } = [];
 }

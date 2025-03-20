@@ -30,7 +30,7 @@ public class DataContext(DbContextOptions<DataContext> options) : IdentityDbCont
             .HasForeignKey(pu => pu.ProjectId);
 
         modelBuilder.Entity<ProjectUsersEntity>()
-            .HasOne(pu => pu.User)
+            .HasOne(pu => pu.UserProfile)
             .WithMany()
             .HasForeignKey(pu => pu.UserId);
     }
