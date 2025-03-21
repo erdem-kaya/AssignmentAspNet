@@ -39,5 +39,10 @@ public class UserUpdateForm
     [DataType(DataType.Text)]
     public string? Address { get; set; }
 
+
+    [Display(Name = "City", Prompt = "Enter your city")]
+    [DataType(DataType.Text)]
+    public string? City { get; set; }
+
     public DateTime? Birthday { get; set; }
 }

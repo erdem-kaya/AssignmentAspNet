@@ -37,6 +37,10 @@ public class UserRegistrationForm
     [DataType(DataType.Text)]
     public string? Address { get; set; }
 
+    [Display(Name = "City", Prompt = "Enter your City")]
+    [DataType(DataType.Text)]
+    public string? City { get; set; }
+
     [DataType(DataType.Date)]
     [Display(Name = "Birthday")]
     public DateTime Birthday { get; set; }

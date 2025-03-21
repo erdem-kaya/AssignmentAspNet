@@ -5,14 +5,9 @@ namespace Business.Models.Identity;
 public class SignUpForm
 {
     [Required(ErrorMessage = "Required")]
-    [Display(Name = "First name", Prompt = "Enter your first name")]
+    [Display(Name = "Full name", Prompt = "Enter your full name")]
     [DataType(DataType.Text)]
-    public static string FirstName { get; set; } = null!;
-
-    [Required(ErrorMessage = "Required")]
-    [Display(Name = "Last name", Prompt = "Enter your last name")]
-    [DataType(DataType.Text)]
-    public static string LastName { get; set; } = null!;
+    public string FullName { get; set; } = null!;
 
     [Required(ErrorMessage = "Required")]
     [RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid email address")]

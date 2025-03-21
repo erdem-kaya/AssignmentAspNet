@@ -39,5 +39,9 @@ public class User
     [DataType(DataType.Text)]
     public string? Address { get; set; }
 
+    [Display(Name = "City", Prompt = "Enter your City")]
+    [DataType(DataType.Text)]
+    public string? City { get; set; }
+
     public DateTime Birthday { get; set; }
 }
