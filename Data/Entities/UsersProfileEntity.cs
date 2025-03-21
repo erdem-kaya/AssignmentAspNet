@@ -21,6 +21,4 @@ public class UsersProfileEntity
 
     public int JobTitleId { get; set; }
     public virtual JobTitlesEntity JobTitle { get; set; } = null!;
-
-    public virtual ICollection<NotificationEntity> Notifications { get; set; } = [];
 }

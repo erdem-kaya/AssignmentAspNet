@@ -8,7 +8,7 @@ public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
     public DataContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-        optionsBuilder.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Projects2025\AssignmentAspNet\Data\Database\aspnet_project.mdf;Integrated Security=True;Connect Timeout=30");
+        optionsBuilder.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\Projects2025\AssignmentAspNet\Data\Database\assignment_aspnet.mdf;Integrated Security=True;Connect Timeout=30");
         return new DataContext(optionsBuilder.Options);
     }
 }

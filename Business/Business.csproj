@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Notification\" />
+    <Folder Include="Models\ProjectStatus\" />
   </ItemGroup>
 
 </Project>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250320084358_AspNetNew1")]
-    partial class AspNetNew1
+    [Migration("20250321103403_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -125,40 +125,6 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("JobTitles");
-                });
-
-            modelBuilder.Entity("Data.Entities.NotificationEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("Data.Entities.ProjectStatusEntity", b =>
@@ -414,21 +380,6 @@ namespace Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Data.Entities.NotificationEntity", b =>
-                {
-                    b.HasOne("Data.Entities.ProjectsEntity", "Project")
-                        .WithMany("Notifications")
-                        .HasForeignKey("ProjectId");
-
-                    b.HasOne("Data.Entities.UsersProfileEntity", "User")
-                        .WithMany("Notifications")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Project");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Data.Entities.ProjectUsersEntity", b =>
                 {
                     b.HasOne("Data.Entities.ProjectsEntity", "Project")
@@ -549,14 +500,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.ProjectsEntity", b =>
                 {
-                    b.Navigation("Notifications");
-
                     b.Navigation("ProjectWithUsers");
-                });
-
-            modelBuilder.Entity("Data.Entities.UsersProfileEntity", b =>
-                {
-                    b.Navigation("Notifications");
                 });
 #pragma warning restore 612, 618
         }

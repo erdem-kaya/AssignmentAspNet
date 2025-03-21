@@ -16,6 +16,5 @@ public class ProjectsEntity
     public int ProjectStatusId { get; set; }
     public virtual ProjectStatusEntity ProjectStatus { get; set; } = null!;
 
-    public virtual ICollection<NotificationEntity> Notifications { get; set; } = [];
     public virtual ICollection<ProjectUsersEntity> ProjectWithUsers { get; set; } = [];
 }
