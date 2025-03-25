@@ -1,0 +1,44 @@
+﻿
+@model SignInViewModel
+
+@{
+    Layout = "_Layout_CenterScreen";
+    ViewData["Title"] = "Login";
+}
+
+<section id="login">
+    <form asp-controller="Auth" asp-action="SignInPage" method="post" novalidate>
+        <h1>@ViewData["Title"]</h1>
+
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" />
+        </div>
+
+        <div class="form-group">
+            <div class="form-signin-details">
+                <div class="form-remember-me">
+                    <input class="form-checkbox" type="checkbox" />
+                    <span>Remember Me</span>
+                </div>
+                <a>Forgot Password?</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-submit">Log In</button>
+        </div>
+
+        <div class="form-footer">
+            <span>Don't have an account?</span>
+            <a asp-control ="Auth" asp-action="SignUpPage">Sign Up</a>
+        </div>
+
+    </form>
+</section>
+

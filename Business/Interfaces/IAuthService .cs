@@ -2,7 +2,7 @@
 
 namespace Business.Interfaces
 {
-    public interface IAuthenticationService
+    public interface IAuthService
     {
         Task<bool> SignInAsync(SignInForm form);
         Task<bool> SignOutAsync();

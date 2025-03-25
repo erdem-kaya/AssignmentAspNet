@@ -1,4 +1,5 @@
 ﻿using Business.Factories;
+using Business.Interfaces;
 using Business.Models.UserProfile;
 using Data.Entities;
 using Data.Repositories;
@@ -7,7 +8,7 @@ using System.Diagnostics;
 
 namespace Business.Services;
 
-public class UsersProfileService(UserManager<ApplicationUserEntity> userManager, UsersProfileRepository usersProfileRepository)
+public class UsersProfileService(UserManager<ApplicationUserEntity> userManager, UsersProfileRepository usersProfileRepository) : IUsersProfileService
 {
     private readonly UserManager<ApplicationUserEntity> _userManager = userManager;
     private readonly UsersProfileRepository _usersProfileRepository = usersProfileRepository;
@@ -30,7 +31,7 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
             {
                 return false;
             }
-            
+
         }
         catch (Exception ex)
         {
@@ -44,9 +45,9 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
         try
         {
             var users = await _usersProfileRepository.GetAllAsync();
-            
+
             var newUserList = new List<User>();
-            
+
             foreach (var profile in users)
             {
                 var appUser = await _userManager.FindByIdAsync(profile.Id);
@@ -69,8 +70,8 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
     {
         try
         {
-           var appUser = await _userManager.FindByIdAsync(id);
-           var userProfile = await _usersProfileRepository.GetItemAsync(x => x.Id == id);
+            var appUser = await _userManager.FindByIdAsync(id);
+            var userProfile = await _usersProfileRepository.GetItemAsync(x => x.Id == id);
 
             if (appUser != null && userProfile != null)
             {

@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Business.Services;
 
-public class AuthenticationService(UserManager<ApplicationUserEntity> userManager, SignInManager<ApplicationUserEntity> signInManager) : IAuthenticationService
+public class AuthService(UserManager<ApplicationUserEntity> userManager, SignInManager<ApplicationUserEntity> signInManager) : IAuthService
 {
     private readonly UserManager<ApplicationUserEntity> _userManager = userManager;
     private readonly SignInManager<ApplicationUserEntity> _signInManager = signInManager;
