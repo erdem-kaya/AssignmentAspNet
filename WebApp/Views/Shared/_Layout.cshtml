@@ -1,5 +1,4 @@
-﻿﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -12,7 +11,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://kit.fontawesome.com/a576612222.css" crossorigin="anonymous">
 
-
     <!-- Main CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-versinton="true">
 
@@ -20,7 +18,10 @@
 <body>
 
     <div class="wrapper-portal">
-        <aside class="sidebar"></aside>
+        <aside class="sidebar">
+            <partial name="Partials/_LinkLogotype" />
+            <partial name="Partials/_NavLinks" />
+        </aside>
         <header class="header"></header>
         <main class="main">
             @RenderBody()
