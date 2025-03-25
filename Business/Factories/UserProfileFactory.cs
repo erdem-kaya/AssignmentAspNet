@@ -19,13 +19,12 @@ public class UserProfileFactory
             Id = appUser.Id,
             FirstName = form.FirstName,
             LastName = form.LastName,
+            JobTitle = form.JobTitle ?? "NULL",
             Address = form.Address ?? "NULL",
             City = form.City ?? "NULL",
             Birthday = form.Birthday,
             ProfilePicture = form.ProfilePicture,
 
-            //ChatGPT hjälpte mig att skapa en if-sats för att hantera null-värden
-            JobTitle = form.JobTitle != null ? new JobTitlesEntity { Title = form.JobTitle } : new JobTitlesEntity { Title = "Unknown" }
         };
 
         return (appUser, userProfile);
@@ -40,11 +39,11 @@ public class UserProfileFactory
             PhoneNumber = appUser.PhoneNumber,
             FirstName = usersProfile.FirstName,
             LastName = usersProfile.LastName,
+            JobTitle = usersProfile.JobTitle,
             Address = usersProfile.Address,
             City = usersProfile.City,
             Birthday = usersProfile.Birthday,
             ProfilePicture = usersProfile.ProfilePicture,
-            JobTitle = usersProfile.JobTitle?.Title ?? "Unknown"
         };
     }
 
@@ -71,6 +70,11 @@ public class UserProfileFactory
             userProfile.LastName = form.LastName;
         }
 
+        if (!string.IsNullOrWhiteSpace(form.JobTitle))
+        {
+            userProfile.JobTitle = form.JobTitle;
+        }
+
         if (!string.IsNullOrWhiteSpace(form.Address))
         {
             userProfile.Address = form.Address;
@@ -89,11 +93,6 @@ public class UserProfileFactory
         if (!string.IsNullOrWhiteSpace(form.ProfilePicture))
         {
             userProfile.ProfilePicture = form.ProfilePicture;
-        }
-
-        if (form.JobTitle != null)
-        {
-            userProfile.JobTitle = new JobTitlesEntity { Title = form.JobTitle };
         }
     }
 }

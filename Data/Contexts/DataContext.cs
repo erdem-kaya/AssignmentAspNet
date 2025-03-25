@@ -7,7 +7,6 @@ namespace Data.Contexts;
 public class DataContext(DbContextOptions<DataContext> options) : IdentityDbContext<ApplicationUserEntity>(options)
 {
     public DbSet<ClientsEntity> Clients { get; set; }
-    public DbSet<JobTitlesEntity> JobTitles { get; set; }
     public DbSet<ProjectsEntity> Projects { get; set; }
     public DbSet<ProjectStatusEntity> ProjectStatus { get; set; }
     public DbSet<ProjectUsersEntity> ProjectUsers { get; set; }

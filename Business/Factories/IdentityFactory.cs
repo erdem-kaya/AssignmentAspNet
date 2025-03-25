@@ -1,4 +1,5 @@
 ﻿using Business.Models.Identity;
+using Business.Models.UserProfile;
 using Data.Entities;
 
 namespace Business.Factories;
@@ -20,6 +21,7 @@ public static class IdentityFactory
             Id = appUser.Id,
             FirstName = firstName,
             LastName = lastName,
+            JobTitle = "Unknown",
             Address = "Unknown",
             City = "Unknown",
             Birthday = DateTime.UtcNow
@@ -27,6 +29,7 @@ public static class IdentityFactory
 
         return (appUser, userProfile);
     }
+
 
     //ChatGpt hjäper till att dela upp namnet i för och efternamn
     private static (string FirstName, string LastName) SplitFullName(string fullName)
