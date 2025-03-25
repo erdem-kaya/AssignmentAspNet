@@ -2,16 +2,19 @@
 using Business.Interfaces;
 using Business.Models.Identity;
 using Data.Entities;
+using Data.Repositories;
 using Microsoft.AspNetCore.Identity;
 using System.Diagnostics;
 
 
 namespace Business.Services;
 
-public class AuthService(UserManager<ApplicationUserEntity> userManager, SignInManager<ApplicationUserEntity> signInManager) : IAuthService
+public class AuthService(UserManager<ApplicationUserEntity> userManager, SignInManager<ApplicationUserEntity> signInManager, UsersProfileRepository usersProfileRepository) : IAuthService
 {
     private readonly UserManager<ApplicationUserEntity> _userManager = userManager;
     private readonly SignInManager<ApplicationUserEntity> _signInManager = signInManager;
+    private readonly UsersProfileRepository _usersProfileRepository = usersProfileRepository;
+
 
     public async Task<bool> SingUpAsync(SignUpForm form)
     {
@@ -19,7 +22,15 @@ public class AuthService(UserManager<ApplicationUserEntity> userManager, SignInM
         {
             var (appUser, userProfile) = IdentityFactory.Create(form);
             var result = await _userManager.CreateAsync(appUser, form.Password);
-            return result.Succeeded;
+            if (result.Succeeded)
+            {
+                userProfile.Id = appUser.Id;
+                // Create user profile if user was created
+                // Vi behöver FirstName och LastName för att skapa en UserProfile i databasen
+                await _usersProfileRepository.CreateAsync(userProfile);
+                return true;
+            }
+            return false;
 
         }
         catch (Exception ex)
