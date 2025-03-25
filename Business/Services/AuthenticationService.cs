@@ -1,4 +1,5 @@
 ﻿using Business.Factories;
+using Business.Interfaces;
 using Business.Models.Identity;
 using Data.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -7,7 +8,7 @@ using System.Diagnostics;
 
 namespace Business.Services;
 
-public class AuthenticationService(UserManager<ApplicationUserEntity> userManager, SignInManager<ApplicationUserEntity> signInManager)
+public class AuthenticationService(UserManager<ApplicationUserEntity> userManager, SignInManager<ApplicationUserEntity> signInManager) : IAuthenticationService
 {
     private readonly UserManager<ApplicationUserEntity> _userManager = userManager;
     private readonly SignInManager<ApplicationUserEntity> _signInManager = signInManager;
@@ -20,12 +21,12 @@ public class AuthenticationService(UserManager<ApplicationUserEntity> userManage
             var result = await _userManager.CreateAsync(appUser, form.Password);
             return result.Succeeded;
 
-        } 
+        }
         catch (Exception ex)
         {
             Debug.WriteLine($"User not created, {ex.Message}");
             return false;
-        }       
+        }
     }
 
     public async Task<bool> SignInAsync(SignInForm form)
@@ -54,6 +55,6 @@ public class AuthenticationService(UserManager<ApplicationUserEntity> userManage
             Debug.WriteLine($"User not signed out, {ex.Message}");
             return false;
         }
-        
+
     }
 }
