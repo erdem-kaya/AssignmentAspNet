@@ -141,10 +141,14 @@ html, body {
 .wrapper-portal {
     display: grid;
     grid-template-columns: auto 1fr;
-    grid-template-rows: minmax(80px, auto) 1fr;
+    grid-template-rows: minmax(50px, auto) 1fr;
     grid-template-areas: "sidebar header"
         "sidebar main";
     height: 100dvh;
+}
+
+.wrapper-portal .top {
+
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -184,11 +188,15 @@ header,
 .header {
     grid-area: header;
     border-bottom: 1px solid var(--border-color);
-    padding: 2rem;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    padding: 1.5rem 2rem;
 }
+
+    .header .top {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 7rem;
+        align-items: center;
+    }
 
 aside,
 .aside {

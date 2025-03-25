@@ -19,10 +19,12 @@
 
     <div class="wrapper-portal">
         <aside class="sidebar">
-            <partial name="Partials/_LinkLogotype" />
-            <partial name="Partials/_NavLinks" />
+            <partial name="Partials/Panel/_LinkLogotype" />
+            <partial name="Partials/Panel/_NavLinks" />
         </aside>
-        <header class="header"></header>
+        <header class="header">
+            <partial name="Partials/Panel/_Header" />
+        </header>
         <main class="main">
             @RenderBody()
         </main>
