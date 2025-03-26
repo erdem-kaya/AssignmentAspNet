@@ -1,5 +1,4 @@
-﻿
-@model SignInViewModel
+﻿@model SignInViewModel
 
 @{
     Layout = "_Layout_CenterScreen";
@@ -10,12 +9,13 @@
     <form asp-controller="Auth" asp-action="SignInPage" method="post" enctype="multipart/form-data" novalidate >
         <h1>@ViewData["Title"]</h1>
 
-        @if (!string.IsNullOrEmpty(ViewBag?.ErrorMessages))
+        
+      @*   @if (!string.IsNullOrEmpty(ViewBag?.ErrorMessages))
         {
             <div class="alert-notification error">
                 @ViewBag?.ErrorMessages
             </div>
-        }
+        } *@
 
         <div class="form-group">
             <label asp-for="Email"></label>

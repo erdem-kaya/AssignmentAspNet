@@ -30,7 +30,7 @@ public class SignUpViewModel
     [DataType(DataType.Password)]
     public string ConfirmPassword { get; set; } = null!;
 
-    
+    [Required(ErrorMessage = "Required")]
     [Display(Name = "Terms and conditions", Prompt = "I agree to the terms and conditions")]
     public bool TermsAndConditions { get; set; }
 

@@ -30,23 +30,13 @@ public class AuthController(IAuthService authService) : Controller
 
             return BadRequest(new { success = false, errors });
         }
-        
-            var result = await _authService.SignInAsync(model);
-            if (result)
-                return RedirectToAction("Index", "Admin");
 
-        //Chatgpt hjälpte mig här
-        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-        return BadRequest(new
-        {
-            success = false,
-            errors = new Dictionary<string, string[]>
-            {
-                { "Email", new[] { "Invalid login attempt." } },
-                { "Password", new[] { "Invalid login attempt." } }
-            }
-        });
+        var result = await _authService.SignInAsync(model);
+        if (result)
+            return RedirectToAction("Index", "Admin");
 
+        ViewBag.ErrorMessages = "Incorrect email or password";
+        return View(model);
     }
   
 
