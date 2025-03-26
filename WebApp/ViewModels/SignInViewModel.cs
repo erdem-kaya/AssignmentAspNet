@@ -5,6 +5,7 @@ namespace WebApp.ViewModels;
 
 public class SignInViewModel
 {
+
     [Required(ErrorMessage = "Required")]
     [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Invalid email address")]
     [Display(Name = "Email", Prompt = "Enter your email address")]

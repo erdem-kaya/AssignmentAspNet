@@ -25,8 +25,10 @@ builder.Services.AddIdentity<ApplicationUserEntity, IdentityRole>(y =>
 
 builder.Services.ConfigureApplicationCookie(x =>
 {
-    x.LoginPath = "/Auth/SignInPage";
+    x.LoginPath = "/auth/signinpage";
     x.SlidingExpiration = true;
+    x.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    x.Cookie.HttpOnly = true;
 });
 
 
