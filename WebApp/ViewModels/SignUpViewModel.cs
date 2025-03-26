@@ -5,7 +5,7 @@ namespace WebApp.ViewModels;
 
 public class SignUpViewModel
 {
-    public string Title { get; set; } = null!;
+    public string? Title { get; set; }
 
     [Required(ErrorMessage = "Required")]
     [Display(Name = "Full name", Prompt = "Enter your full name")]
@@ -24,13 +24,13 @@ public class SignUpViewModel
     [DataType(DataType.Password)]
     public string Password { get; set; } = null!;
 
-    [Required(ErrorMessage = "Required")]
+    [Required(ErrorMessage = "Passwords do not match")]
     [Display(Name = "Confirm password", Prompt = "Confirm your password")]
     [Compare("Password", ErrorMessage = "Passwords do not match")]
     [DataType(DataType.Password)]
     public string ConfirmPassword { get; set; } = null!;
 
-    [Required(ErrorMessage = "Required")]
+    
     [Display(Name = "Terms and conditions", Prompt = "I agree to the terms and conditions")]
     public bool TermsAndConditions { get; set; }
 

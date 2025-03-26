@@ -12,7 +12,7 @@ public class AuthController(IAuthService authService) : Controller
     
     public IActionResult SignInPage()
     {
-        ViewBag.ErrorMessages = "";
+
         return View();
     }
 
@@ -20,18 +20,34 @@ public class AuthController(IAuthService authService) : Controller
     [HttpPost]
     public async Task<IActionResult> SignInPage(SignInViewModel model)
     {
-        ViewBag.ErrorMessages = "";
-
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
+            var errors = ModelState
+                .Where(x => x.Value?.Errors.Count > 0)
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray());
+
+            return BadRequest(new { success = false, errors });
+        }
+        
             var result = await _authService.SignInAsync(model);
             if (result)
                 return RedirectToAction("Index", "Admin");
-        }
 
-        ViewBag.ErrorMessages = "Incorrect email or password";
-        return View(model);
-     }
+        //Chatgpt hjälpte mig här
+        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+        return BadRequest(new
+        {
+            success = false,
+            errors = new Dictionary<string, string[]>
+            {
+                { "Email", new[] { "Invalid login attempt." } },
+                { "Password", new[] { "Invalid login attempt." } }
+            }
+        });
+
+    }
   
 
 
@@ -52,6 +68,17 @@ public class AuthController(IAuthService authService) : Controller
     {
         if (!ModelState.IsValid)
         {
+            var errors = ModelState
+                .Where(x => x.Value?.Errors.Count > 0)
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value?.Errors.Select(x => x.ErrorMessage)
+                .ToArray());
+
+            return BadRequest(new { sucess = false, errors });
+        }
+        else
+        {
             var result = await _authService.SingUpAsync(model);
             if (result)
             {
@@ -59,7 +86,7 @@ public class AuthController(IAuthService authService) : Controller
             }
             return View(model);
         }
-        return View();
+        
     }
 
     

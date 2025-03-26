@@ -115,6 +115,17 @@
     --card-text-color: var(--dark-400);
     --card-border-color: var(--white-100);
     --card-background-color: var(--white-100);
+    /* Statues */
+    --success: #28a745;
+    --danger: #dc3545;
+    --danger-20: rgb(220, 53, 69, 0.2);
+    --warning: #ffc107;
+    --info: #17a2b8;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --white-status-text: #f8f9fa;
 }
 
 *, *::before, *::after {
@@ -129,6 +140,48 @@ html, body {
     font-style: normal;
     color: var(--text-color);
     background-color: var(--background-color);
+}
+
+
+/* statues */
+.success {
+    background-color: var(--success);
+    color: var(--white-status-text);
+}
+
+.danger {
+    background-color: var(--danger);
+    color: var(--white-status-text);
+}
+
+.warning {
+    background-color: var(--warning);
+    color: var(--white-status-text);
+}
+
+.info {
+    background-color: var(--info);
+    color: var(--white-status-text);
+}
+
+.light {
+    background-color: var(--light);
+    color: var(--heading);
+}
+
+.dark {
+    background-color: var(--dark);
+    color: var(--white-color);
+}
+
+.primary {
+    background-color: var(--primary);
+    color: var(--white-color);
+}
+
+.secondary {
+    background-color: var(--secondary);
+    color: var(--white-color);
 }
 
 .wrapper-centerscreen {
@@ -354,6 +407,30 @@ a {
 form {
     width: 100%;
 }
+
+    form .field-validation-error {
+        position: absolute;
+        z-index: 1;
+        right: 0.22rem;
+        top: 3px;
+        font-size: 0.78em;
+        background-color: var(--danger-20);
+        color: var(--danger);
+        padding: 0.40rem 1rem;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        gap: 0.5rem;
+    }
+
+    form .input-validation-error {
+        border-color: var(--danger-20);
+    }
+
+    form .field-group {
+        position: relative;
+    }
 
 .form-footer {
     margin-top: 3rem;

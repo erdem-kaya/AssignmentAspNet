@@ -6,27 +6,39 @@
 }
 
 <section id="login">
-    <form asp-controller="Auth" asp-action="SignUpPage" method="post" novalidate>
+    <form asp-controller="Auth" asp-action="SignUpPage" method="post" novalidate enctype="multipart/form-data">
         <h1>@ViewData["Title"]</h1>
 
         <div class="form-group">
             <label asp-for="FullName"></label>
-            <input asp-for="FullName" />
+            <div class="field-group">
+                <input asp-for="FullName" />
+                <span asp-validation-for="FullName"></span>
+            </div>
         </div>
 
         <div class="form-group">
             <label asp-for="Email"></label>
-            <input asp-for="Email" />
+            <div class="field-group">
+                <input asp-for="Email" />
+                <span asp-validation-for="Email"></span>
+            </div>
         </div>
 
         <div class="form-group">
             <label asp-for="Password"></label>
-            <input asp-for="Password" />
+            <div class="field-group">
+                <input asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </div>
         </div>
 
         <div class="form-group">
             <label asp-for="ConfirmPassword"></label>
-            <input asp-for="ConfirmPassword" />
+            <div class="field-group">
+                <input asp-for="ConfirmPassword" />
+                <span asp-validation-for="ConfirmPassword"></span>
+            </div>
         </div>
 
         <div class="form-group">
