@@ -4,10 +4,13 @@ using WebApp.ViewModels.UserProfile;
 
 namespace WebApp.Controllers;
 
+[Route("users")]
 public class UserProfilesController(IUsersProfileService userProfileService) : Controller
 {
     private readonly IUsersProfileService _userProfileService = userProfileService;
 
+    
+    [HttpGet("")]
     public async Task<IActionResult> UsersList()
     {
         var model = new UserProfileViewModel
