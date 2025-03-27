@@ -20,6 +20,9 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Views\Shared\Partials\Components\ClientsPartials\" />
+    <Folder Include="Views\Shared\Partials\Components\ProjectsPartials\" />
+    <Folder Include="Views\Shared\Partials\Components\UsersPartials\" />
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
