@@ -81,6 +81,8 @@
     --btn-hover-backgroud-color: var(--blue-dark);
     --btn-hover-text-color: var(--white-100);
     --btn-hover-border-color: var(--white-100);
+    --btn-message-backgroud-hover-color: var(--gray-200);
+    --btn-message-color-hover: var(--dark-500);
     /* link-color */
     --link-color: var(--blue);
     --link-hover-color: var(--blue-dark);
@@ -217,6 +219,7 @@ h1, .h1 {
 
 h2, .h2 {
     font-size: 2rem;
+    color: var(--dark-100)
 }
 
 h3, .h3 {
@@ -351,6 +354,39 @@ a {
         border: 1px solid var(--btn-hover-border-color);
         text-decoration: none;
     }
+
+.btn-message {
+    cursor: pointer;
+    color: var(--dark-600);
+    font-size: 15px;
+    font-weight: var(--font-semibold);
+    background-color: var(--gray-100);
+    border: 1px solid var(--btn-border-color);
+    border-radius: 10px;
+    padding-block: 0.8rem; 
+}
+
+    .btn-message:hover {
+        color: var(--btn-message-color-hover);
+        background-color: var(--btn-message-backgroud-hover-color);
+        border: 1px solid var(--btn-hover-border-color);
+        text-decoration: none;
+    }
+
+
+.btn-edit {
+    cursor:pointer;
+    color: var(--gray-800);
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+}
+
+
+.btn-edit::before {
+    content: '\f141';
+    font-family: var(--font-fa-6);
+}
 
 .btn-add::before {
     content: '\2b';
@@ -507,17 +543,35 @@ textarea {
 
 .member {
     text-align: center;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     gap: 0.8rem;
 }
+
+   
 
     .member .jobtitle {
         background-color: var(--white-400);
         display: inline;
-        padding: 0.2rem 0.5rem;
+        padding: 0.7rem 1.3rem;
         border-radius: 10px;
-        margin: 0.5rem auto 2rem;
-        width: 50%;
+        margin: 0.5rem auto 1rem;
+        font-size: 0.8rem;
+        
+    }
+
+    .member .full-name {
+        font-size: 1.5rem;
+        font-weight: var(--font-semibold)
+    }
+
+    .member .email {
+        font-size: 0.8rem;
+    }
+
+    .member .phone {
+        font-size: 0.8rem;
     }
 
 .card {
@@ -528,4 +582,20 @@ textarea {
     padding: 2rem;
     text-align: center;
     border-radius: 14px;
+}
+
+    .card .card-body .card-header {
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+
+/* Components - Sections */
+/* User Profiles */
+#users {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    margin: 3rem 7rem;
 }

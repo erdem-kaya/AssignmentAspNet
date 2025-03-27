@@ -1,0 +1,24 @@
+﻿@model UserProfileViewModel
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-header">
+            <button class="btn-edit"></button>
+        </div>
+        @foreach (var user in Model.UserProfileList)
+        {
+            <div class="member">
+                <div class="image">
+                    <img src="~/images/user-profile-man.svg" alt="user" class="profile-image">
+                </div>
+                <div class="full-name">@user.FirstName @user.LastName</div>
+                <div class="jobtitle">@user.JobTitle</div>
+                <div class="email">@user.Email</div>
+                <div class="phone">@user.PhoneNumber</div>
+                <button class="btn-message">Message</button>
+            </div>
+        }
+
+
+    </div>
+</div>
