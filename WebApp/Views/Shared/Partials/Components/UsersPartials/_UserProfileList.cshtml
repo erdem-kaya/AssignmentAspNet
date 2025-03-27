@@ -1,13 +1,15 @@
 ﻿@using Business.Models.UserProfile
 @model IEnumerable<User>
 
+
+@foreach (var users in Model)
+{
 <div class="card">
     <div class="card-body">
         <div class="card-header">
             <button class="btn-edit"></button>
         </div>
-        @foreach (var users in Model)
-        {
+   
             <div class="member">
                 <div class="image">
                     <img src="~/images/user-profile-man.svg" alt="user" class="profile-image">
@@ -18,8 +20,9 @@
                 <div class="phone">@users.PhoneNumber</div>
                 <button class="btn-message">Message</button>
             </div>
-        }
+    
 
 
     </div>
 </div>
+        }

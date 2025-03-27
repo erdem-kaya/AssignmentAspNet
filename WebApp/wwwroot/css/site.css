@@ -196,7 +196,7 @@ html, body {
 .wrapper-portal {
     display: grid;
     grid-template-columns: auto 1fr;
-    grid-template-rows: minmax(50px, auto) 1fr;
+    grid-template-rows: minmax(auto, auto) 1fr;
     grid-template-areas: "sidebar header"
         "sidebar main";
     height: 100dvh;
