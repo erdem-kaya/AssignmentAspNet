@@ -12,8 +12,12 @@ public class AuthController(IAuthService authService) : Controller
     
     public IActionResult SignInPage()
     {
-
-        return View();
+        var model = new SignInViewModel
+        {
+            Title = "Sign In",
+            ErrorMessages = ""
+        };
+        return View(model);
     }
 
     
@@ -35,18 +39,23 @@ public class AuthController(IAuthService authService) : Controller
         if (result)
             return RedirectToAction("Index", "Admin");
 
-        ViewBag.ErrorMessages = "Incorrect email or password";
-        return View(model);
+        //Chatgpt hjälpe mig
+        return BadRequest(new
+        {
+            success = false,
+            globalError = "Incorrect email or password"
+        });
     }
   
-
 
     [Route("register")]
     public IActionResult SignUpPage()
     {
         var model = new SignUpViewModel
         {
-            Title = "Create Account"
+            Title = "Create Account",
+            ErrorMessages = ""
+
         };
 
         return View(model);
@@ -67,16 +76,21 @@ public class AuthController(IAuthService authService) : Controller
 
             return BadRequest(new { sucess = false, errors });
         }
-        else
-        {
+        
             var result = await _authService.SingUpAsync(model);
             if (result)
             {
                 return RedirectToAction("SignInPage", "Auth");
             }
-            return View(model);
-        }
-        
+
+
+        return BadRequest(new
+        {
+            success = false,
+            globalError = "This e-mail address is available"
+        });
+
+
     }
 
     

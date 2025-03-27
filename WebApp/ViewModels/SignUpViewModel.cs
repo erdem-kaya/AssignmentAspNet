@@ -6,6 +6,7 @@ namespace WebApp.ViewModels;
 public class SignUpViewModel
 {
     public string? Title { get; set; }
+    public string? ErrorMessages { get; set; }
 
     [Required(ErrorMessage = "Required")]
     [Display(Name = "Full name", Prompt = "Enter your full name")]
