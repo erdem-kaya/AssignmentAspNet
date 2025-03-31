@@ -27,7 +27,7 @@ public class SignInViewModel
         {
             Email = model.Email,
             Password = model.Password,
-            RememberMe = model.IsPersistent
+            IsPersistent = model.IsPersistent
         };
     }
 }

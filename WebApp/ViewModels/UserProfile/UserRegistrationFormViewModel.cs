@@ -10,12 +10,12 @@ public class UserRegistrationFormViewModel
     public string? ProfilePicture { get; set; }
 
     [Required(ErrorMessage = "Required")]
-    [Display(Name = "First name", Prompt = "Enter your first name")]
+    [Display(Name = "First name", Prompt = "Enter first name")]
     [DataType(DataType.Text)]
     public string FirstName { get; set; } = null!;
 
     [Required(ErrorMessage = "Required")]
-    [Display(Name = "Last name", Prompt = "Enter your last name")]
+    [Display(Name = "Last name", Prompt = "Enter last name")]
     [DataType(DataType.Text)]
     public string LastName { get; set; } = null!;
 
@@ -30,21 +30,52 @@ public class UserRegistrationFormViewModel
     [DataType(DataType.PhoneNumber)]
     public string? PhoneNumber { get; set; }
 
+    [Required(ErrorMessage = "Required")]
     [Display(Name = "Job title", Prompt = "Enter your job title")]
     [DataType(DataType.Text)]
     public string? JobTitle { get; set; }
 
+    [Required(ErrorMessage = "Required")]
     [Display(Name = "Address", Prompt = "Enter your address")]
     [DataType(DataType.Text)]
     public string? Address { get; set; }
 
+    [Required(ErrorMessage = "Required")]
     [Display(Name = "City", Prompt = "Enter your City")]
     [DataType(DataType.Text)]
     public string? City { get; set; }
 
-    [DataType(DataType.Date)]
-    [Display(Name = "Birthday")]
-    public DateTime Birthday { get; set; }
+
+    [Range(1, 31, ErrorMessage = "Invalid day")]
+    [Display(Name = "Day")]
+    public int Day { get; set; }
+
+
+    [Range(1, 12, ErrorMessage = "Invalid month")]
+    [Display(Name = "Month")]
+    public int Month { get; set; }
+
+
+    [Range(1900, 2100, ErrorMessage = "Invalid year")]
+    [Display(Name = "Year")]
+    public int Year { get; set; }
+
+
+    [ScaffoldColumn(false)]
+    public DateTime? Birthday
+    {
+        get
+        {
+            try
+            {
+                return new DateTime(Year, Month, Day);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return null; // or handle the error as needed
+            }
+        }
+    }
 
     public static implicit operator UserRegistrationForm(UserRegistrationFormViewModel model)
     {
@@ -58,7 +89,7 @@ public class UserRegistrationFormViewModel
             JobTitle = model.JobTitle,
             Address = model.Address,
             City = model.City,
-            Birthday = model.Birthday
+            Birthday = model.Birthday ?? DateTime.MinValue
         };
     }
 }

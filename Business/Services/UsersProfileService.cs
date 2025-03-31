@@ -21,7 +21,7 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
             var (appUser, userProfile) = UserProfileFactory.Create(form);
             // There is no password entry input when creating a user in the panel, so we give a fixed password. I don't know if there is a better solution for now.
             // Det finns inget input för lösenordsin när vi skappar en användare i panelen, så vi ger ett fast lösenord. Vet inte om det finns en bättre lösning för nu.
-            var result = await _userManager.CreateAsync(appUser, "Exempel123");
+            var result = await _userManager.CreateAsync(appUser, "Exempel123!");
             if (result.Succeeded)
             {
                 await _usersProfileRepository.CreateAsync(userProfile);

@@ -31,7 +31,6 @@ public class SignUpViewModel
     [DataType(DataType.Password)]
     public string ConfirmPassword { get; set; } = null!;
 
-    [Range(typeof(bool), "true", "true")]
     public bool TermsAndConditions { get; set; }
 
     public static implicit operator SignUpForm(SignUpViewModel model)

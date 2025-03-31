@@ -1,10 +1,10 @@
 ﻿@model UserProfileViewModel
 
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = "Team Members";
 }
 
-<partial name="Partials/Components/UsersPartials/_AddUserProfile" model="Model" />
+<partial name="Partials/Components/UsersPartials/_AddUserProfile" model="Model.RegistrationForm" />
 
 <div class="page-header">
     <h1>@ViewData["Title"]</h1>

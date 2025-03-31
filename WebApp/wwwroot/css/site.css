@@ -474,6 +474,17 @@ form {
     font-weight: var(--font-semibold)
 }
 
+.form-group-together {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+}
+
+.group-birthday {
+    display: flex;
+    gap: 1rem;
+}
+
 .form-group {
     display: grid;
     gap: 0.2rem;
@@ -639,3 +650,50 @@ textarea {
 #addMemberModal .modal-content {
     width: 550px;
 }
+
+
+/* image-previewer */
+.hide {
+    display: none;
+}
+
+
+.image-previewer {
+    border: 2px dashed var(--border-color);
+    height: 150px;
+    width: 150px;
+    margin: 2rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+}
+
+    .image-previewer::after {
+        content: '\f030';
+        font-family: var(--font-fa-6);
+        font-weight: var(--font-bold);
+        background-color: var(--gray-800);
+        color: var(--white);
+        padding: 0.8rem;
+        border-radius: 50%;
+        position: relative;
+        bottom: 0;
+    }
+
+    .image-previewer.selected::after {
+        content: '\f044';
+        position: absolute;
+        bottom: 5px;
+    }
+
+
+    .image-previewer.circle {
+        border-radius: 50%;
+    }
+
+    .image-previewer.square {
+        border-radius: 16px;
+    }

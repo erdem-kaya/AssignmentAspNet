@@ -44,7 +44,7 @@ public class AuthService(UserManager<ApplicationUserEntity> userManager, SignInM
     {
         try
         {
-            var result = await _signInManager.PasswordSignInAsync(form.Email, form.Password, form.RememberMe, false);
+            var result = await _signInManager.PasswordSignInAsync(form.Email, form.Password, form.IsPersistent, false);
             return result.Succeeded;
         }
         catch (Exception ex)

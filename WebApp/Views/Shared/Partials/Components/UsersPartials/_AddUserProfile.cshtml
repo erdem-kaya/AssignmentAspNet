@@ -1,8 +1,7 @@
-﻿@model UserProfileViewModel
+﻿@model UserRegistrationFormViewModel
 
 @{
-    ViewData["Title"] = Model.Title;
-
+    ViewData["Title"] = "New Member";
 }
 
 
@@ -10,14 +9,95 @@
     <div class="modal-content">
 
         <div class="modal-header">
-            <h3>@ViewData["Title"]</h3>
+            <h3>Add Team Member</h3>
+            <button type="button" class="btn-close" data-close="true"></button>
         </div>
 
+        <form novalidate method="post" asp-action="AddUser" asp-controller="UserProfiles">
+
+            <div class="image-previewer circle">
+                <img src="" class="image-preview" />
+                <input asp-for="ProfilePicture" accept="image/*" class="hide" />
+            </div>
+
+            <div class="form-group-together">
+                <div class="form-group">
+                    <label asp-for="FirstName"></label>
+                    <div class="field-group">
+                        <input asp-for="FirstName" />
+                        <span asp-validation-for="FirstName"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LastName"></label>
+                    <div class="field-group">
+                        <input asp-for="LastName" />
+                        <span asp-validation-for="LastName"></span>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <div class="field-group">
+                    <input asp-for="Email" />
+                    <span asp-validation-for="Email"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="JobTitle"></label>
+                <div class="field-group">
+                    <input asp-for="JobTitle" />
+                    <span asp-validation-for="JobTitle"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address"></label>
+                <div class="field-group">
+                    <input asp-for="Address" />
+                    <span asp-validation-for="Address"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="City"></label>
+                <div class="field-group">
+                    <input asp-for="City" />
+                    <span asp-validation-for="City"></span>
+                </div>
+            </div>
 
 
+            
+            <div class="form-group">
+                <label>Date of Birth</label>
+                <div class="field-group group-birthday" style="display:flex; gap: 10px;">
+                    @* Chatgpt hjälpte mig att få rätt värde ->asp-items *@
+                    <select asp-for="Day" asp-items="Enumerable.Range(1,31).Select(d => new SelectListItem { Text = d.ToString(), Value = d.ToString() })">
+                        <option>Day</option>
+                    </select>
+                    @* Chatgpt hjälpte mig att få rätt värde ->asp-items *@
+                    <select asp-for="Month" asp-items="Enumerable.Range(1,12).Select(m => new SelectListItem { Text = m.ToString(), Value = m.ToString() })">
+                        <option>Month</option>
+                    </select>
+                    @* Chatgpt hjälpte mig att få rätt värde ->asp-items *@
+                    <select asp-for="Year" asp-items="Enumerable.Range(1950, DateTime.Now.Year - 1949).Reverse().Select(y => new SelectListItem { Text = y.ToString(), Value = y.ToString() })">
+                        <option>Year</option>
+                    </select>
+                </div>
 
+                <div class="danger">
+                    <span asp-validation-for="Day"></span>
+                    <span asp-validation-for="Month"></span>
+                    <span asp-validation-for="Year"></span>
+                </div>
+            </div>
 
-
-
+            <button type="submit" class="btn btn-submit">Add Create</button>
+        </form>
     </div>
 </div>

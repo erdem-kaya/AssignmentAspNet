@@ -15,39 +15,53 @@ public class UserProfilesController(IUsersProfileService userProfileService) : C
     {
         var model = new UserProfileViewModel
         {
-            Title = "Team Members",
-            ErrorMessages = "No item!",
             UserProfileList = await _userProfileService.GetAllUsersProfileAsyc(),
         };
 
         return View(model);
     }
 
-    public IActionResult AddUser(UserRegistrationFormViewModel form)
+    public IActionResult AddUser()
     {
-        var model = new UserProfileViewModel
+
+
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddUser(UserRegistrationFormViewModel form)
+    {
+        if (!ModelState.IsValid)
         {
-            Title = "Create User",
-            RegistrationForm = form,
-        };
-        return View(model);
+            var errors = ModelState
+                .Where(x => x.Value?.Errors.Count > 0)
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray());
+
+            return BadRequest(new { success = false, errors });
+        }
+
+        var result = await _userProfileService.CreateUsersProfileAsync(form);
+        if (result)
+            return RedirectToAction("UsersList");
+        
+        return BadRequest(new
+        {
+            success = false,
+            globalError = "Failed to create user"
+        });
     }
 
     public IActionResult UpdateUser(string id)
     {
-        var model = new UserProfileViewModel
-        {
-            Title = "Update User"
-        };
-        return View(model);
+     
+        return View();
     }
 
     public IActionResult DeleteUser(string id)
     {
-        var model = new UserProfileViewModel
-        {
-            Title = "Delete User"
-        };
-        return View(model);
+       
+        return View();
     }
 }

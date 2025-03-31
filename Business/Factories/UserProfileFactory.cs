@@ -11,7 +11,6 @@ public class UserProfileFactory
         {
             Email = form.Email,
             UserName = form.Email,
-            PhoneNumber = form.PhoneNumber
         };
 
         var userProfile = new UsersProfileEntity
@@ -23,7 +22,7 @@ public class UserProfileFactory
             Address = form.Address ?? "NULL",
             City = form.City ?? "NULL",
             Birthday = form.Birthday,
-            ProfilePicture = form.ProfilePicture,
+            ProfilePicture = form.ProfilePicture ?? "NULL",
 
         };
 
