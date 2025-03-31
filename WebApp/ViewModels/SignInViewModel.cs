@@ -19,8 +19,7 @@ public class SignInViewModel
     [DataType(DataType.Password)]
     public string Password { get; set; } = null!;
 
-    [Display(Name = "Remember me")]
-    public bool RememberMe { get; set; }
+    public bool IsPersistent { get; set; }
 
     public static implicit operator SignInForm(SignInViewModel model)
     {
@@ -28,7 +27,7 @@ public class SignInViewModel
         {
             Email = model.Email,
             Password = model.Password,
-            RememberMe = model.RememberMe
+            RememberMe = model.IsPersistent
         };
     }
 }

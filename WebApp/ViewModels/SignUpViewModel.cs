@@ -31,8 +31,7 @@ public class SignUpViewModel
     [DataType(DataType.Password)]
     public string ConfirmPassword { get; set; } = null!;
 
-    [Required(ErrorMessage = "Required")]
-    [Display(Name = "Terms and conditions", Prompt = "I agree to the terms and conditions")]
+    [Range(typeof(bool), "true", "true")]
     public bool TermsAndConditions { get; set; }
 
     public static implicit operator SignUpForm(SignUpViewModel model)
