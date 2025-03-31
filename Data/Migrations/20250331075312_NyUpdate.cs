@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class NyUpdate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -62,19 +62,6 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clients", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "JobTitles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_JobTitles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,11 +190,11 @@ namespace Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JobTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    JobTitleId = table.Column<int>(type: "int", nullable: false)
+                    ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -216,12 +203,6 @@ namespace Data.Migrations
                         name: "FK_UsersProfile_AspNetUsers_Id",
                         column: x => x.Id,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UsersProfile_JobTitles_JobTitleId",
-                        column: x => x.JobTitleId,
-                        principalTable: "JobTitles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -236,6 +217,7 @@ namespace Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Budget = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ProjectImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClientId = table.Column<int>(type: "int", nullable: false),
@@ -342,11 +324,6 @@ namespace Data.Migrations
                 name: "IX_ProjectUsers_UserId",
                 table: "ProjectUsers",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UsersProfile_JobTitleId",
-                table: "UsersProfile",
-                column: "JobTitleId");
         }
 
         /// <inheritdoc />
@@ -387,9 +364,6 @@ namespace Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "JobTitles");
         }
     }
 }

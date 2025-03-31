@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250321103403_Init")]
-    partial class Init
+    [Migration("20250331075312_NyUpdate")]
+    partial class NyUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -110,23 +110,6 @@ namespace Data.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("Data.Entities.JobTitlesEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("JobTitles");
-                });
-
             modelBuilder.Entity("Data.Entities.ProjectStatusEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -182,6 +165,9 @@ namespace Data.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -230,8 +216,9 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("JobTitleId")
-                        .HasColumnType("int");
+                    b.Property<string>("JobTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -241,8 +228,6 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("JobTitleId");
 
                     b.ToTable("UsersProfile");
                 });
@@ -408,7 +393,7 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Data.Entities.ProjectStatusEntity", "ProjectStatus")
-                        .WithMany()
+                        .WithMany("Projects")
                         .HasForeignKey("ProjectStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -426,15 +411,7 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.JobTitlesEntity", "JobTitle")
-                        .WithMany()
-                        .HasForeignKey("JobTitleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("ApplicationUser");
-
-                    b.Navigation("JobTitle");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -494,6 +471,11 @@ namespace Data.Migrations
                 });
 
             modelBuilder.Entity("Data.Entities.ClientsEntity", b =>
+                {
+                    b.Navigation("Projects");
+                });
+
+            modelBuilder.Entity("Data.Entities.ProjectStatusEntity", b =>
                 {
                     b.Navigation("Projects");
                 });

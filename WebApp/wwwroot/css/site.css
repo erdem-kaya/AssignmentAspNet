@@ -52,6 +52,7 @@
     --gray-600: #C6C8CC;
     --gray-700: #9E9E9E;
     --gray-800: #637085;
+    --gray-transparent: rgba(160, 160, 160, 0.40);
     /* dark-color */
     --dark-100: #1A1926;
     --dark-200: #1C1D1F;
@@ -598,4 +599,43 @@ textarea {
     grid-template-columns: 1fr 1fr 1fr;
     gap: 2rem;
     margin: 3rem 7rem;
+}
+
+
+
+
+/* modal */
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--gray-transparent);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+    .modal .modal-content {
+        background-color: var(--white);
+        border-radius: 16px;
+        box-shadow: 0 4px 4px 3px rgba(196, 196, 196, 0.1);
+        padding: 2rem;
+    }
+
+        .modal .modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: none !important;
+        }
+
+
+/* ALL MODALS */
+
+#addMemberModal .modal-content {
+    width: 550px;
 }

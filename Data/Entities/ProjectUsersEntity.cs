@@ -1,7 +1,10 @@
-﻿namespace Data.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Data.Entities;
 
 public class ProjectUsersEntity
 {
+    [Key]
     public int Id { get; set; }
 
     public int ProjectId { get; set; }
@@ -10,4 +13,5 @@ public class ProjectUsersEntity
 
     public string UserId { get; set; } = null!;
     public virtual UsersProfileEntity UserProfile { get; set; } = null!;
+
 }

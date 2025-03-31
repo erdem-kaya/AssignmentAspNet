@@ -23,11 +23,12 @@ public class UserProfilesController(IUsersProfileService userProfileService) : C
         return View(model);
     }
 
-    public IActionResult AddUser()
+    public IActionResult AddUser(UserRegistrationFormViewModel form)
     {
         var model = new UserProfileViewModel
         {
-            Title = "Create User"
+            Title = "Create User",
+            RegistrationForm = form,
         };
         return View(model);
     }

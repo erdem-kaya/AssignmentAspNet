@@ -162,6 +162,9 @@ namespace Data.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -387,7 +390,7 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Data.Entities.ProjectStatusEntity", "ProjectStatus")
-                        .WithMany()
+                        .WithMany("Projects")
                         .HasForeignKey("ProjectStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -465,6 +468,11 @@ namespace Data.Migrations
                 });
 
             modelBuilder.Entity("Data.Entities.ClientsEntity", b =>
+                {
+                    b.Navigation("Projects");
+                });
+
+            modelBuilder.Entity("Data.Entities.ProjectStatusEntity", b =>
                 {
                     b.Navigation("Projects");
                 });
