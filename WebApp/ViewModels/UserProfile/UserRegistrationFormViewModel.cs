@@ -60,7 +60,7 @@ public class UserRegistrationFormViewModel
     [Display(Name = "Year")]
     public int Year { get; set; }
 
-
+    //ChatGpt hjälpte mig med denna kod
     [ScaffoldColumn(false)]
     public DateTime? Birthday
     {
@@ -72,7 +72,7 @@ public class UserRegistrationFormViewModel
             }
             catch (ArgumentOutOfRangeException)
             {
-                return null; // or handle the error as needed
+                return null;
             }
         }
     }

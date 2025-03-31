@@ -23,8 +23,6 @@ public class UserProfilesController(IUsersProfileService userProfileService) : C
 
     public IActionResult AddUser()
     {
-
-
         return View();
     }
 
@@ -53,7 +51,7 @@ public class UserProfilesController(IUsersProfileService userProfileService) : C
         });
     }
 
-    public IActionResult UpdateUser(string id)
+    public IActionResult UpdateUser(UserUpdateFormViewModel form)
     {
      
         return View();

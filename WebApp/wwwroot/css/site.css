@@ -403,6 +403,22 @@ a {
     font-family: var(--font-fa-6);
 }
 
+.btn-close {
+    cursor: pointer;
+    font-size: 2em;
+    border: none;
+    background-color: transparent;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .btn-close::after {
+        content: '\f00d';
+        font-family: var(--font-fa-6);
+    }
+
 .alert-notification {
     padding: 0.5rem 1rem;
     border-radius: 10px;
@@ -618,7 +634,7 @@ textarea {
 /* modal */
 
 .modal {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     background-color: var(--gray-transparent);

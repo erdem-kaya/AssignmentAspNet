@@ -11,6 +11,7 @@ public class UserProfileFactory
         {
             Email = form.Email,
             UserName = form.Email,
+            PhoneNumber = form.PhoneNumber,
         };
 
         var userProfile = new UsersProfileEntity
