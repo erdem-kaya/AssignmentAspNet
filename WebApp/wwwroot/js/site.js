@@ -152,3 +152,34 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+// update user profile
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.btn-edit').forEach(button => {
+        button.addEventListener('click', function () {
+            const userId = this.dataset.userId;
+            const modal = document.querySelector("#editUserProfileModal");
+            const content = modal.querySelector(".modal-content");
+
+            fetch(`/users/edit/${userId}`)
+                .then(res => res.text())
+                .then(html => {
+                    content.innerHTML = html;
+                    modal.style.display = 'flex';
+                })
+                .catch(err => {
+                    content.innerHTML = "<p>Error!!!!!!!!!!!</p>";
+                    modal.style.display = 'flex';
+                    console.error(err);
+                });
+        });
+    });
+
+    document.addEventListener("click", function (e) {
+        if (e.target.matches('[data-close="true"]')) {
+            const modal = e.target.closest(".modal");
+            if (modal)
+                modal.style.display = "none";
+        }
+    });
+});

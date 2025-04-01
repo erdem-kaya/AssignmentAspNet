@@ -667,6 +667,13 @@ textarea {
     width: 550px;
 }
 
+#editUserProfileModal .modal-content {
+    width: 550px;
+}
+
+
+
+
 
 /* image-previewer */
 .hide {

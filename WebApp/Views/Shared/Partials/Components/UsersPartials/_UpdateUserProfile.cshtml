@@ -1,19 +1,12 @@
-﻿@model UserRegistrationFormViewModel
+﻿@model UserUpdateFormViewModel
 
-@{
-    ViewData["Title"] = "New Member";
-}
+<div class="modal-header">
+    <h3>Edit Member</h3>
+    <button type="button" class="btn-close" data-close="true"></button>
+</div>
 
-
-<div id="addUserProfileModal" class="modal">
-    <div class="modal-content">
-
-        <div class="modal-header">
-            <h3>New Member</h3>
-            <button type="button" class="btn-close" data-close="true"></button>
-        </div>
-
-        <form novalidate method="post" asp-action="AddUser" asp-controller="UserProfiles">
+        <form novalidate method="post" asp-action="UpdateUser" asp-controller="UserProfiles">
+            <input asp-for="Id" readonly type="hidden" />
 
             <div class="image-previewer circle">
                 <img src="" class="image-preview" />
@@ -61,7 +54,7 @@
                     <span asp-validation-for="PhoneNumber"></span>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label asp-for="Address"></label>
                 <div class="field-group">
@@ -79,7 +72,7 @@
             </div>
 
 
-            
+
             <div class="form-group">
                 <label>Date of Birth</label>
                 <div class="field-group group-birthday" style="display:flex; gap: 10px;">

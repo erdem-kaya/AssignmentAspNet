@@ -45,7 +45,36 @@ public class UserUpdateFormViewModel
     [DataType(DataType.Text)]
     public string? City { get; set; }
 
-    public DateTime? Birthday { get; set; }
+    [Range(1, 31, ErrorMessage = "Invalid day")]
+    [Display(Name = "Day")]
+    public int Day { get; set; }
+
+
+    [Range(1, 12, ErrorMessage = "Invalid month")]
+    [Display(Name = "Month")]
+    public int Month { get; set; }
+
+
+    [Range(1900, 2100, ErrorMessage = "Invalid year")]
+    [Display(Name = "Year")]
+    public int Year { get; set; }
+
+    //ChatGpt hjälpte mig med denna kod
+    [ScaffoldColumn(false)]
+    public DateTime? Birthday
+    {
+        get
+        {
+            try
+            {
+                return new DateTime(Year, Month, Day);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return null;
+            }
+        }
+    }
 
     public static implicit operator UserUpdateForm(UserUpdateFormViewModel model)
     {
