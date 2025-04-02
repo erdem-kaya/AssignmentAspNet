@@ -11,17 +11,17 @@ public class UserUpdateFormViewModel
     [DataType(DataType.ImageUrl)]
     public string? ProfilePicture { get; set; }
 
-
+    [Required(ErrorMessage = "Required")]
     [Display(Name = "First name", Prompt = "Enter your first name")]
     [DataType(DataType.Text)]
     public string? FirstName { get; set; }
 
-
+    [Required(ErrorMessage = "Required")]
     [Display(Name = "Last name", Prompt = "Enter your last name")]
     [DataType(DataType.Text)]
     public string? LastName { get; set; }
 
-
+    [Required(ErrorMessage = "Required")]
     [RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid email address")]
     [Display(Name = "Email", Prompt = "Enter your email address")]
     [DataType(DataType.EmailAddress)]

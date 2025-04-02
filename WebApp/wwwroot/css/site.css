@@ -122,6 +122,7 @@
     --success: #28a745;
     --danger: #dc3545;
     --danger-20: rgb(220, 53, 69, 0.2);
+    --danger-90: rgb(220, 53, 69, 0.9);
     --warning: #ffc107;
     --info: #17a2b8;
     --light: #f8f9fa;
@@ -329,6 +330,10 @@ a {
     align-items: center;
 }
 
+.buttons {
+    margin-top:2rem;
+}
+
 .btn {
     cursor: pointer;
     color: var(--btn-text-color);
@@ -395,8 +400,23 @@ a {
 }
 
 .btn-submit {
-    margin-top: 1rem;
+    width: 100%;
 }
+
+.btn-delete {
+    margin-top: 1rem;
+    width: 100%;
+    background-color: var(--danger);
+}
+
+    .btn-delete:hover {
+        background-color: var(--danger-90)
+    }
+
+    .btn-delete::before {
+        content: '\e2b4';
+        font-family: var(--font-fa-6);
+    }
 
 .btn-logout::before {
     content: '\f2f5';

@@ -4,8 +4,7 @@
     <h3>Edit Member</h3>
     <button type="button" class="btn-close" data-close="true"></button>
 </div>
-
-        <form novalidate method="post" asp-action="UpdateUser" asp-controller="UserProfiles">
+<form novalidate method="post" asp-action="UpdateUser" asp-controller="UserProfiles">
             <input asp-for="Id" readonly type="hidden" />
 
             <div class="image-previewer circle">
@@ -71,8 +70,6 @@
                 </div>
             </div>
 
-
-
             <div class="form-group">
                 <label>Date of Birth</label>
                 <div class="field-group group-birthday" style="display:flex; gap: 10px;">
@@ -96,8 +93,6 @@
                     <span asp-validation-for="Year"></span>
                 </div>
             </div>
-
-            <button type="submit" class="btn btn-submit">Add Create</button>
+                  <button type="submit" class="btn btn-submit">Save</button>
         </form>
-    </div>
-</div>
+        <partial name="Partials/Components/UsersPartials/_DeleteUserProfile" model="new UserDeleteViewModel { Id = Model.Id }" /> 

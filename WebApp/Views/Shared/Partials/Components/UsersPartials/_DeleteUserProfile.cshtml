@@ -1,0 +1,5 @@
+﻿@model UserDeleteViewModel
+
+<form method="post" asp-action="DeleteUser" asp-controller="UserProfiles" asp-route-id="@Model.Id">
+    <button type="submit" class="btn btn-delete">Delete</button>
+</form>

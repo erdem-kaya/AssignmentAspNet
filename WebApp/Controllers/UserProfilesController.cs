@@ -1,7 +1,5 @@
 ﻿using Business.Interfaces;
-using Business.Models.UserProfile;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using WebApp.ViewModels.UserProfile;
 
 namespace WebApp.Controllers;
@@ -11,7 +9,7 @@ public class UserProfilesController(IUsersProfileService userProfileService) : C
 {
     private readonly IUsersProfileService _userProfileService = userProfileService;
 
-    
+
     [HttpGet("")]
     public async Task<IActionResult> UsersList()
     {
@@ -45,7 +43,7 @@ public class UserProfilesController(IUsersProfileService userProfileService) : C
         var result = await _userProfileService.CreateUsersProfileAsync(form);
         if (result)
             return RedirectToAction("UsersList");
-        
+
         return BadRequest(new
         {
             success = false,
@@ -79,7 +77,7 @@ public class UserProfilesController(IUsersProfileService userProfileService) : C
         return PartialView("~/Views/Shared/Partials/Components/UsersPartials/_UpdateUserProfile.cshtml", viewModel);
     }
 
-    [HttpPost("{id}")]
+    [HttpPost("edit/{id}")]
     public async Task<IActionResult> UpdateUser(string id, UserUpdateFormViewModel form)
     {
         if (!ModelState.IsValid)
@@ -92,20 +90,24 @@ public class UserProfilesController(IUsersProfileService userProfileService) : C
             return BadRequest(new { success = false, errors });
         }
 
-        
-
         var result = await _userProfileService.UpdateUserProfileAsync(id, form);
         if (result)
             return RedirectToAction("UsersList");
 
-        return View();
+        return BadRequest( new
+        {
+            success = false,
+            globalError = "Failed to update user"
+        });
     }
 
-
-
-    public IActionResult DeleteUser(string id)
+    [HttpPost("{id}")]
+    public async Task<IActionResult> DeleteUser(string id)
     {
-       
-        return View();
+        var result = await _userProfileService.DeleteUserProfileAsync(id);
+        if (result)
+            return RedirectToAction("UsersList");
+
+        return BadRequest();
     }
 }
