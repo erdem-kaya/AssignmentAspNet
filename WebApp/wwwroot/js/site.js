@@ -1,7 +1,10 @@
-﻿// Real-Time form validation och after submit error handling
-// Chatgpt hjälpte mig med att skriva denna kod
-const validateField = (field) => {
-    let errorSpan = document.querySelector(`span[data-valmsg-for='${field.name}']`);
+﻿// Chatgpt hjälpte mig med att skriva denna kod
+// Chatgpt hjälpte mig med nästan alla js-koder i detta projekt, jag fick oftast fel i många av de koder jag skrev och hjälpte mig med korrigeringar och brister.
+
+
+// Real-Time form validation och after submit error handling
+const validateField = (field, form) => {
+    let errorSpan = form.querySelector(`span[data-valmsg-for='${field.name}']`);
     if (!errorSpan) return;
 
     let errorMessage = "";
@@ -38,6 +41,8 @@ const validateField = (field) => {
     }
 };
 
+
+// Clear error messages
 const clearErrorMessages = (form) => {
     form.querySelectorAll('[data-val="true"]').forEach(input => {
         input.classList.remove('input-validation-error');
@@ -56,8 +61,10 @@ const clearErrorMessages = (form) => {
     }
 };
 
-document.addEventListener("DOMContentLoaded", function () {
 
+// Form submit
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("form").forEach(form => attachFormValidation(form));
     const forms = document.querySelectorAll("form");
 
     forms.forEach(form => {
@@ -166,6 +173,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(html => {
                     content.innerHTML = html;
                     modal.style.display = 'flex';
+
+                    const dynamicForm = modal.querySelector("form");
+                    attachFormValidation(dynamicForm);
                 })
                 .catch(err => {
                     content.innerHTML = "<p>Error!!!!!!!!!!!</p>";
@@ -183,3 +193,78 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+
+// form validation for update [Required] controls 
+function attachFormValidation(form) {
+    if (!form) return;
+
+    const fields = form.querySelectorAll("input[data-val='true']");
+
+    fields.forEach(field => {
+        field.addEventListener("input", () => validateField(field, form)); 
+    });
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        clearErrorMessages(form);
+
+        let allValid = true;
+        fields.forEach(field => {
+            validateField(field, form);
+            if (field.classList.contains("input-validation-error"))
+                allValid = false;
+        });
+
+        if (!allValid)
+            return;
+
+        const formData = new FormData(form);
+        const userId = formData.get("Id");
+
+        try {
+            const res = await fetch(form.action || `/users/edit/${userId}`, {
+                method: form.method || "POST",
+                body: formData
+            });
+
+            if (res.status === 400) {
+                const data = await res.json();
+
+                if (data.errors) {
+                    Object.keys(data.errors).forEach(key => {
+                        const input = form.querySelector(`[name="${key}"]`);
+                        if (input)
+                            input.classList.add("input-validation-error");
+
+                        const span = form.querySelector(`[data-valmsg-for="${key}"]`);
+                        if (span) {
+                            span.textContent = data.errors[key][0];
+                            span.classList.add("field-validation-error");
+                        }
+                    });
+                }
+
+                if (data.globalError) {
+                    const alertBox = document.querySelector('.alert-notification');
+                    if (alertBox) {
+                        alertBox.innerText = data.globalError;
+                        alertBox.classList.add('error');
+                        alertBox.style.display = 'block';
+                    }
+                }
+
+                return;
+            }
+
+            if (res.redirected) {
+                window.location.href = res.url;
+            }
+        } catch (error) {
+            console.error("Form submit error:", error);
+        }
+    });
+}
+
+
