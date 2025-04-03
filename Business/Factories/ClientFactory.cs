@@ -18,9 +18,16 @@ public class ClientFactory
         Email = entity.Email,
     };
 
-    public static void Update(ClientsEntity entity, ClientRegistrationForm form)
+    public static void Update(ClientsEntity entity, UpdateClientForm form)
     {
-        entity.ClientName = form.ClientName;
-        entity.Email = form.Email;
+        if (!string.IsNullOrWhiteSpace(form.ClientName))
+        {
+            entity.ClientName = form.ClientName;
+        }
+
+        if (!string.IsNullOrWhiteSpace(form.Email))
+        {
+            entity.Email = form.Email;
+        }
     }
 }

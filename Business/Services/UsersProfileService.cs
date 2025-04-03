@@ -18,6 +18,7 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
     {
         try
         {
+            await _usersProfileRepository.BeginTransactionAsync();
             var (appUser, userProfile) = UserProfileFactory.Create(form);
             // There is no password entry input when creating a user in the panel, so we give a fixed password. I don't know if there is a better solution for now.
             // Det finns inget input för lösenordsin när vi skappar en användare i panelen, så vi ger ett fast lösenord. Vet inte om det finns en bättre lösning för nu.
@@ -25,17 +26,18 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
             if (result.Succeeded)
             {
                 await _usersProfileRepository.CreateAsync(userProfile);
+                await _usersProfileRepository.CommitTransactionAsync();
                 return true;
             }
             else
             {
                 return false;
             }
-
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"User not created, {ex.Message}");
+            await _usersProfileRepository.RollbackTransactionAsync();
             return false;
         }
     }
@@ -45,9 +47,7 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
         try
         {
             var users = await _usersProfileRepository.GetAllAsync();
-
             var newUserList = new List<User>();
-
             foreach (var profile in users)
             {
                 var appUser = await _userManager.FindByIdAsync(profile.Id);
@@ -94,6 +94,7 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
     {
         try
         {
+            await _usersProfileRepository.BeginTransactionAsync();
             var appUser = await _userManager.FindByIdAsync(id);
             var userProfile = await _usersProfileRepository.GetItemAsync(x => x.Id == id);
             if (appUser != null && userProfile != null)
@@ -101,6 +102,7 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
                 UserProfileFactory.Update(appUser, userProfile, form);
                 await _userManager.UpdateAsync(appUser);
                 await _usersProfileRepository.UpdateAsync(x => x.Id == id, userProfile);
+                await _usersProfileRepository.CommitTransactionAsync();
                 return true;
             }
             else
@@ -110,6 +112,7 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
         }
         catch (Exception ex)
         {
+            await _usersProfileRepository.RollbackTransactionAsync();
             Debug.WriteLine($"Error updating user, {ex.Message}");
             return false;
         }
@@ -117,6 +120,7 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
 
     public async Task<bool> DeleteUserProfileAsync(string id)
     {
+        await _usersProfileRepository.BeginTransactionAsync();
         try
         {
             var appUser = await _userManager.FindByIdAsync(id);
@@ -125,6 +129,7 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
             {
                 await _userManager.DeleteAsync(appUser);
                 await _usersProfileRepository.DeleteAsync(x => x.Id == id);
+                await _usersProfileRepository.CommitTransactionAsync();
                 return true;
             }
             else
@@ -134,7 +139,9 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
         }
         catch (Exception ex)
         {
+            await _usersProfileRepository.RollbackTransactionAsync();
             Debug.WriteLine($"Error deleting user, {ex.Message}");
+             
             return false;
         }
     }
