@@ -272,7 +272,7 @@ main,
 
 a {
     color: var(--link-color);
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
     a:hover {
@@ -304,7 +304,6 @@ a {
     font-size: 1em;
     font-family: var(--font-standart);
     font-weight: 600;
-    text-decoration: none;
     color: var(--navlink-text-color);
     background-color: var(--navlink-background-color);
     border-radius: 1rem;
@@ -643,8 +642,8 @@ textarea {
 /* User Profiles */
 #users {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 2rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1.5rem;
     margin: 3rem 7rem;
 }
 

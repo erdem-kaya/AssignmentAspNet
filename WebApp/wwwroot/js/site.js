@@ -1,29 +1,25 @@
-﻿// Chatgpt hjälpte mig med att skriva denna kod
-// Chatgpt hjälpte mig med nästan alla js-koder i detta projekt, jag fick oftast fel i många av de koder jag skrev och hjälpte mig med korrigeringar och brister.
+﻿// === ChatGPT helped me write this code ===
+const previewSize = 150;
 
-
-// Real-Time form validation och after submit error handling
+//  VALIDATION
 const validateField = (field, form) => {
-    let errorSpan = form.querySelector(`span[data-valmsg-for='${field.name}']`);
+    const errorSpan = form.querySelector(`span[data-valmsg-for='${field.name}']`);
     if (!errorSpan) return;
 
     let errorMessage = "";
-    let value = field.value.trim();
+    const value = field.value.trim();
 
-    // [Required]
     if (field.hasAttribute("data-val-required") && value === "")
         errorMessage = field.getAttribute("data-val-required");
 
-    // [Regex]
     if (field.hasAttribute("data-val-regex") && value !== "") {
-        let pattern = new RegExp(field.getAttribute("data-val-regex-pattern"));
+        const pattern = new RegExp(field.getAttribute("data-val-regex-pattern"));
         if (!pattern.test(value))
             errorMessage = field.getAttribute("data-val-regex");
     }
 
-    // [Compare]
     if (field.hasAttribute("data-val-equalto") && value !== "") {
-        let otherField = document.querySelector(`[name="${field.getAttribute("data-val-equalto-other").replace("*.", "")}"]`);
+        const otherField = form.querySelector(`[name="${field.getAttribute("data-val-equalto-other").replace("*.", "")}"]`);
         if (otherField && otherField.value !== value)
             errorMessage = field.getAttribute("data-val-equalto");
     }
@@ -41,8 +37,6 @@ const validateField = (field, form) => {
     }
 };
 
-
-// Clear error messages
 const clearErrorMessages = (form) => {
     form.querySelectorAll('[data-val="true"]').forEach(input => {
         input.classList.remove('input-validation-error');
@@ -61,149 +55,13 @@ const clearErrorMessages = (form) => {
     }
 };
 
-
-// Form submit
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll("form").forEach(form => attachFormValidation(form));
-    const forms = document.querySelectorAll("form");
-
-    forms.forEach(form => {
-        const fields = form.querySelectorAll("input[data-val='true']");
-        fields.forEach(field => {
-            field.addEventListener("input", () => validateField(field));
-        });
-
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            clearErrorMessages(form);
-
-            let allValid = true;
-            fields.forEach(field => {
-                validateField(field);
-                if (field.classList.contains("input-validation-error"))
-                    allValid = false;
-            });
-
-            if (!allValid)
-                return;
-
-            const formData = new FormData(form);
-
-            try {
-                const res = await fetch(form.action, {
-                    method: form.method,
-                    body: formData
-                });
-
-                if (res.status === 400) {
-                    const data = await res.json();
-
-                    if (data.globalError) {
-                        const alertBox = document.querySelector('.alert-notification');
-                        if (alertBox) {
-                            alertBox.innerText = data.globalError;
-                            alertBox.classList.add('error');
-                            alertBox.style.display = 'block';
-                        }
-                    }
-
-                    if (data.errors) {
-                        Object.keys(data.errors).forEach(key => {
-                            const input = form.querySelector(`[name="${key}"]`);
-                            if (input)
-                                input.classList.add("input-validation-error");
-
-                            const span = form.querySelector(`[data-valmsg-for="${key}"]`);
-                            if (span) {
-                                span.textContent = data.errors[key][0];
-                                span.classList.add("field-validation-error");
-                            }
-                        });
-                    }
-                }
-                else if (res.redirected) {
-                    window.location.href = res.url;
-                }
-            } catch (error) {
-                console.error("Form submit error:", error);
-            }
-        });
-    });
-});
-
-
-//Modal
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const modalButtons = document.querySelectorAll('[data-modal="true"]');
-    modalButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            
-            const modalTarget = button.getAttribute('data-target');
-            const modal = document.querySelector(modalTarget);
-
-            if (modal) {
-                modal.style.display = 'flex';
-            }
-        });
-    });
-
-    // Close modal
-    const closeButtons = document.querySelectorAll('[data-close="true"]')
-    closeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const modal = button.closest('.modal')
-            if (modal)
-                modal.style.display = 'none';
-        });
-    });
-});
-
-// update user profile
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll('.btn-edit').forEach(button => {
-        button.addEventListener('click', function () {
-            const userId = this.dataset.userId;
-            const modal = document.querySelector("#editUserProfileModal");
-            const content = modal.querySelector(".modal-content");
-
-            fetch(`/users/edit/${userId}`)
-                .then(res => res.text())
-                .then(html => {
-                    content.innerHTML = html;
-                    modal.style.display = 'flex';
-
-                    const dynamicForm = modal.querySelector("form");
-                    attachFormValidation(dynamicForm);
-                })
-                .catch(err => {
-                    content.innerHTML = "<p>Error!!!!!!!!!!!</p>";
-                    modal.style.display = 'flex';
-                    console.error(err);
-                });
-        });
-    });
-
-    document.addEventListener("click", function (e) {
-        if (e.target.matches('[data-close="true"]')) {
-            const modal = e.target.closest(".modal");
-            if (modal)
-                modal.style.display = "none";
-        }
-    });
-});
-
-
-
-// form validation for update [Required] controls 
+// ATTACH FORM VALIDATION
 function attachFormValidation(form) {
     if (!form) return;
 
     const fields = form.querySelectorAll("input[data-val='true']");
-
     fields.forEach(field => {
-        field.addEventListener("input", () => validateField(field, form)); 
+        field.addEventListener("input", () => validateField(field, form));
     });
 
     form.addEventListener("submit", async (e) => {
@@ -217,54 +75,154 @@ function attachFormValidation(form) {
                 allValid = false;
         });
 
-        if (!allValid)
-            return;
+        if (!allValid) return;
 
         const formData = new FormData(form);
-        const userId = formData.get("Id");
+        const res = await fetch(form.action, {
+            method: form.method,
+            body: formData
+        });
 
-        try {
-            const res = await fetch(form.action || `/users/edit/${userId}`, {
-                method: form.method || "POST",
-                body: formData
-            });
+        if (res.status === 400) {
+            const data = await res.json();
 
-            if (res.status === 400) {
-                const data = await res.json();
+            if (data.errors) {
+                Object.keys(data.errors).forEach(key => {
+                    const input = form.querySelector(`[name="${key}"]`);
+                    if (input) input.classList.add("input-validation-error");
 
-                if (data.errors) {
-                    Object.keys(data.errors).forEach(key => {
-                        const input = form.querySelector(`[name="${key}"]`);
-                        if (input)
-                            input.classList.add("input-validation-error");
-
-                        const span = form.querySelector(`[data-valmsg-for="${key}"]`);
-                        if (span) {
-                            span.textContent = data.errors[key][0];
-                            span.classList.add("field-validation-error");
-                        }
-                    });
-                }
-
-                if (data.globalError) {
-                    const alertBox = document.querySelector('.alert-notification');
-                    if (alertBox) {
-                        alertBox.innerText = data.globalError;
-                        alertBox.classList.add('error');
-                        alertBox.style.display = 'block';
+                    const span = form.querySelector(`[data-valmsg-for="${key}"]`);
+                    if (span) {
+                        span.textContent = data.errors[key][0];
+                        span.classList.add("field-validation-error");
                     }
+                });
+            }
+
+            if (data.globalError) {
+                const alertBox = document.querySelector('.alert-notification');
+                if (alertBox) {
+                    alertBox.innerText = data.globalError;
+                    alertBox.classList.add('error');
+                    alertBox.style.display = 'block';
                 }
-
-                return;
             }
 
-            if (res.redirected) {
-                window.location.href = res.url;
-            }
-        } catch (error) {
-            console.error("Form submit error:", error);
+            return;
+        }
+
+        if (res.redirected) {
+            window.location.href = res.url;
         }
     });
 }
 
+// ========== INITIALIZE ON PAGE LOAD ==========
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("form").forEach(attachFormValidation);
 
+    //  MODAL OPEN 
+    document.querySelectorAll('[data-modal="true"]').forEach(button => {
+        button.addEventListener("click", () => {
+            const modal = document.querySelector(button.getAttribute("data-target"));
+            if (modal) modal.style.display = "flex";
+        });
+    });
+
+    //  MODAL CLOSE 
+    document.querySelectorAll('[data-close="true"]').forEach(button => {
+        button.addEventListener("click", () => {
+            const modal = button.closest(".modal");
+            if (!modal) return;
+            modal.style.display = "none";
+
+            modal.querySelectorAll("form").forEach(form => {
+                form.reset();
+                const preview = form.querySelector(".image-preview");
+                if (preview) preview.src = "";
+                const wrapper = form.querySelector(".image-previewer");
+                if (wrapper) wrapper.classList.remove("selected");
+            });
+        });
+    });
+
+    // IMAGE PREVIEWER
+    document.querySelectorAll(".image-previewer").forEach(previewer => {
+        const fileInput = previewer.querySelector("input[type='file']");
+        const imgPreview = previewer.querySelector(".image-preview");
+
+        previewer.addEventListener("click", () => fileInput.click());
+
+        fileInput.addEventListener("change", ({ target: { files } }) => {
+            const file = files[0];
+            if (file) processImage(file, imgPreview, previewer);
+        });
+    });
+
+    //  DYNAMIC UPDATE FORMS 
+    document.querySelectorAll(".btn-edit").forEach(button => {
+        button.addEventListener("click", () => {
+            const userId = button.dataset.userId;
+            const modal = document.querySelector("#editUserProfileModal");
+            const content = modal.querySelector(".modal-content");
+
+            fetch(`/users/edit/${userId}`)
+                .then(res => res.text())
+                .then(html => {
+                    content.innerHTML = html;
+                    modal.style.display = "flex";
+
+                    const form = modal.querySelector("form");
+                    attachFormValidation(form);
+
+                    attachModalClose(modal);
+                })
+                .catch(err => {
+                    content.innerHTML = "<p>Error loading form.</p>";
+                    modal.style.display = 'flex';
+                    console.error(err);
+                });
+        });
+    });
+});
+
+// IMAGE PREVIEW FUNCTIONS 
+async function loadImage(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject("Failed to load file");
+        reader.onload = e => {
+            const img = new Image();
+            img.onerror = () => reject("Invalid image");
+            img.onload = () => resolve(img);
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+async function processImage(file, imagePreview, previewer, previewerSize = previewSize) {
+    try {
+        const img = await loadImage(file);
+        const canvas = document.createElement("canvas");
+        canvas.width = previewerSize;
+        canvas.height = previewerSize;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, previewerSize, previewerSize);
+        imagePreview.src = canvas.toDataURL("image/jpeg");
+        previewer.classList.add("selected");
+    } catch (err) {
+        console.error("Image preview error:", err);
+    }
+}
+
+
+// Close Modal func
+function attachModalClose(modal) {
+    const closeButton = modal.querySelector('[data-close="true"]');
+    if (closeButton) {
+        closeButton.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+    }
+}

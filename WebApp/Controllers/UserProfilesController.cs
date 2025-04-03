@@ -87,6 +87,7 @@ public class UserProfilesController(IUsersProfileService userProfileService) : C
                 .ToDictionary(
                     kvp => kvp.Key,
                     kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray());
+
             return BadRequest(new { success = false, errors });
         }
 
