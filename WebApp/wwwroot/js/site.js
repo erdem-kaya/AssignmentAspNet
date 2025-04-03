@@ -175,6 +175,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     const form = modal.querySelector("form");
                     attachFormValidation(form);
 
+                    const previewer = modal.querySelector(".image-previewer");
+                    if (previewer) attachImagePreviewer(previewer);
+
+
                     attachModalClose(modal);
                 })
                 .catch(err => {
@@ -225,4 +229,19 @@ function attachModalClose(modal) {
             modal.style.display = 'none';
         });
     }
+}
+
+// Add image for another form
+function attachImagePreviewer(previewer) {
+    const fileInput = previewer.querySelector("input[type='file']");
+    const imgPreview = previewer.querySelector(".image-preview");
+
+    if (!fileInput || !imgPreview) return;
+
+    previewer.addEventListener("click", () => fileInput.click());
+
+    fileInput.addEventListener("change", ({ target: { files } }) => {
+        const file = files[0];
+        if (file) processImage(file, imgPreview, previewer);
+    });
 }
