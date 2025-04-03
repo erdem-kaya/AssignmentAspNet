@@ -13,7 +13,11 @@
    
             <div class="member">
                 <div class="image">
-                    <img src="~/images/user-profile-man.svg" alt="user" class="profile-image">
+                    <img src="@(string.IsNullOrWhiteSpace(users.ProfilePicture) || users.ProfilePicture == "NULL"
+                                    ? "/images/user-profile-man.svg"
+                                    : users.ProfilePicture)" 
+                    alt="user" 
+                    class="profile-image">
                 </div>
                 <div class="full-name">@users.FirstName @users.LastName</div>
                 <div class="jobtitle">@users.JobTitle</div>

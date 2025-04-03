@@ -8,7 +8,7 @@
             <input asp-for="Id" readonly type="hidden" />
 
             <div class="image-previewer circle">
-                <img src="" class="image-preview" />
+                <img src="@Model.ProfilePicture" class="image-preview" />
                 <input type="file" asp-for="ProfilePicture" accept="image/*" class="hide" />
             </div>
 

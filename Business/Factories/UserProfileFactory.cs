@@ -23,7 +23,7 @@ public class UserProfileFactory
             Address = form.Address ?? "NULL",
             City = form.City ?? "NULL",
             Birthday = form.Birthday,
-            ProfilePicture = form.ProfilePicture ?? "NULL",
+            ProfilePicture = string.IsNullOrWhiteSpace(form.ProfilePicture) ? null : form.ProfilePicture
 
         };
 

@@ -1,13 +1,15 @@
 ﻿using Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Helpers;
 using WebApp.ViewModels.UserProfile;
 
 namespace WebApp.Controllers;
 
 [Route("users")]
-public class UserProfilesController(IUsersProfileService userProfileService) : Controller
+public class UserProfilesController(IUsersProfileService userProfileService, IWebHostEnvironment environment) : Controller
 {
     private readonly IUsersProfileService _userProfileService = userProfileService;
+    private readonly IWebHostEnvironment _environment = environment;
 
 
     [HttpGet("")]
@@ -29,6 +31,11 @@ public class UserProfilesController(IUsersProfileService userProfileService) : C
     [HttpPost]
     public async Task<IActionResult> AddUser(UserRegistrationFormViewModel form)
     {
+        var userImg = Request.Form.Files["ProfilePicture"];
+        if (userImg != null)
+            form.ProfilePicture = await ImageUploadHelper.UploadAsync(userImg, _environment);
+        
+
         if (!ModelState.IsValid)
         {
             var errors = ModelState
@@ -91,11 +98,15 @@ public class UserProfilesController(IUsersProfileService userProfileService) : C
             return BadRequest(new { success = false, errors });
         }
 
+        var userImg = Request.Form.Files["ProfilePicture"];
+        if (userImg != null)
+            form.ProfilePicture = await ImageUploadHelper.UploadAsync(userImg, _environment);
+
         var result = await _userProfileService.UpdateUserProfileAsync(id, form);
         if (result)
             return RedirectToAction("UsersList");
 
-        return BadRequest( new
+        return BadRequest(new
         {
             success = false,
             globalError = "Failed to update user"
