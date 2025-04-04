@@ -11,7 +11,7 @@ public class ClientFactory
         Email = form.Email,
     };
 
-    public static Client Create (ClientsEntity entity) => new()
+    public static ClientForm Create (ClientsEntity entity) => new()
     {
         Id = entity.Id,
         ClientName = entity.ClientName,

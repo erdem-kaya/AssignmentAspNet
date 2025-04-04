@@ -1,0 +1,38 @@
+﻿@model ClientRegistrationFormViewModel
+
+@{
+    ViewData["Title"] = "New Client";
+}
+
+
+<div id="addClientModal" class="modal">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h3>New Client</h3>
+            <button type="button" class="btn-close" data-close="true"></button>
+        </div>
+
+        <form novalidate method="post" asp-action="AddClient" asp-controller="Client">
+
+            
+            <div class="form-group">
+                <label asp-for="ClientName"></label>
+                <div class="field-group">
+                    <input asp-for="ClientName" />
+                    <span asp-validation-for="ClientName"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <div class="field-group">
+                    <input asp-for="Email" />
+                    <span asp-validation-for="Email"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-submit">Add Client</button>
+        </form>
+    </div>
+</div>

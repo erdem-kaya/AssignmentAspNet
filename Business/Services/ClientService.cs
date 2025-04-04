@@ -10,7 +10,7 @@ public class ClientService(ClientsRepository clientRepository) : IClientService
 {
     private readonly ClientsRepository _clientRepository = clientRepository;
 
-    public async Task<Client> CreateAsync(ClientRegistrationForm form)
+    public async Task<ClientForm> CreateAsync(ClientRegistrationForm form)
     {
         if (form == null)
             throw new ArgumentNullException(nameof(form), "Client form can't be null");
@@ -30,7 +30,7 @@ public class ClientService(ClientsRepository clientRepository) : IClientService
         }
     }
 
-    public async Task<IEnumerable<Client>> GetAllClientsAsync()
+    public async Task<IEnumerable<ClientForm>> GetAllClientsAsync()
     {
         try
         {
@@ -45,7 +45,7 @@ public class ClientService(ClientsRepository clientRepository) : IClientService
         }
     }
 
-    public async Task<Client?> GetClientByIdAsync(int id)
+    public async Task<ClientForm?> GetClientByIdAsync(int id)
     {
         try
         {
@@ -59,7 +59,7 @@ public class ClientService(ClientsRepository clientRepository) : IClientService
         }
     }
 
-    public async Task<Client> UpdateAsync(UpdateClientForm updateForm)
+    public async Task<ClientForm> UpdateAsync(UpdateClientForm updateForm)
     {
         await _clientRepository.BeginTransactionAsync();
 

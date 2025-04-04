@@ -18,15 +18,4 @@ public class AdminController : Controller
         return View();
     }
 
-    [Route("users")]
-    public IActionResult Users()
-    {
-        return View();
-    }
-
-    [Route("clients")]
-    public IActionResult Clients()
-    {
-        return View();
-    }
 }

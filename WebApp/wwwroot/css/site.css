@@ -690,6 +690,10 @@ textarea {
     width: 550px;
 }
 
+#addClientModal .modal-content {
+    width: 550px;
+}
+
 
 
 

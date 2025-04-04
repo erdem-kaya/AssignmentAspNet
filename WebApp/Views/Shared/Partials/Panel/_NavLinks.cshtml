@@ -4,7 +4,7 @@
         <span>Dashboard</span>
     </a>
 
-    <a class="nav-link @(Context.Request.Path == "/admin/members" ? "active" : "")" asp-controller="Admin" asp-action="Users">
+    <a class="nav-link @(Context.Request.Path == "/users" ? "active" : "")" asp-controller="UserProfiles" asp-action="UsersList">
         <i class="fa-duotone fa-solid fa-user-group"></i>
         <span>Team Members</span>
     </a>
@@ -14,7 +14,7 @@
         <span>Projects</span>
     </a>
 
-    <a class="nav-link @(Context.Request.Path == "/admin/clients" ? "active" : "")" asp-controller="Admin" asp-action="Clients">
+    <a class="nav-link @(Context.Request.Path == "/clients" ? "active" : "")" asp-controller="Client" asp-action="ClientsList">
         <i class="fa-duotone fa-solid fa-handshake"></i>
         <span>Clients</span>
     </a>

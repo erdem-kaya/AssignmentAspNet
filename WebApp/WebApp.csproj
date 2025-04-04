@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Shared\Partials\Components\ClientsPartials\" />
     <Folder Include="Views\Shared\Partials\Components\ProjectsPartials\" />
   </ItemGroup>
 

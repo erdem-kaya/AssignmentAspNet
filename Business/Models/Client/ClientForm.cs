@@ -2,7 +2,7 @@
 
 namespace Business.Models.Client;
 
-public class Client
+public class ClientForm
 {
     public int Id { get; set; }
 

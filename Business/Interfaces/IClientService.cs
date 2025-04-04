@@ -4,10 +4,10 @@ namespace Business.Interfaces
 {
     public interface IClientService
     {
-        Task<Client> CreateAsync(ClientRegistrationForm form);
+        Task<ClientForm> CreateAsync(ClientRegistrationForm form);
         Task<bool> DeleteAsync(int id);
-        Task<IEnumerable<Client>> GetAllClientsAsync();
-        Task<Client?> GetClientByIdAsync(int id);
-        Task<Client> UpdateAsync(UpdateClientForm updateForm);
+        Task<IEnumerable<ClientForm>> GetAllClientsAsync();
+        Task<ClientForm?> GetClientByIdAsync(int id);
+        Task<ClientForm> UpdateAsync(UpdateClientForm updateForm);
     }
 }

@@ -1,10 +1,12 @@
 ﻿using Business.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Helpers;
 using WebApp.ViewModels.UserProfile;
 
 namespace WebApp.Controllers;
 
+[Authorize]
 [Route("users")]
 public class UserProfilesController(IUsersProfileService userProfileService, IWebHostEnvironment environment) : Controller
 {
@@ -12,7 +14,7 @@ public class UserProfilesController(IUsersProfileService userProfileService, IWe
     private readonly IWebHostEnvironment _environment = environment;
 
 
-    [HttpGet("")]
+    [HttpGet]
     public async Task<IActionResult> UsersList()
     {
         var model = new UserProfileViewModel

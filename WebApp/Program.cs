@@ -2,6 +2,7 @@ using Business.Interfaces;
 using Business.Services;
 using Data.Contexts;
 using Data.Entities;
+using Data.Interfaces;
 using Data.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,9 +12,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection")));
+
+/* Business -> Services*/
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUsersProfileService,  UsersProfileService>();
+builder.Services.AddScoped<IClientService, ClientService>();
+
+
+/* Data -> Repositories*/
 builder.Services.AddScoped<UsersProfileRepository>();
+builder.Services.AddScoped<ClientsRepository>();
+
+
 
 
 builder.Services.AddIdentity<ApplicationUserEntity, IdentityRole>(y =>

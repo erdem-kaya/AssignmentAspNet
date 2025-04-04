@@ -1,0 +1,17 @@
+﻿@model IEnumerable<ClientForm>
+
+@{
+
+}
+
+@foreach (var clients in Model)
+{
+<div class="card">
+    <div class="card-body">
+        <div class="card-header">
+            <button type="button" class="btn-edit" data-modal="true" data-target="#editClientModal" data-user-id="@clients.Id"></button>
+            <label type="hidden"></label>
+        </div>
+    </div>
+</div>
+}
