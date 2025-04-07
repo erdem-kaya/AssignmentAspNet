@@ -17,11 +17,12 @@ builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configura
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUsersProfileService,  UsersProfileService>();
 builder.Services.AddScoped<IClientService, ClientService>();
-
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 /* Data -> Repositories*/
 builder.Services.AddScoped<UsersProfileRepository>();
 builder.Services.AddScoped<ClientsRepository>();
+builder.Services.AddScoped<ProjectsRepository>();
 
 
 

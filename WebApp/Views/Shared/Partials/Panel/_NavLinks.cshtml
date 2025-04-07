@@ -9,7 +9,7 @@
         <span>Team Members</span>
     </a>
 
-    <a class="nav-link @(Context.Request.Path == "/admin/projects" ? "active" : "")" asp-controller="Admin" asp-action="Projects">
+    <a class="nav-link @(Context.Request.Path == "/projects" ? "active" : "")" asp-controller="Project" asp-action="ProjectsList">
         <i class="fa-duotone fa-solid fa-briefcase"></i>
         <span>Projects</span>
     </a>
