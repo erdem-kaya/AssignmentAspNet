@@ -1,0 +1,5 @@
+﻿@model ClientDeleteViewModel
+
+<form method="post" asp-action="DeleteClient" asp-controller="Client" asp-route-id="@Model.Id">
+    <button type="submit" class="btn btn-delete">Delete</button>
+</form>

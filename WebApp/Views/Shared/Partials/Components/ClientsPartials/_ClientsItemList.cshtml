@@ -4,14 +4,45 @@
 
 }
 
-@foreach (var clients in Model)
-{
+
 <div class="card">
     <div class="card-body">
         <div class="card-header">
-            <button type="button" class="btn-edit" data-modal="true" data-target="#editClientModal" data-user-id="@clients.Id"></button>
             <label type="hidden"></label>
         </div>
+
+        <div class="clientList">
+
+            <table>
+                <thead>
+                        <tr>
+                            <th>Client Name</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        @foreach (var client in Model)
+                        {
+                            <tr>
+                                <td>@client.ClientName</td>
+                                <td>@client.Email</td>
+                                <td class="client-action">
+                                    <button type="button" class="btn btn-edit-client" data-modal="true" data-target="#editClientModal" data-user-id="@client.Id">Edit</button>
+                                </td>
+                            </tr>
+                        }
+                </tbody>
+               
+            </table>
+
+
+        </div>
+
+
+
+
+
+
     </div>
 </div>
-}

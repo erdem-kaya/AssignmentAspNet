@@ -130,6 +130,10 @@
     --primary: #007bff;
     --secondary: #6c757d;
     --white-status-text: #f8f9fa;
+    /* Tables*/
+    --table-header-backgroud-color: var(--white-400);
+    --table-header-text-color: var(--gray-800);
+    --table-tbody-tr-background-hover-color: var(--blue-light-10);
 }
 
 *, *::before, *::after {
@@ -750,3 +754,57 @@ textarea {
     object-fit: cover;
     border-radius: 50%;
 }
+
+
+/* Client List */
+#clients {
+    margin-top: 2rem;
+}
+
+.client.members-list {
+    margin-top: 2rem;
+}
+
+.client-action {
+
+}
+/* tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    table thead,
+    table tbody {
+        display: contents;
+    }
+
+        table thead > tr {
+            background-color: var(--table-header-backgroud-color);
+            color: var(--table-header-text-color);
+        }
+
+        table tbody > tr {
+            padding: 0.7rem 1rem;
+            margin: 0.5rem 0;
+        }
+
+            table tbody > tr:hover {
+                background-color: var(--table-tbody-tr-background-hover-color)
+            }
+
+    table tr {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        align-items: center;
+        width: 100%;
+        border-radius: 16px;
+        padding: 1rem;
+    }
+
+    table th,
+    table td {
+        width: 100%;
+        padding: 0 1rem;
+        text-align: left
+    }

@@ -1,0 +1,32 @@
+﻿@model ClientUpdateFormViewModel
+
+@{
+    ViewData["Title"] = "Edit Client";
+}
+        <div class="modal-header">
+            <h3>Edit Client</h3>
+            <button type="button" class="btn-close" data-close="true"></button>
+        </div>
+
+        <form novalidate method="post" asp-action="UpdateClient" asp-controller="Client">
+                <input asp-for="Id" readonly type="hidden" />
+
+            <div class="form-group">
+                <label asp-for="ClientName"></label>
+                <div class="field-group">
+                    <input asp-for="ClientName" />
+                    <span asp-validation-for="ClientName"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <div class="field-group">
+                    <input asp-for="Email" />
+                    <span asp-validation-for="Email"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-submit">Save</button>
+        </form>
+<partial name="Partials/Components/ClientsPartials/_DeleteClient" model="new ClientDeleteViewModel { Id = Model.Id }" /> 

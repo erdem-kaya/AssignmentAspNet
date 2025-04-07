@@ -190,6 +190,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+document.querySelectorAll(".btn-edit-client").forEach(button => {
+    button.addEventListener("click", () => {
+        const clientId = button.dataset.userId;
+        const modal = document.querySelector("#editClientModal");
+        const content = modal.querySelector(".modal-content");
+
+        fetch(`/clients/edit/${clientId}`)
+            .then(res => res.text())
+            .then(html => {
+                content.innerHTML = html;
+                modal.style.display = "flex";
+
+                const form = modal.querySelector("form");
+                attachFormValidation(form);
+                attachModalClose(modal);
+            })
+            .catch(err => {
+                content.innerHTML = "<p>Error loading form.</p>";
+                modal.style.display = "flex";
+                console.error(err);
+            });
+    });
+});
+
 // IMAGE PREVIEW FUNCTIONS 
 async function loadImage(file) {
     return new Promise((resolve, reject) => {

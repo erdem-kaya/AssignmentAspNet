@@ -8,6 +8,6 @@ namespace Business.Interfaces
         Task<bool> DeleteAsync(int id);
         Task<IEnumerable<ClientForm>> GetAllClientsAsync();
         Task<ClientForm?> GetClientByIdAsync(int id);
-        Task<ClientForm> UpdateAsync(UpdateClientForm updateForm);
+        Task<ClientForm> UpdateAsync(int id, UpdateClientForm updateForm);
     }
 }

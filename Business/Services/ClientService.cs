@@ -59,16 +59,15 @@ public class ClientService(ClientsRepository clientRepository) : IClientService
         }
     }
 
-    public async Task<ClientForm> UpdateAsync(UpdateClientForm updateForm)
+    public async Task<ClientForm> UpdateAsync(int id, UpdateClientForm updateForm)
     {
-        await _clientRepository.BeginTransactionAsync();
 
         try
         {
-            var findClient = await _clientRepository.GetItemAsync(x => x.Id == updateForm.Id) ?? throw new Exception($"Client with id {updateForm.Id} not found");
+            await _clientRepository.BeginTransactionAsync();
+            var findClient = await _clientRepository.GetItemAsync(x => x.Id == id) ?? throw new Exception($"Client with id {id} not found");
             ClientFactory.Update(findClient, updateForm);
-            var updatedClient = await _clientRepository.UpdateAsync(x => x.Id == updateForm.Id, findClient);
-
+            var updatedClient = await _clientRepository.UpdateAsync(x => x.Id == id, findClient);
             var result = updatedClient != null ? ClientFactory.Create(updatedClient) : null!;
             await _clientRepository.CommitTransactionAsync();
             return result;
