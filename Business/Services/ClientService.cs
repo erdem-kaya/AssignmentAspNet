@@ -14,9 +14,9 @@ public class ClientService(ClientsRepository clientRepository) : IClientService
     {
         if (form == null)
             throw new ArgumentNullException(nameof(form), "Client form can't be null");
-        await _clientRepository.BeginTransactionAsync();
         try
         {
+            await _clientRepository.BeginTransactionAsync();
             var client = ClientFactory.Create(form);
             var result = await _clientRepository.CreateAsync(client);
             await _clientRepository.CommitTransactionAsync();
@@ -81,14 +81,13 @@ public class ClientService(ClientsRepository clientRepository) : IClientService
     }
 
     public async Task<bool> DeleteAsync(int id)
-    {
-        await _clientRepository.BeginTransactionAsync();
+    { 
         try
         {
+            await _clientRepository.BeginTransactionAsync();
             var deleteClient = await _clientRepository.DeleteAsync(x => x.Id == id);
             if (!deleteClient)
                 throw new Exception($"Client with id {id} not found");
-
             await _clientRepository.CommitTransactionAsync();
             return true;
 

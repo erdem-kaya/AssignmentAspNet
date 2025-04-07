@@ -25,6 +25,10 @@ public class ProjectForm
     public string? ProjectImage { get; set; }
 
     [Required(ErrorMessage = "Required")]
+    [Display(Name = "Project status", Prompt = "Select a project status")]
+    public int ProjectStatusId { get; set; }
+
+    [Required(ErrorMessage = "Required")]
     [Display(Name = "Client", Prompt = "Select a client")]
     public int ClientId { get; set; }
 

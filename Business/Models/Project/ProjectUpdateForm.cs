@@ -22,6 +22,9 @@ public class ProjectUpdateForm
     [Display(Name = "Project image", Prompt = "Upload an image")]
     public string? ProjectImage { get; set; }
 
+    [Display(Name = "Project status", Prompt = "Select a project status")]
+    public int ProjectStatusId { get; set; }
+
     [Display(Name = "Client", Prompt = "Select a client")]
     public int ClientId { get; set; }
 

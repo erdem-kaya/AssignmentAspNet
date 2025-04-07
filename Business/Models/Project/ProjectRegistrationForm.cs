@@ -26,6 +26,10 @@ public class ProjectRegistrationForm
     [Display(Name = "Client", Prompt = "Select a client")]
     public int ClientId { get; set; }
 
+    [Required]
+    [Display(Name = "Project status", Prompt = "Select a project status")]
+    public int ProjectStatusId { get; set; }
+
     [Required(ErrorMessage = "Required")]
     [Display(Name = "Members", Prompt = "Select a members or members")]
     public List<String> ProjectWithUsers { get; set; } = [];
