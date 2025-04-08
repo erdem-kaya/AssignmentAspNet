@@ -698,6 +698,9 @@ textarea {
     width: 550px;
 }
 
+#addProjectModal .modal-content {
+    width: 550px;
+}
 
 
 
@@ -808,3 +811,16 @@ table {
         padding: 0 1rem;
         text-align: left
     }
+
+
+/* Projects */
+
+.project-status {
+    display: flex;
+    gap: 3rem;
+    margin-top: 2rem;
+    font-weight: var(--font-bold);
+    color: var(--gray-800);
+    border-bottom: 1px solid var(--gray-transparent);
+    padding-bottom: 1rem;
+}

@@ -1,7 +1,22 @@
-﻿﻿@{
-    ViewData["Title"] = "Projects List NEWWW";
+﻿@model ProjectViewModel
+
+@{
+    ViewData["Title"] = "Projects";
 }
 
-<div class="page-header">
-    <h1>@ViewData["Title"]</h1>
-</div>
+<!-- Partials -->
+<partial name="Partials/Components/ProjectsPartials/_AddProject" model="Model.RegistrationForm" />
+<!-- Partials -->
+
+<section class="projects">
+    <div class="page-header">
+        <h1>@ViewData["Title"]</h1>
+        <button type="button" data-modal="true" data-target="#addProjectModal" class="btn btn-add">Add Project</button>
+    </div>
+
+    <partial name="Partials/Components/ProjectsPartials/_ProjectStatusHeader" />
+
+    <div id="clients">
+        List
+    </div>
+</section>

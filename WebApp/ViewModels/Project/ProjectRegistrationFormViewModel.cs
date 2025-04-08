@@ -1,4 +1,5 @@
 ﻿using Business.Models.Project;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.ViewModels.Project;
@@ -43,6 +44,8 @@ public class ProjectRegistrationFormViewModel
     [Required(ErrorMessage = "Required")]
     [Display(Name = "Members", Prompt = "Select a members or members")]
     public List<String> ProjectWithUsers { get; set; } = [];
+
+    public List<SelectListItem> ClientList { get; set; } = [];
 
     public static implicit operator ProjectRegistrationForm(ProjectRegistrationFormViewModel viewModel)
     {
