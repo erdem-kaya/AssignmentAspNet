@@ -824,3 +824,45 @@ table {
     border-bottom: 1px solid var(--gray-transparent);
     padding-bottom: 1rem;
 }
+
+
+/* wysiwyg - QUILL */
+.wysiwyg-group {
+    margin-bottom: 2.5rem;
+}
+#Description {
+    display: none;
+}
+
+#project-wysiwyg-editor {
+    z-index: 0;
+    width: 100%;
+    font-size: 1em;
+    font-weight: 400;
+    font-family: var(--font-standart);
+    color: var(--text-color);
+    border: none;
+    background-color: var(--form-input-background-color);
+    border-radius: 14px 14px 0px 0px;
+    min-height: 150px;
+    transition: border-color 0.1s ease-in-out;
+    outline: none;
+}
+
+.ql-editor {
+    border: 1px solid var(--form-input-border-color);
+    border-radius: 14px 14px 0px 0px;
+    border-bottom: 0;
+}
+
+    .ql-editor:focus {
+        border: 1px solid var(--form-input-border-focus-color);
+    }
+
+#project-wysiwyg-toolbar {
+    position: relative;
+    border-radius: 0 0 13px 13px;
+    border-top: 1px solid var(--form-input-border-color);
+    color: var(--form-input-text-color);
+    background-color: var(--form-input-background-color);
+}

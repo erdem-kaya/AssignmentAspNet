@@ -31,12 +31,32 @@
                 </select>
             </div>
 
-
+            <!-- Jag har byggt den med Hans's video. Rich Text Editor -->
             <div class="form-group">
                 <label asp-for="Description"></label>
-                <div class="field-group">
-                    <input asp-for="Description" />
-                    <span asp-validation-for="Description"></span>
+                <div class="wysiwyg-group">
+                    <textarea asp-for="Description"></textarea>
+                    <div id="project-wysiwyg-editor" class="wysiwyg-editor"></div>
+                    <div id="project-wysiwyg-toolbar">
+                        <span class="ql-formats">
+                            <button class="ql-bold"></button>
+                            <button class="ql-italic"></button>
+                            <button class="ql-underline"></button>
+                            <button class="ql-strike"></button>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-align" value=""></button>
+                            <button class="ql-align" value="center"></button>
+                            <button class="ql-align" value="right"></button>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-list" value="bullet"></button>
+                            <button class="ql-list" value="ordered"></button>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-link"></button>
+                        </span>
+                    </div>
                 </div>
             </div>
 
@@ -78,3 +98,30 @@
         </form>
     </div>
 </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initWysiwyg('#project-wysiwyg-editor','#project-wysiwyg-toolbar', '#Description', '@Html.Raw(ViewBag.Description ?? "")');
+    })
+
+
+    function initWysiwyg(wysiwygEditorId, wysiwygToolbarId, textareId, content) {
+        const textarea = document.querySelector(textareId)
+        const quill = new Quill(wysiwygEditorId, {
+            modules: {
+                syntax: true,
+                toolbar: wysiwygToolbarId
+            },
+            placeholder:'Type something',
+            theme: 'snow'
+        })
+
+        if (content)
+            quill.root.innerHTML = content;
+
+        quill.on('text-change', () => {
+            textarea.value = quill.root.innerHTML;
+        });
+    }
+</script>
