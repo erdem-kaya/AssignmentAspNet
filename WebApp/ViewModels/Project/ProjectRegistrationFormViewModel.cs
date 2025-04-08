@@ -18,12 +18,12 @@ public class ProjectRegistrationFormViewModel
     [Required(ErrorMessage = "Required")]
     [Display(Name = "Start date", Prompt = "Select a start date")]
     [DataType(DataType.Date)]
-    public DateTime StartDate { get; set; }
+    public DateTime StartDate { get; set; } = DateTime.UtcNow;
 
     [Required(ErrorMessage = "Required")]
     [Display(Name = "End date", Prompt = "Select an end date")]
     [DataType(DataType.Date)]
-    public DateTime EndDate { get; set; }
+    public DateTime EndDate { get; set; } = DateTime.UtcNow.AddDays(1);
 
     [Required(ErrorMessage = "Required")]
     [Display(Name = "Budget", Prompt = "0 - Enter your budget")]
@@ -45,6 +45,7 @@ public class ProjectRegistrationFormViewModel
     [Display(Name = "Members", Prompt = "Select a members or members")]
     public List<String> ProjectWithUsers { get; set; } = [];
 
+    [Required(ErrorMessage = "Required")]
     public List<SelectListItem> ClientList { get; set; } = [];
 
     public static implicit operator ProjectRegistrationForm(ProjectRegistrationFormViewModel viewModel)

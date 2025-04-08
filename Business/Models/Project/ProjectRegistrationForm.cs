@@ -13,7 +13,7 @@ public class ProjectRegistrationForm
 
     public DateTime StartDate { get; set; }
 
-    public DateTime EndDate { get; set; }
+    public DateTime EndDate { get; set; } 
 
     [Required(ErrorMessage = "Required")]
     [Display(Name = "Budget", Prompt = "0 - Enter your budget")]
