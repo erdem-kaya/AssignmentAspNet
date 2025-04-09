@@ -88,8 +88,9 @@
 
             <div class="form-group">
                 <label asp-for="Budget"></label>
-                <div class="field-group">
-                    <input asp-for="Budget" />
+                <div class="field-group budget">
+                    <i class="fa-sharp fa-solid fa-dollar-sign"></i>
+                    <input class="budget" asp-for="Budget" />
                     <span asp-validation-for="Budget"></span>
                 </div>
             </div>
