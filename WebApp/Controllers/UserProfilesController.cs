@@ -124,4 +124,29 @@ public class UserProfilesController(IUsersProfileService userProfileService, IWe
 
         return BadRequest();
     }
+
+
+    // USER SEARCH
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchUsers(string searchTerm)
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm))
+            return Json(new List<object>());
+
+        var users = await _userProfileService.GetAllUsersProfileAsyc();
+
+        var likeUsers = users
+            .Where(u => (u.FirstName + " " + u.LastName).Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+            .Select(u => new
+            {
+                id = u.Id,
+                profilePicture = u.ProfilePicture,
+                fullName = $"{u.FirstName} {u.LastName}"
+            })
+            .ToList();
+
+        return Json(likeUsers);
+    }
 }
+
+

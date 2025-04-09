@@ -1,4 +1,4 @@
-/* fonts */
+﻿/* fonts */
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
@@ -849,15 +849,9 @@ table {
         font-size: 14px;
     }
 
-    .field-group.budget span[data-valmsg-for="Budget"] {
-        position: absolute;
-        right: 12px;
-        font-size: 12px;
-        color: #dc3545;
-        white-space: nowrap;
-        pointer-events: none;
-    }
-
+#addProjectModal .image-previewer.project-image {
+    border-radius: 20%;
+}
 
 
 /* wysiwyg - QUILL */
@@ -900,3 +894,116 @@ table {
     color: var(--form-input-text-color);
     background-color: var(--form-input-background-color);
 }
+
+.ql-toolbar.ql-snow {
+    border-color: var(--form-input-border-color);
+}
+
+
+
+
+.form-tag-select {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #fff;
+    border: 1px solid var(--form-input-border-color);
+    padding: 0.5rem 0.75rem;
+    border-radius: 14px;
+    position: relative;
+}
+
+.form-tag-select label,
+.form-tag-select i {
+    cursor: pointer;
+    position: absolute;
+    font-size: 1.1em;
+    right: 1rem;
+    top: 0.8rem;
+}
+    .form-tag-select input.form-tag-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        min-width: 150px;
+        padding: 0.2rem 0.3rem;
+    }
+
+.search-results {
+    background-color: var(--form-input-background-color);
+    border: 1px solid var(--form-input-border-color);
+    border-top: none;
+    border-radius: 0 0 13px 13px;
+    padding: 1rem;
+    width: 100%;
+    position: absolute;
+    top: 85%;
+    left: 0;
+    z-index: 10;
+    display: none;
+}
+
+.search-item {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8em;
+}
+
+    .search-item:hover {
+        background-color: var(--blue-light-opacity);
+        border-radius: 13px;
+    }
+
+    .search-item.active {
+        background-color: var(--blue-light-opacity);
+        border-radius: 13px;
+    }
+
+
+
+.tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #f1f5f9;
+    border-radius: 12px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.9em;
+}
+
+
+
+
+
+
+/* tag görünümleri */
+.user-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #f1f5f9;
+    border-radius: 12px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.9em;
+}
+
+/* avatar boyutu */
+.user-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* "x" tuşu */
+.user-tag .btn-remove {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+

@@ -15,6 +15,11 @@
 
         <form novalidate method="post" asp-action="AddProject" asp-controller="Project">
 
+            <div class="image-previewer project-image">
+                <img src="" class="image-preview" />
+                <input type="file" asp-for="ProjectImage" accept="image/*" class="hide" />
+            </div>
+
             <div class="form-group">
                 <label asp-for="ProjectName"></label>
                 <div class="field-group">
@@ -80,8 +85,11 @@
             
             <div class="form-group">
                 <label asp-for="ProjectWithUsers"></label>
-                <div class="field-group">
-                    <input asp-for="ProjectWithUsers" />
+                <div id="tagged-users" class="field-group form-input form-tag-select">
+                    <input type="hidden" id="ProjectWithUsers" name="ProjectWithUsers" />
+                    <input type="text" id="user-search" class="form-tag-input" placeholder="Add member" />
+                    <label for="user-search"></label>
+                    <div id="user-search-results" class="search-results"></div>
                     <span asp-validation-for="ProjectWithUsers"></span>
                 </div>
             </div>
@@ -102,7 +110,25 @@
 
 
 <script>
+    // Initialize the WYSIWYG editor
     document.addEventListener('DOMContentLoaded', function() {
         initWysiwyg('#project-wysiwyg-editor','#project-wysiwyg-toolbar', '#Description', '@Html.Raw(Model.Description ?? "")');
+    })
+
+    // Initialize the tag input for user search. 
+    // Koden för att lägga till användare i Members-fältet är hämtad från Hans video ”ASP.NET - Fritextsökning [Tags & Users/Members]”.
+    const preSelectedUsers = []
+
+    initTagSelector({
+        containerId: 'tagged-users',
+        inputId: 'user-search',
+        resultsId: 'user-search-results',
+        searchUrl: (query) => 'users/search?searchTerm=' + encodeURIComponent(query),
+        displayProperty: 'fullName',
+        imageProperty: 'profilePicture',
+        tagClass: 'user-tag',
+        emptyMessage: 'No members found.',
+        preSelected: preSelectedUsers,
+        selectedInputIds: 'ProjectWithUsers'
     })
 </script>
