@@ -35,7 +35,7 @@ public class ProjectRegistrationFormViewModel
     public string? ProjectImage { get; set; }
 
     [Required(ErrorMessage = "Required")]
-    [Display(Name = "Client", Prompt = "Select a client")]
+    [Display(Name = "Client Name", Prompt = "Select a client")]
     public int ClientId { get; set; }
 
     [Required(ErrorMessage = "Required")]
@@ -48,6 +48,7 @@ public class ProjectRegistrationFormViewModel
 
     //ChatGpt hjälpte mig.För om mer än en användare lades till i projektet skickades inte id-värdena korrekt.Det var en bugg som jag märkte i Breakpoint
     [NotMapped]
+    [Display(Name = "Members")]
     public List<string> ProjectWithUsers =>
     ProjectWithUsersRaw?.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList() ?? [];
 

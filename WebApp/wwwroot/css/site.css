@@ -849,10 +849,91 @@ table {
         font-size: 14px;
     }
 
-#addProjectModal .image-previewer.project-image {
-    border-radius: 20%;
+/*PROJECT LIST */
+
+#project-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
 }
 
+    #project-list .project-card {
+        display: grid;
+        grid-template-rows: 1fr 1.5fr 1fr;
+        color: var(--card-text-color);
+        border: 1px solid var(--card-border-color);
+        background-color: var(--card-background-color);
+        box-shadow: var(--box-shadow);
+        padding: 2rem;
+        border-radius: 14px;
+        width: 450px;
+    }
+
+        #project-list .project-card .project-card-header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #project-list .project-card .project-card-body {
+            font-size: 15px;
+            font-weight: var(--font-regular);
+            color: var(--text-color);
+        }
+
+    #project-list .project-card-header .header-right {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 1rem;
+    }
+
+
+.project-card-header .image-project img {
+    height: 56px;
+    width: 56px;
+    margin-block: 1rem;
+}
+
+.project-card-header .project-info {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    padding-block: 1rem;
+    
+}
+
+.project-card-header .project-actions button {
+    margin-block: 1rem;
+    font-size: 1.5rem;
+}
+
+.project-card-header .project-info .project-name {
+    font-size: 18px;
+    font-weight: var(--font-semibold);
+}
+
+.project-card .project-card-footer {
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+}
+
+    .project-card .project-card-footer .project-time {
+        background-color: var(--gray-200);
+        padding: 0.5rem;
+        border-radius: 7px;
+        gap: 1rem;
+    }
+
+    .project-card .project-card-footer .project-members {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .project-card-header .project-info .client-name {
+        font-size: 15px;
+        font-weight: var(--font-regular);
+        color: var(--gray-800);
+    }
 
 /* wysiwyg - QUILL */
 .wysiwyg-group {
