@@ -33,11 +33,6 @@ public class UserProfilesController(IUsersProfileService userProfileService, IWe
     [HttpPost]
     public async Task<IActionResult> AddUser(UserRegistrationFormViewModel form)
     {
-        var userImg = Request.Form.Files["ProfilePicture"];
-        if (userImg != null)
-            form.ProfilePicture = await ImageUploadHelper.UploadAsync(userImg, _environment);
-        
-
         if (!ModelState.IsValid)
         {
             var errors = ModelState
@@ -48,6 +43,10 @@ public class UserProfilesController(IUsersProfileService userProfileService, IWe
 
             return BadRequest(new { success = false, errors });
         }
+
+        var userImg = Request.Form.Files["ProfilePicture"];
+        if (userImg != null)
+            form.ProfilePicture = await ImageUploadHelper.UploadAsync(userImg, _environment);
 
         var result = await _userProfileService.CreateUsersProfileAsync(form);
         if (result)

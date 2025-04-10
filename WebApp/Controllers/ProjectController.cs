@@ -2,16 +2,20 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using WebApp.Helpers;
 using WebApp.ViewModels.Project;
 
 namespace WebApp.Controllers;
 
 [Authorize]
 [Route("projects")]
-public class ProjectController(IProjectService projectService, IClientService clientService) : Controller
+public class ProjectController(IProjectService projectService, IClientService clientService, IWebHostEnvironment environment) : Controller
 {
     private readonly IProjectService _projectService = projectService;
     private readonly IClientService _clientService = clientService;
+    private readonly IWebHostEnvironment _environment = environment;
+
 
     [HttpGet("")]
     public async Task<IActionResult> ProjectsList()
@@ -37,7 +41,7 @@ public class ProjectController(IProjectService projectService, IClientService cl
     }
 
     public IActionResult AddProject()
-    {  
+    {
         return View();
     }
 
@@ -53,6 +57,10 @@ public class ProjectController(IProjectService projectService, IClientService cl
                     kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray());
             return BadRequest(new { success = false, errors });
         }
+
+        var projectImg = Request.Form.Files["ProjectImage"];
+        if (projectImg != null)
+            form.ProjectImage = await ImageUploadHelper.UploadAsync(projectImg, _environment); 
 
         var result = await _projectService.CreateAsync(form);
         if (result != null)
