@@ -23,6 +23,7 @@ builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<UsersProfileRepository>();
 builder.Services.AddScoped<ClientsRepository>();
 builder.Services.AddScoped<ProjectsRepository>();
+builder.Services.AddScoped<ProjectUsersRepository>();
 
 
 

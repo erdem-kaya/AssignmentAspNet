@@ -54,7 +54,6 @@ public class ProjectController(IProjectService projectService, IClientService cl
             return BadRequest(new { success = false, errors });
         }
 
-
         var result = await _projectService.CreateAsync(form);
         if (result != null)
             return RedirectToAction("ProjectsList");

@@ -182,7 +182,7 @@ function initTagSelector(config) {
     function updateSelectedIdsInput() {
         const hiddenInput = selectedInputIds;
         if (hiddenInput) {
-            hiddenInput.value = JSON.stringify(selectedIds);
+            hiddenInput.value = selectedIds.join(',');
         }
     }
 }

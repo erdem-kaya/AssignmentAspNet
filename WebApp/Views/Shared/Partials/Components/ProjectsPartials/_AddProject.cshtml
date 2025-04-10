@@ -86,11 +86,11 @@
             <div class="form-group">
                 <label asp-for="ProjectWithUsers"></label>
                 <div id="tagged-users" class="field-group form-input form-tag-select">
-                    <input type="hidden" id="ProjectWithUsers" name="ProjectWithUsers" />
+                    <input type="hidden" id="ProjectWithUsersRaw" name="ProjectWithUsersRaw" />
                     <input type="text" id="user-search" class="form-tag-input" placeholder="Add member" />
                     <label for="user-search"></label>
                     <div id="user-search-results" class="search-results"></div>
-                    <span asp-validation-for="ProjectWithUsers"></span>
+                    <span asp-validation-for="ProjectWithUsersRaw"></span>
                 </div>
             </div>
 
@@ -129,6 +129,6 @@
         tagClass: 'user-tag',
         emptyMessage: 'No members found.',
         preSelected: preSelectedUsers,
-        selectedInputIds: 'ProjectWithUsers'
+        selectedInputIds: 'ProjectWithUsersRaw'
     })
 </script>

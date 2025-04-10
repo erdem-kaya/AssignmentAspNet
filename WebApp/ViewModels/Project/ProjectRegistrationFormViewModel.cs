@@ -1,6 +1,8 @@
 ﻿using Business.Models.Project;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.ConstrainedExecution;
 
 namespace WebApp.ViewModels.Project;
 
@@ -37,13 +39,19 @@ public class ProjectRegistrationFormViewModel
     [Display(Name = "Client", Prompt = "Select a client")]
     public int ClientId { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Required")]
     [Display(Name = "Project status", Prompt = "Select a project status")]
     public int ProjectStatusId { get; set; }
 
     [Required(ErrorMessage = "Required")]
-    [Display(Name = "Members", Prompt = "Select a members or members")]
-    public List<String> ProjectWithUsers { get; set; } = [];
+    [Display(Name = "Members")]
+    public string ProjectWithUsersRaw { get; set; } = "";
+
+    //ChatGpt hjälpte mig.För om mer än en användare lades till i projektet skickades inte id-värdena korrekt.Det var en bugg som jag märkte i Breakpoint
+    [NotMapped]
+    public List<string> ProjectWithUsers =>
+    ProjectWithUsersRaw?.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList() ?? [];
+
 
     [Required(ErrorMessage = "Required")]
     public List<SelectListItem> ClientList { get; set; } = [];
@@ -60,7 +68,7 @@ public class ProjectRegistrationFormViewModel
             ProjectImage = viewModel.ProjectImage,
             ClientId = viewModel.ClientId,
             ProjectStatusId = viewModel.ProjectStatusId,
-            ProjectWithUsers = viewModel.ProjectWithUsers
+            ProjectWithUsers = viewModel.ProjectWithUsers,
         };
     }
 }

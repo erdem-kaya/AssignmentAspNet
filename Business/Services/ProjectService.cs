@@ -1,14 +1,16 @@
 ﻿using Business.Factories;
 using Business.Interfaces;
 using Business.Models.Project;
+using Data.Entities;
 using Data.Repositories;
 using System.Diagnostics;
 
 namespace Business.Services;
 
-public class ProjectService(ProjectsRepository projectsRepository) : IProjectService
+public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersRepository projectsUsersRepository) : IProjectService
 {
     private readonly ProjectsRepository _projectsRepository = projectsRepository;
+    private readonly ProjectUsersRepository _projectsUsersRepository = projectsUsersRepository;
 
     public async Task<ProjectForm> CreateAsync(ProjectRegistrationForm form)
     {
@@ -19,9 +21,24 @@ public class ProjectService(ProjectsRepository projectsRepository) : IProjectSer
             await _projectsRepository.BeginTransactionAsync();
             var project = ProjectFactory.Create(form);
             var result = await _projectsRepository.CreateAsync(project);
-            await _projectsRepository.CommitTransactionAsync();
-            return result != null ? ProjectFactory.Create(result) : null!;
-        }
+            if (result == null)
+                throw new ArgumentNullException(nameof(result), "Project not created");
+
+            if (form.ProjectWithUsers?.Count > 0)
+            {
+                foreach (var projectWithUser in form.ProjectWithUsers)
+                {
+                    var projectUser = new ProjectUsersEntity
+                    {
+                        ProjectId = result.Id,
+                        UserId = projectWithUser,
+                    };
+                    var projectUserResult = await _projectsUsersRepository.CreateAsync(projectUser);
+                }
+            }
+                await _projectsRepository.CommitTransactionAsync();
+                return result != null ? ProjectFactory.Create(result) : null!;
+            }
         catch (Exception ex)
         {
             await _projectsRepository.RollbackTransactionAsync();
