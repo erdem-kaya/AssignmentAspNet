@@ -13,8 +13,33 @@
             </div>
             
 
-            <div class="project-actions">
-                <button type="button" class="btn-edit" data-modal="true" data-target="#editProjectModal" data-project-id="1"></button>
+            <div id="project-actions-container">
+                <button type="button" data-type="dropdown" data-target="#project-dropdown" class="btn-action">
+                    <i class="fa-solid fa-ellipsis"></i>
+                </button>
+                <div id="project-dropdown" class="dropdown">
+                    <div class="dropdown-body">
+                        <nav class="dropdown-actions">
+                            <a class="dropdown-action" href="#">
+                                <i class="fa-duotone fa-solid fa-pen-to-square"></i>
+                                <span>Edit</span>
+                            </a>
+                        </nav>
+                        <nav class="dropdown-actions">
+                            <a class="dropdown-action" href="#">
+                                <i class="fa-duotone fa-solid fa-user-plus"></i>
+                                <span>Add Member</span>
+                            </a>
+                        </nav>
+                        <div class="divider"></div>
+                        <nav class="dropdown-actions">
+                            <a class="dropdown-action trash" href="#">
+                                <i class="fa-duotone fa-solid fa-trash"></i>
+                                <span>Delete</span>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
             </div>
             
         </div>

@@ -15,6 +15,7 @@
     --font-extrabold: 800;
     --font-black: 900;
     /* colors */
+    --transparent: transparent;
     /* blue-color */
     --blue-light-opacity: rgba(45, 125, 204, 0.10);
     --blue-light: #DBEDFF;
@@ -134,6 +135,10 @@
     --table-header-backgroud-color: var(--white-400);
     --table-header-text-color: var(--gray-800);
     --table-tbody-tr-background-hover-color: var(--blue-light-10);
+    /* Dropdown */
+    --dropdown-text-color: var(--dark-400);
+    --dropdown-border-color: var(--white);
+    --dropdown-background-color: var(--white);
 }
 
 *, *::before, *::after {
@@ -364,6 +369,33 @@ a {
         text-decoration: none;
     }
 
+
+.btn-action {
+    transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
+    background-color: var(--transparent);
+    border: 1px solid var(--transparent);
+    color: var(--dark-400);
+    z-index: 999;
+    font-size: 1.4rem;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 13px;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .btn-action:hover {
+        background-color: var(--blue-light-opacity);
+        border: 1px solid var(--transparent);
+        color: var(--dark-400);
+        text-decoration: none;
+    }
+
+
+
 .btn-message {
     cursor: pointer;
     color: var(--dark-600);
@@ -372,7 +404,7 @@ a {
     background-color: var(--gray-100);
     border: 1px solid var(--btn-border-color);
     border-radius: 10px;
-    padding-block: 0.8rem; 
+    padding-block: 0.8rem;
 }
 
     .btn-message:hover {
@@ -858,6 +890,25 @@ table {
     margin-top: 2rem;
 }
 
+    #project-list #project-actions-container {
+        position: relative;
+    }
+
+    #project-list #project-actions-container #project-dropdown {
+        width:250px;
+    }
+
+        #project-list #project-actions-container .dropdown {
+            box-shadow: 0 0 2px 2px rgba(137,137,137,0.3);
+            width: 220px;
+            top: 60%;
+        }
+
+            #project-list #project-actions-container .dropdown .trash {
+                color: var(--danger);
+                
+            }
+
     #project-list .project-card {
         display: grid;
         grid-template-rows: 1fr 1.5fr 1fr;
@@ -901,7 +952,7 @@ table {
     
 }
 
-.project-card-header .project-actions button {
+#project-actions-container button {
     margin-block: 1rem;
     font-size: 1.5rem;
 }
@@ -1057,12 +1108,6 @@ table {
     font-size: 0.9em;
 }
 
-
-
-
-
-
-/* tag görünümleri */
 .user-tag {
     display: flex;
     align-items: center;
@@ -1073,7 +1118,6 @@ table {
     font-size: 0.9em;
 }
 
-/* avatar boyutu */
 .user-avatar {
     width: 24px;
     height: 24px;
@@ -1081,10 +1125,60 @@ table {
     object-fit: cover;
 }
 
-/* "x" tuşu */
 .user-tag .btn-remove {
     cursor: pointer;
     font-weight: bold;
 }
 
 
+/* Dropdown */
+.dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 110%;
+    background-color: var(--dropdown-background-color);
+    border: 1px solid var(--dropdown-border-color);
+    color: var(--dropdown-text-color);
+    padding: 0.8rem;
+    border-radius: 13px;
+    box-shadow: var(--box-shadow);
+}
+    .dropdown .divider {
+        margin: 1rem 0;
+        width: 100%;
+        height: 1px;
+        background-color: var(--gray-500);
+    }
+
+.dropdown .dropdown-actions {
+        display: grid;
+        gap: 0.5rem;
+    }
+
+        .dropdown .dropdown-actions .dropdown-action {
+            transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
+            background-color: var(--navlink-background-color);
+            border: 1px solid var(--navlink-border-color);
+            color: var(--navlink-text-color);
+            border-radius: 13px;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            font-size: 1em;
+            font-family: var(--font-standard);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+            .dropdown .dropdown-actions .dropdown-action:hover {
+                background-color: var(--navlink-background-hover-color);
+                border-color: var(--navlink-border-hover-color);
+                color: var(--navlink-text-hover-color);
+                text-decoration: none;
+            }
+
+    .dropdown.dropdown-show {
+        display: block;
+    }
