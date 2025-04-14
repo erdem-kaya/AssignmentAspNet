@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Business.Models.UserProfile;
+using System.ComponentModel.DataAnnotations;
 
 namespace Business.Models.Project;
 
@@ -31,6 +32,10 @@ public class ProjectForm
     [Required(ErrorMessage = "Required")]
     [Display(Name = "Client", Prompt = "Select a client")]
     public int ClientId { get; set; }
+
+    public string? ClientName { get; set; }
+
+    public List<User> Users { get; set; } = [];
 
     [Required(ErrorMessage = "Required")]
     [Display(Name = "Members", Prompt = "Select a members or members")]

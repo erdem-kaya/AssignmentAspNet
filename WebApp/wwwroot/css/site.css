@@ -706,6 +706,8 @@ textarea {
         border-radius: 16px;
         box-shadow: 0 4px 4px 3px rgba(196, 196, 196, 0.1);
         padding: 2rem;
+        max-height: 95vh;
+        overflow-y: auto;
     }
 
         .modal .modal-content .modal-header {
@@ -976,14 +978,21 @@ table {
     }
 
     .project-card .project-card-footer .project-members {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        display: flex;
+        justify-content:center;
+        align-items: center;
     }
 
     .project-card-header .project-info .client-name {
         font-size: 15px;
         font-weight: var(--font-regular);
         color: var(--gray-800);
+    }
+
+    .project-members .avatar {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
     }
 
 /* wysiwyg - QUILL */

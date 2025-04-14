@@ -1,16 +1,20 @@
 ﻿using Business.Factories;
 using Business.Interfaces;
 using Business.Models.Project;
+using Business.Models.UserProfile;
 using Data.Entities;
 using Data.Repositories;
 using System.Diagnostics;
 
 namespace Business.Services;
 
-public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersRepository projectsUsersRepository) : IProjectService
+public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersRepository projectsUsersRepository, ClientsRepository clientsRepository, UsersProfileRepository usersProfileRepository) : IProjectService
 {
     private readonly ProjectsRepository _projectsRepository = projectsRepository;
     private readonly ProjectUsersRepository _projectsUsersRepository = projectsUsersRepository;
+    private readonly ClientsRepository _clientsRepository = clientsRepository;
+    private readonly UsersProfileRepository usersProfileRepository = usersProfileRepository;
+
 
     public async Task<ProjectForm> CreateAsync(ProjectRegistrationForm form)
     {
@@ -36,9 +40,9 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
                     var projectUserResult = await _projectsUsersRepository.CreateAsync(projectUser);
                 }
             }
-                await _projectsRepository.CommitTransactionAsync();
-                return result != null ? ProjectFactory.Create(result) : null!;
-            }
+            await _projectsRepository.CommitTransactionAsync();
+            return result != null ? ProjectFactory.Create(result) : null!;
+        }
         catch (Exception ex)
         {
             await _projectsRepository.RollbackTransactionAsync();
@@ -51,8 +55,38 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
     {
         try
         {
+            // Jag gillar inte den här kodstrukturen ... det skulle vara renare att skriva en separat anpassad klass. Jag ska titta på detta senare.
             var allProjects = await _projectsRepository.GetAllAsync();
-            var result = allProjects.Select(ProjectFactory.Create).ToList();
+            var clientNames = await _clientsRepository.GetAllAsync();
+            var allProjectUsers = await _projectsUsersRepository.GetAllAsync();
+            var allUserProfiles = await usersProfileRepository.GetAllAsync();
+
+
+            var result = allProjects.Select(project =>
+            {
+                var projectForm = ProjectFactory.Create(project);
+
+                var projectUsers = allProjectUsers
+                //chatgpt hjälpde mig med att skriva den här koden
+                    .Where(pu => pu.ProjectId == project.Id)
+                    .Select(pu => allUserProfiles.FirstOrDefault(up => up.Id == pu.UserId))
+                    .Where(up => up != null)
+                    .Select(up => new User
+                    {
+                        Id = up!.Id,
+                        ProfilePicture = up.ProfilePicture,
+                    }).ToList();
+
+                var client = clientNames.FirstOrDefault(c => c.Id == project.ClientId);
+                if (client != null)
+                {
+                    projectForm.ClientName = client.ClientName;
+                }
+
+                projectForm.Users = projectUsers;
+                return projectForm;
+            }).ToList();
+
             return result;
         }
         catch (Exception ex)

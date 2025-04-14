@@ -1,18 +1,24 @@
-﻿<div id="project-list">
+﻿@model IEnumerable<ProjectForm>
+
+@using WebApp.Helpers
+
+
+
+@foreach (var project in Model)
+{
     <div class="project-card">
         <div class="project-card-header">
             <div class="header-right">
                 <div class="image-project">
-                    <img src="~/Images/client-default.svg" alt="Project Image" />
+                    <img src="@(string.IsNullOrWhiteSpace(project.ProjectImage) || project.ProjectImage == "NULL"
+                                    ? "/images/project-default.svg"
+                                    : project.ProjectImage)" alt="Project Image" />
                 </div>
-
                 <div class="project-info">
-                    <span class="project-name">Website Redesign</span>
-                    <span class="client-name">GitLab Inc.</span>
+                    <span class="project-name">@project.ProjectName</span>
+                    <span class="client-name">@project.ClientName</span>
                 </div>
             </div>
-            
-
             <div id="project-actions-container">
                 <button type="button" data-type="dropdown" data-target="#project-dropdown" class="btn-action">
                     <i class="fa-solid fa-ellipsis"></i>
@@ -41,27 +47,21 @@
                     </div>
                 </div>
             </div>
-            
         </div>
-
         <div class="project-card-body">
-            <p>It is necessary to develop a website redesign in a corporate style.</p>
+            <p>@Html.Raw(project.Description)</p>
         </div>
-
         <div class="project-card-footer">
             <div class="project-time">
                 <i class="fa-duotone fa-solid fa-clock"></i>
-                <span class="">1 week left</span>
+                <span class="">@project.EndDate.ToRemainingTime()</span>
             </div>
-
             <div class="project-members">
-                <img src="~/Images/avatar-default1.svg" class="member avatar" />
-                <img src="~/Images/avatar-default1.svg" class="member avatar" />
+                @foreach (var member in project.Users)
+                {
+                    <img src="@(string.IsNullOrWhiteSpace(member?.ProfilePicture) ? "/Images/avatar-default.svg" : member.ProfilePicture)" class="member avatar" />
+                }
             </div>
         </div>
     </div>
-
-
-
-
-</div>
+}

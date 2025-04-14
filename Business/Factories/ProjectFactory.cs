@@ -1,4 +1,5 @@
 ﻿using Business.Models.Project;
+using Business.Models.UserProfile;
 using Data.Entities;
 
 namespace Business.Factories;
