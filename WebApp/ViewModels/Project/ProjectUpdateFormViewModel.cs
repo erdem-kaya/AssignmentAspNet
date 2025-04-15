@@ -1,5 +1,8 @@
 ﻿using Business.Models.Project;
+using Business.Models.UserProfile;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApp.ViewModels.Project;
 
@@ -37,8 +40,19 @@ public class ProjectUpdateFormViewModel
     [Display(Name = "Project status", Prompt = "Select a project status")]
     public int ProjectStatusId { get; set; }
 
-    [Display(Name = "Members", Prompt = "Select a members or members")]
-    public List<String> ProjectWithUsers { get; set; } = [];
+    [Required(ErrorMessage = "Required")]
+    [Display(Name = "Members")]
+    public string ProjectWithUsersRaw { get; set; } = "";
+
+    [NotMapped]
+    [Display(Name = "Members")]
+    public List<string> ProjectWithUsers =>
+    ProjectWithUsersRaw?.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList() ?? [];
+
+    public List<User> Users { get; set; } = [];
+
+    [Required(ErrorMessage = "Required")]
+    public List<SelectListItem> ClientList { get; set; } = [];
 
 
     public static implicit operator ProjectUpdateForm(ProjectUpdateFormViewModel viewModel)

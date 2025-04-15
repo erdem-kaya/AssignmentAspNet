@@ -205,6 +205,70 @@ document.querySelectorAll(".btn-edit-client").forEach(button => {
                 const form = modal.querySelector("form");
                 attachFormValidation(form);
                 attachModalClose(modal);
+
+                setTimeout(() => {
+                    const desc = modal.querySelector('#Description');
+                    initWysiwyg(
+                        '#project-wysiwyg-editor',
+                        '#project-wysiwyg-toolbar',
+                        '#Description',
+                        desc?.value ?? ""
+                    );
+                }, 100);
+            })
+            .catch(err => {
+                content.innerHTML = "<p>Error loading form.</p>";
+                modal.style.display = "flex";
+                console.error(err);
+            });
+    });
+});
+
+document.querySelectorAll(".btn-edit-project").forEach(button => {
+    button.addEventListener("click", () => {
+        const projectId = button.dataset.projectId;
+        const modal = document.querySelector("#editProjectModal");
+        const content = modal.querySelector(".modal-content");
+
+        fetch(`/projects/edit/${projectId}`)
+            .then(res => res.text())
+            .then(html => {
+                content.innerHTML = html;
+                modal.style.display = "flex";
+
+                const form = modal.querySelector("form");
+                attachFormValidation(form);
+
+                const previewer = modal.querySelector(".image-previewer");
+                if (previewer) attachImagePreviewer(previewer);
+
+                attachModalClose(modal);
+                
+
+                requestAnimationFrame(() => {
+                    initWysiwyg(
+                        '#update-project-wysiwyg-editor',
+                        '#update-project-wysiwyg-toolbar',
+                        '#update-description',
+                        modal.querySelector('#update-description')?.value ?? ""
+                    );
+                
+
+                const preSelectedUsers = JSON.parse(button.dataset.preSelectedUsers || "[]");
+
+                    initTagSelector({
+                        containerId: 'tagged-users-edit',
+                        inputId: 'user-search-edit',
+                        resultsId: 'user-search-results-edit',
+                        searchUrl: (query) => 'users/search?searchTerm=' + encodeURIComponent(query),
+                        displayProperty: 'fullName',
+                        imageProperty: 'profilePicture',
+                        tagClass: 'user-tag',
+                        emptyMessage: 'No members found.',
+                        preSelected: preSelectedUsers,
+                        selectedInputIds: 'ProjectWithUsersRaw'
+                    });
+                });
             })
             .catch(err => {
                 content.innerHTML = "<p>Error loading form.</p>";
@@ -270,8 +334,6 @@ function attachImagePreviewer(previewer) {
     });
 }
 
-
-
 // Dropdown
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -305,3 +367,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+document.querySelectorAll(".dropdown-action.trash").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const id = btn.dataset.projectId;
+
+        if (confirm("Are you sure you want to delete this project?")) {
+            fetch(`/projects/delete/${id}`, {
+                method: 'POST'
+            }).then(res => {
+                if (res.ok) {
+                    location.reload();
+                } else {
+                    alert("Failed to delete project.");
+                }
+            });
+        }
+    });
+});

@@ -1,8 +1,5 @@
 ﻿@model IEnumerable<ProjectForm>
-
 @using WebApp.Helpers
-
-
 
 @foreach (var project in Model)
 {
@@ -20,13 +17,17 @@
                 </div>
             </div>
             <div id="project-actions-container">
-                <button type="button" data-type="dropdown" data-target="#project-dropdown" class="btn-action">
+                @{
+                    //ChatGpt hjälpte mig med att skapa en unik id för varje dropdown
+                    var dropdownId = $"project-dropdown-{project.Id}"; 
+                }
+                <button type="button" data-type="dropdown" data-target="#@dropdownId" class="btn-action">
                     <i class="fa-solid fa-ellipsis"></i>
                 </button>
-                <div id="project-dropdown" class="dropdown">
+                <div id="@dropdownId" class="dropdown">
                     <div class="dropdown-body">
                         <nav class="dropdown-actions">
-                            <a class="dropdown-action" href="#">
+                            <a class="dropdown-action btn-edit-project" data-project-id="@project.Id" data-pre-selected-users='@Html.Raw(Json.Serialize(project.Users))' >
                                 <i class="fa-duotone fa-solid fa-pen-to-square"></i>
                                 <span>Edit</span>
                             </a>
@@ -39,7 +40,7 @@
                         </nav>
                         <div class="divider"></div>
                         <nav class="dropdown-actions">
-                            <a class="dropdown-action trash" href="#">
+                            <a href="#" class="dropdown-action trash" data-project-id="@project.Id">
                                 <i class="fa-duotone fa-solid fa-trash"></i>
                                 <span>Delete</span>
                             </a>

@@ -4,6 +4,7 @@ using Business.Models.Project;
 using Business.Models.UserProfile;
 using Data.Entities;
 using Data.Repositories;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System.Diagnostics;
 
 namespace Business.Services;
@@ -13,7 +14,7 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
     private readonly ProjectsRepository _projectsRepository = projectsRepository;
     private readonly ProjectUsersRepository _projectsUsersRepository = projectsUsersRepository;
     private readonly ClientsRepository _clientsRepository = clientsRepository;
-    private readonly UsersProfileRepository usersProfileRepository = usersProfileRepository;
+    private readonly UsersProfileRepository _usersProfileRepository = usersProfileRepository;
 
 
     public async Task<ProjectForm> CreateAsync(ProjectRegistrationForm form)
@@ -59,7 +60,7 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
             var allProjects = await _projectsRepository.GetAllAsync();
             var clientNames = await _clientsRepository.GetAllAsync();
             var allProjectUsers = await _projectsUsersRepository.GetAllAsync();
-            var allUserProfiles = await usersProfileRepository.GetAllAsync();
+            var allUserProfiles = await _usersProfileRepository.GetAllAsync();
 
 
             var result = allProjects.Select(project =>
@@ -74,6 +75,8 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
                     .Select(up => new User
                     {
                         Id = up!.Id,
+                        FirstName = up.FirstName,
+                        LastName = up.LastName,
                         ProfilePicture = up.ProfilePicture,
                     }).ToList();
 
@@ -100,8 +103,27 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
     {
         try
         {
-            var project = await _projectsRepository.GetItemAsync(x => x.Id == id);
-            return project != null ? ProjectFactory.Create(project) : null;
+            var project = await _projectsRepository.GetItemAsync(x => x.Id == id) ?? throw new ArgumentNullException(nameof(id), "Project not found");
+            var projectForm = ProjectFactory.Create(project);
+
+            var members = await _projectsUsersRepository.GetAllAsync();
+            var allUserProfiles = await _usersProfileRepository.GetAllAsync();
+
+            var projectUsers = members
+                .Where(pu => pu.ProjectId == project!.Id)
+                .Select(pu => allUserProfiles.FirstOrDefault(up => up.Id == pu.UserId))
+                .Where(up => up != null)
+                .Select(up => new User
+                {
+                    Id = up!.Id,
+                    FirstName = up.FirstName,
+                    LastName = up.LastName,
+                    ProfilePicture = up.ProfilePicture,
+                }).ToList();
+
+
+            projectForm.Users = projectUsers;
+            return projectForm;
         }
         catch (Exception ex)
         {
@@ -114,17 +136,36 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
     {
         try
         {
-            await _projectsRepository.BeginTransactionAsync();
-            var findProject = await _projectsRepository.GetItemAsync(x => x.Id == id) ?? throw new ArgumentNullException(nameof(id), "Project not found");
+
+
+            var findProject = await _projectsRepository.GetItemAsync(x => x.Id == id)
+                ?? throw new ArgumentNullException(nameof(id), "Project not found");
+
             ProjectFactory.Update(findProject, updateForm);
             var updateProject = await _projectsRepository.UpdateAsync(x => x.Id == id, findProject);
+            await _projectsUsersRepository.ManyMemberDeleteAsync(x => x.ProjectId == id);
+            
+
+            if (updateForm.ProjectWithUsers?.Count > 0)
+            {
+                foreach (var userId in updateForm.ProjectWithUsers)
+                {
+                    Debug.WriteLine($"EKLENIYOR -> ProjectId: {id}, UserId: {userId}");
+                    var newMember = new ProjectUsersEntity
+                    {
+                        ProjectId = id,
+                        UserId = userId,
+                    };
+                    await _projectsUsersRepository.CreateAsync(newMember);
+                }
+            }
+
             var result = updateProject != null ? ProjectFactory.Create(updateProject) : null!;
-            await _projectsRepository.CommitTransactionAsync();
             return result;
         }
         catch (Exception ex)
         {
-            await _projectsRepository.RollbackTransactionAsync();
+
             Debug.WriteLine($"Project not updated, {ex.Message}");
             return null!;
         }
@@ -148,4 +189,6 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
             return false;
         }
     }
+
+    
 }

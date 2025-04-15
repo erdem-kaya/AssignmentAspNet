@@ -60,7 +60,7 @@ public class ProjectController(IProjectService projectService, IClientService cl
 
         var projectImg = Request.Form.Files["ProjectImage"];
         if (projectImg != null)
-            form.ProjectImage = await ImageUploadHelper.UploadAsync(projectImg, _environment); 
+            form.ProjectImage = await ImageUploadHelper.UploadAsync(projectImg, _environment);
 
         var result = await _projectService.CreateAsync(form);
         if (result != null)
@@ -70,5 +70,74 @@ public class ProjectController(IProjectService projectService, IClientService cl
             success = false,
             globalError = "Failed to create project"
         });
+    }
+
+    [HttpGet("edit/{id}")]
+    public async Task<IActionResult> UpdateProject(int id)
+    {
+        var project = await _projectService.GetProjectByIdAsync(id);
+        if (project == null)
+            return NotFound();
+
+        var clients = await _clientService.GetAllClientsAsync();
+        var clientList = clients.Select(c => new SelectListItem
+        {
+            Value = c.Id.ToString(),
+            Text = c.ClientName
+        }).ToList();
+
+        var viewModel = new ProjectUpdateFormViewModel
+        {
+            Id = project.Id,
+            ProjectName = project.ProjectName,
+            Description = project.Description,
+            StartDate = project.StartDate,
+            EndDate = project.EndDate,
+            Budget = project.Budget,
+            ProjectImage = project.ProjectImage,
+            ClientId = project.ClientId,
+            ProjectStatusId = project.ProjectStatusId,
+            ClientList = clientList,
+            ProjectWithUsersRaw = string.Join(",", project.Users.Select(u => u.Id)),
+            Users = project.Users,
+        };
+
+        return PartialView("~/Views/Shared/Partials/Components/ProjectsPartials/_UpdateProject.cshtml", viewModel);
+    }
+
+    [HttpPost("edit/{id}")]
+    public async Task<IActionResult> UpdateProject(int id, ProjectUpdateFormViewModel form)
+    {
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState
+                .Where(x => x.Value?.Errors.Count > 0)
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray());
+            return BadRequest(new { success = false, errors });
+        }
+
+        var projectImg = Request.Form.Files["ProjectImage"];
+        if (projectImg != null)
+            form.ProjectImage = await ImageUploadHelper.UploadAsync(projectImg, _environment);
+
+        var result = await _projectService.UpdateAsync(id, form);
+        if (result != null)
+            return RedirectToAction("ProjectsList");
+        return BadRequest(new
+        {
+            success = false,
+            globalError = "Failed to update project"
+        });
+    }
+
+    [HttpPost("delete/{id}")]
+    public async Task<IActionResult> DeleteProject(int id)
+    {
+        var result = await _projectService.DeleteAsync(id);
+        if (result)
+            return RedirectToAction("ProjectsList");
+        return BadRequest();
     }
 }

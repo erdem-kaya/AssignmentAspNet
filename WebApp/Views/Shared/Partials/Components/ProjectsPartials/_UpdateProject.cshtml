@@ -1,0 +1,111 @@
+﻿@model ProjectUpdateFormViewModel
+
+@{
+    ViewData["Title"] = "Update Project";
+}
+
+<div class="modal-header">
+    <h3>Update Project</h3>
+    <button type="button" class="btn-close" data-close="true"></button>
+</div>
+
+<form novalidate method="post" asp-action="UpdateProject" asp-controller="Project">
+    <input asp-for="Id" readonly type="hidden" />
+
+    <div class="image-previewer project-image">
+        <img src="@Model.ProjectImage" class="image-preview" />
+        <input type="file" asp-for="ProjectImage" accept="image/*" class="hide" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProjectName"></label>
+        <div class="field-group">
+            <input asp-for="ProjectName" />
+            <span asp-validation-for="ProjectName"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ClientId"></label>
+        <select asp-for="ClientId" asp-items="Model.ClientList">
+            <option>Select a client</option>
+        </select>
+    </div>
+
+    <!-- Jag har byggt den med Hans's video. Rich Text Editor -->
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <div class="wysiwyg-group">
+            <textarea id="update-description" class="hide" name="update-description" placeholder="Type something"></textarea>
+            <div id="update-project-wysiwyg-editor" class="update-wysiwyg-editor">@Model.Description</div>
+            <div id="update-project-wysiwyg-toolbar">
+                <span class="ql-formats">
+                    <button class="ql-bold"></button>
+                    <button class="ql-italic"></button>
+                    <button class="ql-underline"></button>
+                    <button class="ql-strike"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-align" value=""></button>
+                    <button class="ql-align" value="center"></button>
+                    <button class="ql-align" value="right"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-list" value="bullet"></button>
+                    <button class="ql-list" value="ordered"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-link"></button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group-together">
+        <div class="form-group">
+            <label asp-for="StartDate"></label>
+            <div class="field-group">
+                <input asp-for="StartDate" />
+                <span asp-validation-for="StartDate"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EndDate"></label>
+            <div class="field-group">
+                <input asp-for="EndDate" />
+                <span asp-validation-for="EndDate"></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="tagged-users-edit" class="field-group form-input form-tag-select">
+        <div id="tagged-user-list"></div> 
+
+        <input type="hidden" id="ProjectWithUsersRaw" name="ProjectWithUsersRaw" value="@Model.ProjectWithUsersRaw" />
+        <input type="text" id="user-search-edit" class="form-tag-input" placeholder="Add member" />
+        <label for="user-search-edit"></label>
+        <div id="user-search-results-edit" class="search-results"></div>
+        <span asp-validation-for="ProjectWithUsersRaw"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Budget"></label>
+        <div class="field-group budget">
+            <i class="fa-sharp fa-solid fa-dollar-sign"></i>
+            <input class="budget" asp-for="Budget" />
+            <span asp-validation-for="Budget"></span>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-submit">Create</button>
+</form>
+
+<script>
+    const preSelectedUsers = @Html.Raw(Json.Serialize(Model.Users.Select(u => new
+        {
+            id = u.Id,
+            fullName = (u.FirstName ?? "") + " " + (u.LastName ?? ""),
+            profilePicture = string.IsNullOrEmpty(u.ProfilePicture) ? "/images/avatar-default.svg" : u.ProfilePicture
+        })));
+</script>

@@ -10,8 +10,13 @@ function initTagSelector(config) {
     const results = document.getElementById(config.resultsId);
     const selectedInputIds = document.getElementById(config.selectedInputIds)
 
-    if (Array.isArray(config.preSelected)) {
-        config.preSelected.forEach(item => addTag(item));
+    if (config.preSelected) {
+        config.preSelected.forEach(user => {
+            if (!user.fullName || user.fullName.trim() === "") {
+                console.warn("User missing name:", user);
+            }
+            addTag(user);
+        });
     }
 
     input.addEventListener('focus', () => {
@@ -130,20 +135,14 @@ function initTagSelector(config) {
 
         if (selectedIds.includes(id)) return;
         selectedIds.push(id);
-        console.log("Selected IDs:", selectedIds);
-        console.log(id);
 
         const tag = document.createElement('div');
         tag.classList.add(config.tagClass || 'tag');
 
-        if (config.tagClass === 'user-tag') {
-            tag.innerHTML = `
-            <img class="user-avatar" src="${item[config.imageProperty]}">
-            <span>${item[config.displayProperty]}</span>
-        `;
-        } else {
-            tag.innerHTML = `<span>${item[config.displayProperty]}</span>`;
-        }
+        tag.innerHTML = `
+        <img class="user-avatar" src="${item[config.imageProperty]}">
+        <span>${item[config.displayProperty]}</span>
+    `;
 
         const removeBtn = document.createElement('span');
         removeBtn.textContent = '×';
@@ -165,7 +164,6 @@ function initTagSelector(config) {
 
         updateSelectedIdsInput();
     }
-
 
     function removeLastTag() {
         const tags = tagContainer.querySelectorAll(`.${config.tagClass}`);

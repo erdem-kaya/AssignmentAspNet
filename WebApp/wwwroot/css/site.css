@@ -699,6 +699,7 @@ textarea {
     left: 0;
     right: 0;
     bottom: 0;
+    z-index:1;
 }
 
     .modal .modal-content {
@@ -737,8 +738,9 @@ textarea {
     width: 550px;
 }
 
-
-
+#editProjectModal .modal-content {
+    width: 550px;
+}
 
 /* image-previewer */
 .hide {
@@ -995,6 +997,10 @@ table {
         border-radius: 50%;
     }
 
+    .project-image {
+        border-radius: 10px;
+    }
+
 /* wysiwyg - QUILL */
 .wysiwyg-group {
     margin-bottom: 2.5rem;
@@ -1003,6 +1009,7 @@ table {
     display: none;
 }
 
+#update-project-wysiwyg-editor,
 #project-wysiwyg-editor {
     z-index: 0;
     width: 100%;
@@ -1028,6 +1035,7 @@ table {
         border: 1px solid var(--form-input-border-focus-color);
     }
 
+#update-project-wysiwyg-toolbar
 #project-wysiwyg-toolbar {
     position: relative;
     border-radius: 0 0 13px 13px;
@@ -1138,8 +1146,11 @@ table {
     cursor: pointer;
     font-weight: bold;
 }
+#tagged-user-list {
+    display:flex;
+    gap: 0.3rem;
 
-
+}
 /* Dropdown */
 .dropdown {
     display: none;

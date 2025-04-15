@@ -1,5 +1,6 @@
 ﻿namespace WebApp.Helpers;
 
+//ChatGPT hjälpade mig att skriva denna kod
 public static class TimeExtensions
 {
     public static string ToRemainingTime(this DateTime endDate)
