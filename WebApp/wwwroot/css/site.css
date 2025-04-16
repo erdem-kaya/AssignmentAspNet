@@ -31,12 +31,12 @@
     /* yellow-color */
     --yellow-light: #FFF6C7;
     --yellow-semilight: #FFF3B4;
-    --yellow: #6C6102;
+    --yellow: #EFDF49;
     --yellow-dark: #8B7400;
     /* red-color */
     --red-light: #ffb0b0;
     --red-semilight: #FFB8A5;
-    --red: #DE3U34;
+    --red: #DE3344;
     --red-dark: #B83030;
     /* white-color */
     --white: #FFFFFF;
@@ -85,6 +85,13 @@
     --btn-hover-border-color: var(--white-100);
     --btn-message-backgroud-hover-color: var(--gray-200);
     --btn-message-color-hover: var(--dark-500);
+    --btn-account-text-color: var(--dark-400);
+    --btn-account-border-color: var(--transparent);
+    --btn-account-background-color: var(--transparent);
+    --btn-notification-text-color: var(--dark-400);
+    --btn-notification-text-hover-color: var(--dark-400);
+    --btn-notification-background-color: var(--transparent);
+    --btn-notification-background-hover-color: var(--blue-light-opacity);
     /* link-color */
     --link-color: var(--blue);
     --link-hover-color: var(--blue-dark);
@@ -112,6 +119,11 @@
     --form-error-message-text-color: var(--red-dark);
     --form-error-message-background-color: var(--red-light);
     --form-error-message-border-color: var(--red-light);
+    --form-search-input-background-color: var(--transparent);
+    --form-search-input-border-color: var(--transparent);
+    --form-search-input-text-color: var(--dark-400);
+    --form-search-input-border-focus-color: var(--blue-semilight);
+    --form-search-input-placeholder-color: var(--gray-600);
     /* notifications-color */
     --alert-notification-error-background-color: var(--red-light);
     --alert-notification-error-text-color: var(--red-dark);
@@ -139,7 +151,18 @@
     --dropdown-text-color: var(--dark-400);
     --dropdown-border-color: var(--white);
     --dropdown-background-color: var(--white);
+    /* Dot */
+    --dot-background-color: var(--white-200);
+    --dot-red-text-color: var(--red);
+    --dot-yellow-text-color: var(--yellow);
+    --dot-green-text-color: var(--green);
+    /* Header-Account-Notification */
+    --account-name-text-color: var(--dark-400);
+    --account-name-border-color: var(--white-200);
+    --account-name-background-color: var(--white-200);
+    --account-name-image-border-color: var(--white-100);
 }
+
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -258,12 +281,6 @@ header,
     padding: 1.5rem 2rem;
 }
 
-    .header .top {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 7rem;
-        align-items: center;
-    }
 
 aside,
 .aside {
@@ -338,9 +355,88 @@ a {
     align-items: center;
 }
 
-.buttons {
-    margin-top:2rem;
+/* HEADER -SEARCH - ACCOUNT - NOT.*/
+.header {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 4rem;
+    align-items: center;
+    padding-inline: 3rem;
 }
+
+/**/
+#notification-container {
+    position: relative;
+}
+
+    #notification-container .dropdown {
+        min-width: 350px;
+    }
+
+#account-container {
+    position: relative;
+}
+
+    #account-container .dropdown {
+        min-width: 350px;
+        width: 100%;
+    }
+
+    #account-container .account-name {
+        color: var(--account-name-text-color);
+        border: 2px solid var(--account-name-border-color);
+        background-color: var(--account-name-background-color);
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        width: 100%
+    }
+
+        #account-container .account-name img {
+            height: 40px;
+            width: 40px;
+            border: 2px solid var(--account-name-image-border-color);
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+    .form-search-input {
+        position: relative;
+        width: 100%;
+        min-height: 40px;
+        font-size: 1em;
+        font-weight: 400;
+        font-family: var(--font-standart);
+        color: var(--form-search-input-text-color);
+        padding: 0.5rem 1rem;
+        outline: none;
+        background-color: var(--form-search-input-background-color);
+        border: 1px solid var(--form-search-input-border-color) !important;
+        transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
+        border-radius: 0px !important;
+    }
+
+    .form-search-input:focus {
+        border-bottom: 1px solid var(--form-input-border-focus-color)!important;
+    }
+
+    .form-search-input::placeholder {
+        color: var(--form-input-placeholder-color);
+        font-size: 0.9em;
+    }
+
+ .search-form {
+     display: flex;
+     align-items: center;
+ }
+
+
+    .buttons {
+        margin-top: 2rem;
+    }
 
 .btn {
     cursor: pointer;
@@ -473,6 +569,74 @@ a {
         content: '\f00d';
         font-family: var(--font-fa-6);
     }
+
+.btn-account {
+    transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
+    background-color: var(--btn-account-background-color);
+    border: 2px solid var(--btn-account-border-color);
+    color: var(--btn-account-text-color);
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    position: relative;
+    cursor: pointer;
+}
+
+    .btn-account img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 40px;
+        width: 40px;
+        object-fit: contain;
+    }
+
+.btn-notification {
+    transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
+    background-color: var(--btn-notification-background-color);
+    border: 1px solid var(--btn-notification-border-color);
+    color: var(--btn-notification-text-color);
+    font-size: 1.4em;
+    position: relative;
+    z-index: 0;
+    cursor: pointer;
+    height: 40px;
+}
+
+    .btn-notification .dot {
+        display: none;
+        position: absolute;
+        right: 3px;
+        top: 4px;
+        z-index: 1;
+    }
+
+
+/* dot */
+.dot {
+    font-size: 0.5em;
+    padding: 2px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--dot-background-color);
+}
+
+    .dot.dot-red {
+        color: var(--dot-red-text-color);
+    }
+
+    .dot.dot-yellow {
+        color: var(--dot-yellow-text-color);
+    }
+
+    .dot.dot-green {
+        color: var(--dot-green-text-color);
+    }
+
+
+
 
 .alert-notification {
     padding: 0.5rem 1rem;
@@ -666,6 +830,7 @@ textarea {
     padding: 2rem;
     text-align: center;
     border-radius: 14px;
+    position: relative;
 }
 
     .card .card-body .card-header {
@@ -683,6 +848,7 @@ textarea {
     gap: 1.5rem;
     margin: 3rem 7rem;
 }
+
 
 
 
@@ -1164,6 +1330,24 @@ table {
     border-radius: 13px;
     box-shadow: var(--box-shadow);
 }
+
+    .dropdown .dropdown-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+    }
+
+    .dropdown .dropdown-body {
+        
+    }
+
+    .dropdown .dropdown-footer {
+       
+    }
+
+
+
     .dropdown .divider {
         margin: 1rem 0;
         width: 100%;
@@ -1201,4 +1385,81 @@ table {
 
     .dropdown.dropdown-show {
         display: block;
+    }
+
+
+    .dropdown .dropdown-options {
+        display: grid;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+     .dropdown .dropdown-options .dropdown-option {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem
+
+    }
+
+    /* divider */
+
+    .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+/* Switch */
+
+.switch-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+}
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--gray-600);
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 3px;
+        bottom: 3px;
+        background-color: var(--white);
+        transition: 0.4s;
+        border-radius: 50%;
+    }
+
+input:checked + .slider {
+    background-color: var(--blue);
+}
+
+    input:checked + .slider:before {
+        transform: translateX(18px);
     }

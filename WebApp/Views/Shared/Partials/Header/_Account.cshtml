@@ -1,0 +1,35 @@
+﻿<div id="account-container">
+    <button type="button" data-type="dropdown" class="btn-account" data-target="#account-dropdown">
+        <img src="~/Images/user-profile-man.svg" alt="Login user image" />
+    </button>
+    <div id="account-dropdown" class="dropdown">
+        <div class="dropdown-header">
+            <div class="account-name">
+                <img src="~/Images/user-profile-man.svg" alt="Login user image" />
+                <span>Erdem Kaya</span>
+            </div>
+        </div>
+        <div class="dropdown-body">
+            <nav class="dropdown-options">
+                <div class="dropdown-option">
+                    <label for="darkModeToggle" class="switch-label">
+                        <i class="fa-duotone fa-solid fa-cog"></i>
+                        <span>Dark Mode</span>
+                    </label>
+                    <label class="switch">
+                        <input type="checkbox" id="darkModeToggle" data-type="toggle" data-func="darkmode">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </nav>
+
+            <div class="divider"></div>
+            <nav class="dropdown-actions">
+                <a class="dropdown-action" type="button" asp-controller="Auth" asp-action="SignOutUser">
+                    <i class="fa-duotone fa-solid fa-right-from-bracket"></i>
+                    <span>Sign out</span>
+                </a>
+            </nav>
+        </div>
+    </div>
+</div>

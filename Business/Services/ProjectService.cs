@@ -150,7 +150,6 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
             {
                 foreach (var userId in updateForm.ProjectWithUsers)
                 {
-                    Debug.WriteLine($"EKLENIYOR -> ProjectId: {id}, UserId: {userId}");
                     var newMember = new ProjectUsersEntity
                     {
                         ProjectId = id,
