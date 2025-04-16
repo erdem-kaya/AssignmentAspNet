@@ -93,7 +93,6 @@ public class AuthController(IAuthService authService) : Controller
 
     }
 
-    
     public async Task<IActionResult> SignOutUser()
     {
         await _authService.SignOutAsync();
