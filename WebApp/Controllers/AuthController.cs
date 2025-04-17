@@ -110,9 +110,6 @@ public class AuthController(IAuthService authService, SignInManager<ApplicationU
             return View("SignInPage");
         }
 
-        Console.WriteLine("Provider: " + provider);
-        Console.WriteLine("ReturnUrl: " + returnUrl);
-
         var redirectUrl = Url.Action("ExternalSignInCallback", "Auth", new { returnUrl });
         var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         return Challenge(properties, provider);
@@ -138,28 +135,34 @@ public class AuthController(IAuthService authService, SignInManager<ApplicationU
         var signinResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
         if (signinResult.Succeeded)
         {
+            var existingUser = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+            if (existingUser != null) 
+            {
+                //Chatgpt hjälpe mig på att hämta användarens fullständiga namn och profilbild för Claim
+                var fullName = $"{info.Principal.FindFirstValue(ClaimTypes.GivenName)} {info.Principal.FindFirstValue(ClaimTypes.Surname)}";
+                var profilePicture = info.Principal.FindFirstValue("picture") ?? "/Images/avatar-default.svg";
+
+                var claims = await _userManager.GetClaimsAsync(existingUser);
+                if (!claims.Any(c => c.Type == "DisplayName"))
+                    await _userManager.AddClaimAsync(existingUser, new Claim("DisplayName", fullName));
+
+                if (!claims.Any(c => c.Type == "ProfilePicture"))
+                    await _userManager.AddClaimAsync(existingUser, new Claim("ProfileImage", profilePicture));
+            }
             return LocalRedirect(returnUrl);
         }
         else
         {
-            string firstName = string.Empty;
-            string lastName = string.Empty;
-
-            try
-            {
-                firstName = info.Principal.FindFirstValue(ClaimTypes.GivenName)!;
-                lastName = info.Principal.FindFirstValue(ClaimTypes.Surname)!;
-            }
-            catch { }
-
-
+            string firstName = info.Principal.FindFirstValue(ClaimTypes.GivenName) ?? "";
+            string lastName = info.Principal.FindFirstValue(ClaimTypes.Surname) ?? "";
             string email = info.Principal.FindFirstValue(ClaimTypes.Email)!;
-            string username = $"ext_{info.LoginProvider.ToLower()}_{email}";
+            string profilePicture = info.Principal.FindFirstValue("picture") ?? "/Images/avatar-default.svg";
 
+            string username = $"ext_{info.LoginProvider.ToLower()}_{email}";
             var user = new ApplicationUserEntity
             {
                 UserName = username,
-                Email = email,
+                Email = email
             };
 
             var identityResult = await _userManager.CreateAsync(user);
@@ -174,12 +177,14 @@ public class AuthController(IAuthService authService, SignInManager<ApplicationU
                     Address = "Address",
                     City = "City",
                     Birthday = DateTime.Now,
-                    ProfilePicture = "/Images/avatar-default.svg"
+                    ProfilePicture = profilePicture
                 };
-
                 await _authService.AddUserProfileAsync(userProfile);
 
                 await _userManager.AddLoginAsync(user, info);
+                await _userManager.AddClaimAsync(user, new Claim("DisplayName", $"{firstName} {lastName}"));
+                await _userManager.AddClaimAsync(user, new Claim("ProfileImage", profilePicture));
+
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return LocalRedirect(returnUrl);
             }
