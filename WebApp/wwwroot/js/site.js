@@ -65,6 +65,7 @@ function attachFormValidation(form) {
     });
 
     form.addEventListener("submit", async (e) => {
+        if (form.classList.contains("external-account")) return;
         e.preventDefault();
         clearErrorMessages(form);
 

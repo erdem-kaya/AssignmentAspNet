@@ -105,4 +105,10 @@ public class AuthService(UserManager<ApplicationUserEntity> userManager, SignInM
             }
         }
     }
+
+    public async Task AddUserProfileAsync(UsersProfileEntity usersProfile)
+    {
+        await _usersProfileRepository.CreateAsync(usersProfile);
+    }
 }
+

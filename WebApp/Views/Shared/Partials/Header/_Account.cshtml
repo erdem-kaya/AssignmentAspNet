@@ -1,8 +1,10 @@
-﻿@using System.Security.Claims
-
-@{
+﻿@{
     var displayName = User.Claims.FirstOrDefault(m => m.Type == "DisplayName")?.Value;
     var profilePicture = User.Claims.FirstOrDefault(c => c.Type == "ProfileImage")?.Value ?? "/Images/avatar-default.svg";
+    var provider = User?.FindFirstValue(ClaimTypes.AuthenticationMethod);
+    
+    if (string.IsNullOrEmpty(provider))
+        provider = "Local Identity"; 
 }
 
 
@@ -17,6 +19,7 @@
             <div class="account-name">
                 <img src="@Url.Content(profilePicture)" alt="Login user image" />
                 <span>@displayName</span>
+                <span class="identity">@provider</span>
             </div>
         </div>
         <div class="dropdown-body">

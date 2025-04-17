@@ -2,25 +2,35 @@
 
 @{
     Layout = "_Layout_CenterScreen";
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = Model?.Title ?? "Login";
 }
 
 <section id="login">
+    <h1>@ViewData["Title"]</h1>
+
+    @if (!string.IsNullOrEmpty(Model?.ErrorMessages))
+    {
+        <div class="alert-notification error">
+            @Model.ErrorMessages
+        </div>
+    }
+    else
+    {
+        <div class="alert-notification error" style="display:none;"></div>
+    }
+
+    <div class="form-group">
+        <partial name="Partials/Panel/_ExternalAuthenticationPartial" />
+    </div>
+
+     <div class="sign-in-or-divider">
+            <div class="or-divider"></div>
+            <span>OR</span>
+            <div class="or-divider"></div>
+     </div>
+
     <form asp-controller="Auth" asp-action="SignInPage" method="post" enctype="multipart/form-data" novalidate >
         
-        <h1>@ViewData["Title"]</h1>
-
-        @if (!string.IsNullOrEmpty(Model.ErrorMessages))
-        {
-            <div class="alert-notification error">
-                @Model.ErrorMessages
-            </div>
-        }
-        else
-        {
-            <div class="alert-notification error" style="display:none;"></div>
-        }
-
         <div class="form-group">
             <label asp-for="Email"></label>
             <div class="field-group">

@@ -387,7 +387,7 @@ a {
         border: 2px solid var(--account-name-border-color);
         background-color: var(--account-name-background-color);
         display: grid;
-        grid-template-columns: auto 1fr;
+        grid-template-columns: auto 1fr 1fr;
         align-items: center;
         gap: 0.5rem;
         padding: 0.5rem 1rem;
@@ -401,6 +401,16 @@ a {
             border: 2px solid var(--account-name-image-border-color);
             border-radius: 50%;
             object-fit: cover;
+        }
+
+        #account-container .account-name .identity {
+            font-size: 0.8rem;
+            font-weight: var(--font-extrabold);
+            background-color: var(--dark-opacity-20);
+            text-align: center;
+            padding: 0.3rem;
+            border-radius: 10px;
+            color: var(--btn-account-text-color);
         }
 
     .form-search-input {
@@ -610,6 +620,21 @@ a {
         right: 3px;
         top: 4px;
         z-index: 1;
+    }
+
+.btn-provider {
+    display: grid;
+    grid-template-columns: 1fr 20fr;
+    background-color: var(--gray-100);
+    color: var(--text-color);
+    font-weight: var(--font-semibold);
+    margin-top: 1rem;
+    width:100%;
+}
+
+    .btn.btn-provider:hover {
+        background-color: var(--gray-500);
+        color: var(--text-color);
     }
 
 
@@ -1411,8 +1436,25 @@ table {
     margin: 2rem 0;
 }
 
-/* Switch */
+.sign-in-or-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0;
+}
 
+
+    .sign-in-or-divider .or-divider {
+        height: 1px;
+        background-color: var(--gray-100);
+        width: 100%;
+    }
+
+    .sign-in-or-divider span {
+        padding-inline: 1rem;
+        color: var(--gray-600);
+    } 
+/* Switch */
 .switch-label {
     display: flex;
     align-items: center;

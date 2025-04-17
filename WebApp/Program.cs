@@ -4,6 +4,7 @@ using Data.Contexts;
 using Data.Entities;
 using Data.Interfaces;
 using Data.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,9 +26,6 @@ builder.Services.AddScoped<ClientsRepository>();
 builder.Services.AddScoped<ProjectsRepository>();
 builder.Services.AddScoped<ProjectUsersRepository>();
 
-
-
-
 builder.Services.AddIdentity<ApplicationUserEntity, IdentityRole>(y =>
     {
         y.User.RequireUniqueEmail = true;
@@ -42,6 +40,19 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.SlidingExpiration = true;
     x.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     x.Cookie.HttpOnly = true;
+    x.Cookie.SameSite = SameSiteMode.Lax;
+    x.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+});
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie()
+.AddGoogle(options =>
+{
+    options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
 });
 
 
