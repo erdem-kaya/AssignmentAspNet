@@ -21,6 +21,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUsersProfileService,  UsersProfileService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 /* Data -> Repositories*/
 builder.Services.AddScoped<UsersProfileRepository>();
