@@ -1,21 +1,23 @@
 ﻿using Business.Factories;
+using Business.Hubs;
 using Business.Interfaces;
 using Business.Models.Identity;
-using Business.Models.UserProfile;
 using Data.Entities;
 using Data.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using System.Diagnostics;
 using System.Security.Claims;
 
 
 namespace Business.Services;
 
-public class AuthService(UserManager<ApplicationUserEntity> userManager, SignInManager<ApplicationUserEntity> signInManager, UsersProfileRepository usersProfileRepository) : IAuthService
+public class AuthService(UserManager<ApplicationUserEntity> userManager, SignInManager<ApplicationUserEntity> signInManager, UsersProfileRepository usersProfileRepository, INotificationService notificationService) : IAuthService
 {
     private readonly UserManager<ApplicationUserEntity> _userManager = userManager;
     private readonly SignInManager<ApplicationUserEntity> _signInManager = signInManager;
     private readonly UsersProfileRepository _usersProfileRepository = usersProfileRepository;
+    private readonly INotificationService _notificationService = notificationService;
 
 
     public async Task<bool> SingUpAsync(SignUpForm form)
@@ -50,13 +52,13 @@ public class AuthService(UserManager<ApplicationUserEntity> userManager, SignInM
             if (result.Succeeded)
             {
                 var user = await _userManager.FindByEmailAsync(form.Email);
-                if (user != null) 
+                if (user != null)
                 { 
                     var userProfile = await _usersProfileRepository.GetItemAsync(u => u.Id == user.Id);
                     if (userProfile != null)
                     {
                         await AddClaimByEmailAsync(user, "DisplayName", $"{userProfile.FirstName} {userProfile.LastName}");
-                        
+
                         var profileImage = userProfile.ProfilePicture;
                         if (profileImage != null)
                         {
@@ -64,6 +66,13 @@ public class AuthService(UserManager<ApplicationUserEntity> userManager, SignInM
                         }
                         await _signInManager.SignInAsync(user, isPersistent: false);
                     }
+                    var notificationEntity = new NotificationEntity
+                    {
+                        Message = $"{user.UsersProfile?.FirstName} {user.UsersProfile?.LastName} signed in",
+                        NotificationTypeId = 1,
+                    };
+                    await _notificationService.AddNotificationAsync(notificationEntity, user.Id);
+                   
                 }
             }
 

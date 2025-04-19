@@ -702,7 +702,6 @@ a {
 }
 
     .btn-notification .dot {
-        display: none;
         position: absolute;
         right: 3px;
         top: 4px;

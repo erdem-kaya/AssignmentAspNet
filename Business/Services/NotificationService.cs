@@ -1,5 +1,8 @@
-﻿using Data.Contexts;
+﻿using Business.Hubs;
+using Business.Models.UserProfile;
+using Data.Contexts;
 using Data.Entities;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services;
@@ -11,42 +14,41 @@ namespace Business.Services;
 
 public interface INotificationService
 {
-    Task AddNotificationAsync(int notificationTypeId, string message, string image = null!, int notificationTargetGroup = 1);
+    Task AddNotificationAsync(NotificationEntity notificationEntity, string userId = "anonymous");
     Task DismissNotificationAsync(string notificationId, string userId);
     Task<IEnumerable<NotificationEntity>> GetNotificationsAsync(string userId, int take = 10);
 }
 
-public class NotificationService(DataContext context) : INotificationService
+public class NotificationService(DataContext context, IHubContext<NotificationHub> notificationHub) : INotificationService
 {
     private readonly DataContext _context = context;
+    private readonly IHubContext<NotificationHub> _notificationHub = notificationHub;
 
-    public async Task AddNotificationAsync(int notificationTypeId, string message, string image = null!, int notificationTargetGroup = 1)
+    public async Task AddNotificationAsync(NotificationEntity notificationEntity, string userId = "anonymous")
     {
-        if (string.IsNullOrEmpty(image))
+        if (string.IsNullOrEmpty(notificationEntity.Icon))
         {
-            switch (notificationTypeId)
+            switch (notificationEntity.NotificationTypeId)
             {
                 case 1:
-                    image = "~/WebApp/wwwroot/Images/avatar-default.svg";
+                    notificationEntity.Icon = "/Images/avatar-default.svg";
                     break;
                 case 2:
-                    image = "~/WebApp/wwwroot/Images/project-default.svg";
+                    notificationEntity.Icon = "/Images/project-default.svg";
                     break;
             }
         }
 
-        var notification = new NotificationEntity
-        {
-            NotificationTypeId = notificationTypeId,
-            TargetGroupId = notificationTargetGroup,
-            Message = message,
-            Icon = image,
-            CreatedAt = DateTime.UtcNow,
-
-        };
-
-        _context.Add(notification);
+        _context.Add(notificationEntity);
         await _context.SaveChangesAsync();
+
+        var notification = await GetNotificationsAsync(userId);
+        var newNotification = notification.OrderByDescending(x => x.CreatedAt).FirstOrDefault();
+
+        if (newNotification != null)
+        {
+            await _notificationHub.Clients.All.SendAsync("AllReceiveNotification", newNotification);
+        }
     }
 
 
@@ -75,11 +77,12 @@ public class NotificationService(DataContext context) : INotificationService
         {
             var dismissed = new NotificationDismissedEntity
             {
-                NotificationId = notificationId,
                 UserId = userId,
+                NotificationId = notificationId, 
             };
             _context.Add(dismissed);
             await _context.SaveChangesAsync();
         }
+
     }
 }

@@ -2,12 +2,11 @@ using Business.Interfaces;
 using Business.Services;
 using Data.Contexts;
 using Data.Entities;
-using Data.Interfaces;
 using Data.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Hubs;
+using Business.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
