@@ -40,7 +40,7 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.SlidingExpiration = true;
     x.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     x.Cookie.HttpOnly = true;
-    x.Cookie.SameSite = SameSiteMode.Lax;
+    x.Cookie.SameSite = SameSiteMode.None;
     x.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 

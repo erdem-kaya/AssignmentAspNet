@@ -36,7 +36,7 @@
     /* red-color */
     --red-light: #ffb0b0;
     --red-semilight: #FFB8A5;
-    --red: #DE3344;
+    --red: #FF6640;
     --red-dark: #B83030;
     /* white-color */
     --white: #FFFFFF;
@@ -161,6 +161,18 @@
     --account-name-border-color: var(--white-200);
     --account-name-background-color: var(--white-200);
     --account-name-image-border-color: var(--white-100);
+    /* badge */
+    --badge-red-text-color: var(--white-100);
+    --badge-red-border-color: var(--white-100);
+    --badge-red-background-color: var(--red);
+    /* badge - yellow */
+    --badge-yellow-text-color: var(--dark-400);
+    --badge-yellow-border-color: var(--white-100);
+    --badge-yellow-background-color: var(--yellow);
+    /* badge - green */
+    --badge-green-text-color: var(--white-100);
+    --badge-green-border-color: var(--white-100);
+    --badge-green-background-color: var(--green);
 }
 
 
@@ -370,8 +382,83 @@ a {
 }
 
     #notification-container .dropdown {
-        min-width: 350px;
+        min-width: 450px;
+        width: 100%;
     }
+
+#notification-dropdown .dropdown-header span {
+    font-size: 1.5rem;
+    font-weight: var(--font-semibold);
+}
+#notification-dropdown .dropdown-header {
+    margin: 0.5rem 0.5rem 0;
+}
+
+#notification-dropdown .notifications .notification {
+    color: var(--account-name-text-color);
+
+    
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "img message btn" "img time btn";
+    align-items: center;
+    column-gap: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    width: 100%
+}
+
+    #notification-dropdown .notifications .notification:hover {
+        background-color: var(--account-name-background-color);
+        border: 2px solid var(--account-name-border-color);
+        cursor: pointer;
+    }
+
+    #notification-dropdown .notifications .notification img {
+        height: 56px;
+        width: 56px;
+    }
+
+    #notification-dropdown .notifications .notification .user-image {
+        grid-area: img;
+        border-radius: 50%;
+        overflow: hidden;
+        height: 56px;
+        width: 56px;
+        border: 2px solid var(--account-name-image-border-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #notification-dropdown .notifications .notification .project-image {
+        grid-area: img;
+        border-radius: 13px;
+        height: 56px;
+        width: 56px;
+        border: 2px solid var(--account-name-image-border-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #notification-dropdown .notifications .notification .message {
+        grid-area: message;
+        color: var(--text-color);
+    }
+
+    #notification-dropdown .notifications .notification .time {
+        grid-area: time;
+        font-size: 0.9em;
+        color: var(--text-extra-muted-color);
+    }
+
+    #notification-dropdown .notifications .notification .btn-close {
+        grid-area: btn;
+        font-size: 1.2rem;
+    }
+
+    
 
 #account-container {
     position: relative;
@@ -661,7 +748,21 @@ a {
         color: var(--dot-green-text-color);
     }
 
+.badge {
+    border-radius: 13px;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8em;
+    font-weight: var(--font-semibold);
+    font-family: var(--font-standart);
+    font-style: normal;
+}
+.badge.badge-red {
+    background-color: var(--badge-red-background-color);
+    color: var(--badge-red-text-color);
+    border: 1px solid var(--badge-red-border-color);
 
+
+}
 
 
 .alert-notification {

@@ -5,8 +5,23 @@
     </button>
     <div id="notification-dropdown" class="dropdown">
         <div class="dropdown-header">
-            <h4>Notifications</h4>
-            <div class="number-of-notifications">0</div>
+            <span>Notifications</span>
+            <div class="badge badge-red">99</div>
+        </div>
+
+        <div class="divider"></div>
+       
+        <div class="notifications">
+            <div class="notification">
+                <div class="user-image">
+                    <img class="user-image" src="~/Images/user-profile-man.svg" alt="Alternate Text" />
+                </div>
+                <span class="message">Erdem Kaya signed in.</span>
+                <span class="time">10 min ago</span>
+                <button class="btn-close" onclick="dissmissNotification()"></button>
+            </div>
+
+
         </div>
     </div>
 </div>
