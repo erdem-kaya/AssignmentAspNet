@@ -1,31 +1,56 @@
-﻿
-@model IEnumerable<User>
-
+﻿@model IEnumerable<User>
 
 @foreach (var users in Model)
 {
 <div class="card">
     <div class="card-body">
         <div class="card-header">
-                <button type="button" class="btn-edit" data-modal="true" data-target="#editUserProfileModal" data-user-id="@users.Id"></button>
-                <label type="hidden"></label>
-        </div>
-   
-            <div class="member">
-                <div class="image">
-                    <img src="@(string.IsNullOrWhiteSpace(users.ProfilePicture) || users.ProfilePicture == "NULL"
-                                    ? "/images/user-profile-man.svg"
-                                    : users.ProfilePicture)" 
-                    alt="user" 
-                    class="profile-image">
-                </div>
-                <div class="full-name">@users.FirstName @users.LastName</div>
-                <div class="jobtitle">@users.JobTitle</div>
-                <div class="email">@users.Email</div>
-                <div class="phone">@users.PhoneNumber</div>
-                <button class="btn-message">Message</button>
+            <div id="user-actions-container">
+                    @{
+                        var dropdownId = $"user-dropdown-{users.Id}";
+                    }
+                    <button type="button" data-type="dropdown" data-target="#@dropdownId" class="btn-action">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </button>
             </div>
-
+            <div id="@dropdownId" class="dropdown">
+                <div class="dropdown-body">
+                    <nav class="dropdown-actions">
+                        <a class="dropdown-action btn-edit-user" data-target="#editUserProfileModal" data-modal="true" data-user-id="@users.Id">
+                            <i class="fa-duotone fa-solid fa-pen-to-square"></i>
+                            <span>Edit</span>
+                        </a>
+                    </nav>
+                    <nav class="dropdown-actions">
+                        <a class="dropdown-action" href="#">
+                            <i class="fa-duotone fa-solid fa-user-plus"></i>
+                            <span>Add Role</span>
+                        </a>
+                    </nav>
+                    <div class="divider"></div>
+                    <nav class="dropdown-actions">
+                            <a href="#" class="dropdown-action trash user-delete" data-user-id="@users.Id">
+                            <i class="fa-duotone fa-solid fa-trash"></i>
+                            <span>Delete</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="member">
+            <div class="image">
+                <img src="@(string.IsNullOrWhiteSpace(users.ProfilePicture) || users.ProfilePicture == "NULL"
+                                ? "/images/user-profile-man.svg"
+                                : users.ProfilePicture)" 
+                alt="user" 
+                class="profile-image">
+            </div>
+            <div class="full-name">@users.FirstName @users.LastName</div>
+            <div class="jobtitle">@users.JobTitle</div>
+            <div class="email">@users.Email</div>
+            <div class="phone">@users.PhoneNumber</div>
+            <button class="btn-message">Message</button>
+        </div>
     </div>
 </div>
 }

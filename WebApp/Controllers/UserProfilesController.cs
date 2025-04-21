@@ -114,7 +114,7 @@ public class UserProfilesController(IUsersProfileService userProfileService, IWe
         });
     }
 
-    [HttpPost("{id}")]
+    [HttpPost("delete/{id}")]
     public async Task<IActionResult> DeleteUser(string id)
     {
         var result = await _userProfileService.DeleteUserProfileAsync(id);

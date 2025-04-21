@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     //  DYNAMIC UPDATE FORMS 
-    document.querySelectorAll(".btn-edit").forEach(button => {
+    document.querySelectorAll(".btn-edit-user").forEach(button => {
         button.addEventListener("click", () => {
             const userId = button.dataset.userId;
             const modal = document.querySelector("#editUserProfileModal");
@@ -372,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-document.querySelectorAll(".dropdown-action.trash").forEach(btn => {
+document.querySelectorAll(".dropdown-action.trash.project-delete").forEach(btn => {
     btn.addEventListener("click", (e) => {
         e.preventDefault();
         const id = btn.dataset.projectId;
@@ -385,6 +385,25 @@ document.querySelectorAll(".dropdown-action.trash").forEach(btn => {
                     location.reload();
                 } else {
                     alert("Failed to delete project.");
+                }
+            });
+        }
+    });
+});
+
+document.querySelectorAll(".dropdown-action.trash.user-delete").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const id = btn.dataset.userId;
+
+        if (confirm("Are you sure you want to delete this user?")) {
+            fetch(`/users/delete/${id}`, {
+                method: 'POST'
+            }).then(res => {
+                if (res.ok) {
+                    location.reload();
+                } else {
+                    alert("Failed to delete user.");
                 }
             });
         }

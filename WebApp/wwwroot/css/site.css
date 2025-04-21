@@ -975,6 +975,11 @@ textarea {
     margin: 3rem 7rem;
 }
 
+    #users .dropdown {
+        top: 15% !important;
+        right: 9%;
+        box-shadow: 0 0 2px 2px rgba(137, 137, 137, 0.3);
+    }
 
 
 
