@@ -1267,10 +1267,20 @@ table {
 }
 
 .project-card .project-card-footer {
-    display: flex;
-    align-items:center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
 }
+
+    .project-card .project-card-footer .project-status-view {
+        background-color: var(--gray-200);
+        padding: 0.5rem;
+        border-radius: 7px;
+    }
+
+
 
     .project-card .project-card-footer .project-time {
         background-color: var(--gray-200);

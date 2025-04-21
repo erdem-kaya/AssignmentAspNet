@@ -63,6 +63,11 @@
                 <i class="fa-duotone fa-solid fa-clock"></i>
                 <span class="">@project.EndDate.ToRemainingTime()</span>
             </div>
+            <div class="project-status-view">
+                <i class="fa-duotone fa-solid fa-circle-info" ></i>
+                <span class="status">@project.ProjectStatusName</span>
+            </div>
+
             <div class="project-members">
                 @foreach (var member in project.Users)
                 {

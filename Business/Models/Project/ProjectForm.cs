@@ -29,6 +29,8 @@ public class ProjectForm
     [Display(Name = "Project status", Prompt = "Select a project status")]
     public int ProjectStatusId { get; set; }
 
+    public string? ProjectStatusName { get; set; }
+
     [Required(ErrorMessage = "Required")]
     [Display(Name = "Client", Prompt = "Select a client")]
     public int ClientId { get; set; }

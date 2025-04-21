@@ -61,6 +61,7 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
             // Jag gillar inte den här kodstrukturen ... det skulle vara renare att skriva en separat anpassad klass. Jag ska titta på detta senare.
             var allProjects = await _projectsRepository.GetAllAsync();
             var clientNames = await _clientsRepository.GetAllAsync();
+            var allProjectStatus = await _projectStatusRepository.GetAllAsync();
             var allProjectUsers = await _projectsUsersRepository.GetAllAsync();
             var allUserProfiles = await _usersProfileRepository.GetAllAsync();
 
@@ -86,6 +87,12 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
                 if (client != null)
                 {
                     projectForm.ClientName = client.ClientName;
+                }
+
+                var projectStatus = allProjectStatus.FirstOrDefault(ps => ps.Id == project.ProjectStatusId);
+                if (projectStatus != null)
+                {
+                    projectForm.ProjectStatusName = projectStatus.StatusName;
                 }
 
                 projectForm.Users = projectUsers;
@@ -122,6 +129,7 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
                     LastName = up.LastName,
                     ProfilePicture = up.ProfilePicture,
                 }).ToList();
+
 
 
             projectForm.Users = projectUsers;
