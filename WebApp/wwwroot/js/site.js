@@ -283,6 +283,30 @@ document.querySelectorAll(".btn-edit-project").forEach(button => {
     });
 });
 
+document.querySelectorAll(".btn-edit-status").forEach(button => {
+    button.addEventListener("click", () => {
+        const projectId = button.dataset.projectId;
+        const modal = document.querySelector("#editProjectStatusModal");
+        const content = modal.querySelector(".modal-content");
+
+        fetch(`/projects/status/${projectId}`)
+            .then(res => res.text())
+            .then(html => {
+                content.innerHTML = html;
+                modal.style.display = "flex";
+
+                const form = modal.querySelector("form");
+                attachFormValidation(form);
+                attachModalClose(modal);
+            })
+            .catch(err => {
+                content.innerHTML = "<p>Error loading form.</p>";
+                modal.style.display = "flex";
+                console.error(err);
+            });
+    });
+});
+
 // IMAGE PREVIEW FUNCTIONS 
 async function loadImage(file) {
     return new Promise((resolve, reject) => {

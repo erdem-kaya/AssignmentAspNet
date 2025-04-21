@@ -1,4 +1,5 @@
 ﻿using Business.Models.Project;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Business.Interfaces
 {
@@ -9,5 +10,6 @@ namespace Business.Interfaces
         Task<IEnumerable<ProjectForm>> GetAllProjectsAsync();
         Task<ProjectForm?> GetProjectByIdAsync(int id);
         Task<ProjectForm> UpdateAsync(int id, ProjectUpdateForm updateForm);
+        Task<List<SelectListItem>> GetProjectStatusAsync();
     }
 }

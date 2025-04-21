@@ -27,6 +27,7 @@ builder.Services.AddScoped<UsersProfileRepository>();
 builder.Services.AddScoped<ClientsRepository>();
 builder.Services.AddScoped<ProjectsRepository>();
 builder.Services.AddScoped<ProjectUsersRepository>();
+builder.Services.AddScoped<ProjectStatusRepository>();
 
 builder.Services.AddIdentity<ApplicationUserEntity, IdentityRole>(y =>
     {

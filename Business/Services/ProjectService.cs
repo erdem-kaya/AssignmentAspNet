@@ -4,17 +4,19 @@ using Business.Models.Project;
 using Business.Models.UserProfile;
 using Data.Entities;
 using Data.Repositories;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Diagnostics;
 
 namespace Business.Services;
 
-public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersRepository projectsUsersRepository, ClientsRepository clientsRepository, UsersProfileRepository usersProfileRepository) : IProjectService
+public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersRepository projectsUsersRepository, ClientsRepository clientsRepository, UsersProfileRepository usersProfileRepository, ProjectStatusRepository projectStatusRepository) : IProjectService
 {
     private readonly ProjectsRepository _projectsRepository = projectsRepository;
     private readonly ProjectUsersRepository _projectsUsersRepository = projectsUsersRepository;
     private readonly ClientsRepository _clientsRepository = clientsRepository;
     private readonly UsersProfileRepository _usersProfileRepository = usersProfileRepository;
+    private readonly ProjectStatusRepository _projectStatusRepository = projectStatusRepository;
 
 
     public async Task<ProjectForm> CreateAsync(ProjectRegistrationForm form)
@@ -144,7 +146,7 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
             ProjectFactory.Update(findProject, updateForm);
             var updateProject = await _projectsRepository.UpdateAsync(x => x.Id == id, findProject);
             await _projectsUsersRepository.ManyMemberDeleteAsync(x => x.ProjectId == id);
-            
+
 
             if (updateForm.ProjectWithUsers?.Count > 0)
             {
@@ -189,5 +191,18 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
         }
     }
 
-    
+
+    public async Task<List<SelectListItem>> GetProjectStatusAsync()
+    {
+        var statusList = await _projectStatusRepository.GetAllAsync();
+
+        return statusList
+            .Select(status => new SelectListItem
+            {
+                Value = status.Id.ToString(),
+                Text = status.StatusName
+            })
+            .ToList();
+    }
+
 }

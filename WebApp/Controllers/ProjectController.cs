@@ -140,4 +140,23 @@ public class ProjectController(IProjectService projectService, IClientService cl
             return RedirectToAction("ProjectsList");
         return BadRequest();
     }
+
+
+    [HttpGet("status/{id}")]
+    public async Task<IActionResult> StatusProject(int id)
+    {
+        var project = await _projectService.GetProjectByIdAsync(id);
+        if (project == null)
+            return NotFound();
+
+        var statusList = await _projectService.GetProjectStatusAsync();
+
+        var viewModel = new ProjectStatusUpdateViewModel
+        {
+            Id = project.Id,
+            ProjectStatusId = project.ProjectStatusId,
+            ProjectStatusList = statusList
+        };
+        return PartialView("~/Views/Shared/Partials/Components/ProjectsPartials/_ProjectStatusEdit.cshtml", viewModel);
+    }
 }

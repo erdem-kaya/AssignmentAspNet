@@ -1,0 +1,14 @@
+﻿@model ProjectStatusUpdateViewModel
+
+@{
+    ViewData["Title"] = "Project Status";
+}
+
+<form method="post" asp-action="StatusProject" asp-route-id="@Model.Id">
+    <h2>Project Status</h2>
+    <div class="form-group">
+        <label for="ProjectStatusId"></label>
+        <select asp-for="ProjectStatusId" asp-items="Model.ProjectStatusList" class="form-control"></select>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Status</button>
+</form>
