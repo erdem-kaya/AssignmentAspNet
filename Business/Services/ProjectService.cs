@@ -5,18 +5,18 @@ using Business.Models.UserProfile;
 using Data.Entities;
 using Data.Repositories;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.Metadata;
 using System.Diagnostics;
 
 namespace Business.Services;
 
-public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersRepository projectsUsersRepository, ClientsRepository clientsRepository, UsersProfileRepository usersProfileRepository, ProjectStatusRepository projectStatusRepository) : IProjectService
+public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersRepository projectsUsersRepository, ClientsRepository clientsRepository, UsersProfileRepository usersProfileRepository, ProjectStatusRepository projectStatusRepository, INotificationService notificationService) : IProjectService
 {
     private readonly ProjectsRepository _projectsRepository = projectsRepository;
     private readonly ProjectUsersRepository _projectsUsersRepository = projectsUsersRepository;
     private readonly ClientsRepository _clientsRepository = clientsRepository;
     private readonly UsersProfileRepository _usersProfileRepository = usersProfileRepository;
     private readonly ProjectStatusRepository _projectStatusRepository = projectStatusRepository;
+    private readonly INotificationService _notificationService = notificationService;
 
 
     public async Task<ProjectForm> CreateAsync(ProjectRegistrationForm form)
@@ -43,6 +43,19 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
                     var projectUserResult = await _projectsUsersRepository.CreateAsync(projectUser);
                 }
             }
+
+            // Om projectet skapades om användaren är en admin, skicka en notifikation till admins
+            var notification = new NotificationEntity
+            {
+                Message = $"A new project '{form.ProjectName}' has been created.",
+                CreatedAt = DateTime.Now,
+                NotificationTypeId = 2,
+                TargetGroupId = 2,
+            };
+            await _notificationService.AddNotificationAsync(notification, "admin");
+
+
+
             await _projectsRepository.CommitTransactionAsync();
             return result != null ? ProjectFactory.Create(result) : null!;
         }
@@ -218,7 +231,7 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
         try
         {
             var project = await _projectsRepository.GetItemAsync(x => x.Id == projectId) ?? throw new ArgumentNullException(nameof(projectId), "Project not found");
-            
+
             project.ProjectStatusId = statusId;
             await _projectsRepository.UpdateAsync(x => x.Id == projectId, project);
             return true;

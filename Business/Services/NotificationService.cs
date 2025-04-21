@@ -4,6 +4,7 @@ using Data.Contexts;
 using Data.Entities;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Business.Services;
 
@@ -17,6 +18,7 @@ public interface INotificationService
     Task AddNotificationAsync(NotificationEntity notificationEntity, string userId = "anonymous");
     Task DismissNotificationAsync(string notificationId, string userId);
     Task<IEnumerable<NotificationEntity>> GetNotificationsAsync(string userId, int take = 10);
+    Task<List<string>> GetAdminUserIdsAsync();
 }
 
 public class NotificationService(DataContext context, IHubContext<NotificationHub> notificationHub) : INotificationService
@@ -42,28 +44,63 @@ public class NotificationService(DataContext context, IHubContext<NotificationHu
         _context.Add(notificationEntity);
         await _context.SaveChangesAsync();
 
-        var notification = await GetNotificationsAsync(userId);
-        var newNotification = notification.OrderByDescending(x => x.CreatedAt).FirstOrDefault();
+        var adminsNotification = await _context.Notifications
+            .OrderByDescending(x => x.CreatedAt)
+            .FirstOrDefaultAsync();
 
-        if (newNotification != null)
+        if (adminsNotification != null) 
         {
-            await _notificationHub.Clients.All.SendAsync("AllReceiveNotification", newNotification);
-        }
+            var adminUserIds = await GetAdminUserIdsAsync();
+            foreach (var adminUserId in adminUserIds)
+            {
+
+                await _notificationHub.Clients.User(adminUserId).SendAsync("AdminReceiveNotification", new
+                {
+                    id = adminsNotification.Id,
+                    icon = adminsNotification.Icon,
+                    message = adminsNotification.Message,
+                    created = adminsNotification.CreatedAt,
+                    notificationTypeId = adminsNotification.NotificationTypeId
+                });
+            }
+        }     
     }
 
 
     public async Task<IEnumerable<NotificationEntity>> GetNotificationsAsync(string userId, int take = 10)
     {
+        //ChatGpt hjälpte mig med denna kod
+
+        var userRoles = await _context.UserRoles
+            .Where(x => x.UserId == userId)
+            .Select(x => x.RoleId)
+            .ToListAsync();
+
+        var isAdmin = await _context.Roles
+            .Where(x => userRoles.Contains(x.Id))
+            .AnyAsync(x => x.Name == "Admin");
+
         var dismissedIds = await _context.DismissedNotifications
              .Where(x => x.UserId == userId)
              .Select(x => x.NotificationId)
              .ToListAsync();
 
-        var notifications = await _context.Notifications
-            .Where(x => !dismissedIds.Contains(x.Id))
-            .OrderByDescending(x => x.CreatedAt)
-            .Take(take)
-            .ToListAsync();
+
+        var queryResult = _context.Notifications.Where(x => !dismissedIds.Contains(x.Id));
+
+        if (!isAdmin)
+        {
+            queryResult = queryResult.Where(x => x.TargetGroupId == 1);
+        }
+        else
+        {
+            queryResult = queryResult.Where(x => x.TargetGroupId == 2);
+        }
+
+        var notifications = await queryResult
+         .OrderByDescending(x => x.CreatedAt)
+         .Take(take)
+         .ToListAsync();
 
         return notifications;
     }
@@ -84,5 +121,18 @@ public class NotificationService(DataContext context, IHubContext<NotificationHu
             await _context.SaveChangesAsync();
         }
 
+    }
+
+
+    public async Task<List<string>> GetAdminUserIdsAsync()
+    {
+        var adminRole = await _context.Roles.FirstOrDefaultAsync(role => role.Name == "Admin");
+        if (adminRole == null) return [];
+
+
+        return await _context.UserRoles
+            .Where(ur => ur.RoleId == adminRole.Id)
+            .Select(ur => ur.UserId)
+            .ToListAsync();
     }
 }

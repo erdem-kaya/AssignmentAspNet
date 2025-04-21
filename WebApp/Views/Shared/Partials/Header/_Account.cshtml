@@ -3,9 +3,13 @@
     var profilePicture = User.Claims.FirstOrDefault(c => c.Type == "ProfileImage")?.Value ?? "/Images/avatar-default.svg";
     var provider = User?.FindFirstValue(ClaimTypes.AuthenticationMethod);
     var role = User?.FindFirstValue(ClaimTypes.Role) ?? "User";
-    
+    var email = User?.FindFirstValue(ClaimTypes.Email);
+
     if (string.IsNullOrEmpty(provider))
-        provider = "Local Identity"; 
+        provider = "Local Identity";
+
+    if (string.IsNullOrEmpty(displayName))
+        displayName = email;
 }
 
 <div id="account-container">
@@ -19,7 +23,7 @@
                 <span>@displayName</span>
             </div>
             <div class="account-details">
-                <span class="role">Role: <strong>@role</strong></span>
+                <span class="role">Current Role: <strong>@role</strong></span>
                 <span class="identity">@provider</span>
             </div>
         </div>

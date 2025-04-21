@@ -431,7 +431,7 @@ a {
         align-items: center;
     }
 
-    #notification-dropdown .notifications .notification .project-image {
+    #notification-dropdown .notifications .notification .project-image-notification {
         grid-area: img;
         border-radius: 13px;
         height: 56px;

@@ -67,6 +67,31 @@
         updateNotificationCount()
     })
 
+    //ChatGpt hjälpte mig for denna
+    connection.on("AdminReceiveNotification", function(adminNotification) {
+        const imageClass = adminNotification.notificationTypeId === 2
+            ? "project-image-notification"
+            : "user-image";
+
+        const notifications = document.querySelector('.notifications');
+
+        const item = document.createElement('div');
+        item.className = 'notification';
+        item.setAttribute('data-id', adminNotification.id);
+        item.innerHTML = `
+            <div class="${imageClass}">
+                <img class="${imageClass}" src="${adminNotification.icon}" alt="Alternate Text" />
+            </div>
+            <span class="message">${adminNotification.message}</span>
+            <span class="time" data-created="${new Date(adminNotification.created).toISOString()}">${adminNotification.created}</span>
+            <button class="btn-close" onclick="dissmissNotification('${adminNotification.id}')"></button>
+        `;
+
+        notifications.insertBefore(item, notifications.firstChild);
+        updateRelativeTimes();
+        updateNotificationCount();
+    });
+
     connection.on("NotificationDismissed", function(notificationId) {
         const element = document.querySelector(`.notification[data-id="${notificationId}"]`)
         if (element) {
