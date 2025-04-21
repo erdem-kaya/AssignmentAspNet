@@ -4,8 +4,11 @@
     ViewData["Title"] = "Project Status";
 }
 
+<div class="modal-header">
+    <h3>Update Status</h3>
+    <button type="button" class="btn-close" data-close="true"></button>
+</div>
 <form method="post" asp-action="StatusProject" asp-route-id="@Model.Id">
-    <h2>Project Status</h2>
     <div class="form-group">
         <label for="ProjectStatusId"></label>
         <select asp-for="ProjectStatusId" asp-items="Model.ProjectStatusList" class="form-control"></select>

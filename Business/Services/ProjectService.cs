@@ -205,4 +205,21 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
             .ToList();
     }
 
+    public async Task<bool> UpdateProjectStatusAsync(int projectId, int statusId)
+    {
+        try
+        {
+            var project = await _projectsRepository.GetItemAsync(x => x.Id == projectId) ?? throw new ArgumentNullException(nameof(projectId), "Project not found");
+            
+            project.ProjectStatusId = statusId;
+            await _projectsRepository.UpdateAsync(x => x.Id == projectId, project);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error updating project status, {ex.Message}");
+            return false;
+        }
+    }
+
 }

@@ -11,5 +11,6 @@ namespace Business.Interfaces
         Task<ProjectForm?> GetProjectByIdAsync(int id);
         Task<ProjectForm> UpdateAsync(int id, ProjectUpdateForm updateForm);
         Task<List<SelectListItem>> GetProjectStatusAsync();
+        Task<bool> UpdateProjectStatusAsync(int projectId, int statusId);
     }
 }

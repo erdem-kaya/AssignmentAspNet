@@ -1039,6 +1039,9 @@ textarea {
     width: 550px;
 }
 
+#editProjectStatusModal .modal-content {
+    width: 400px;
+}
 /* image-previewer */
 .hide {
     display: none;
@@ -1298,6 +1301,21 @@ table {
         border-radius: 10px;
     }
 
+
+#editProjectStatusModal button {
+    width: 100%;
+    margin-top: 3rem;
+}
+
+#editProjectStatusModal .modal-header {
+    display:grid;
+    grid-template-columns: 1fr auto;
+
+}
+
+#editProjectStatusModal .modal-header button {
+    margin-top:0;
+}
 /* wysiwyg - QUILL */
 .wysiwyg-group {
     margin-bottom: 2.5rem;

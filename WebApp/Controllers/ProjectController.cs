@@ -159,4 +159,33 @@ public class ProjectController(IProjectService projectService, IClientService cl
         };
         return PartialView("~/Views/Shared/Partials/Components/ProjectsPartials/_ProjectStatusEdit.cshtml", viewModel);
     }
+
+    [HttpPost("status/{id}")]
+    public async Task<IActionResult> StatusProject(int id, ProjectStatusUpdateViewModel form)
+    {
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState
+                .Where(x => x.Value?.Errors.Count > 0)
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray());
+            return BadRequest(new { success = false, errors });
+        }
+        
+        var project = await _projectService.GetProjectByIdAsync(id);
+        if (project == null)
+            return NotFound();
+
+        project.ProjectStatusId = form.ProjectStatusId;
+        var update = await _projectService.UpdateProjectStatusAsync(id, form.ProjectStatusId);
+        if (!update)
+            return BadRequest(new
+            {
+                success = false,
+                globalError = "Failed to update project status"
+            });
+
+        return RedirectToAction("ProjectsList");
+    }
 }
