@@ -2,6 +2,7 @@
     var displayName = User.Claims.FirstOrDefault(m => m.Type == "DisplayName")?.Value;
     var profilePicture = User.Claims.FirstOrDefault(c => c.Type == "ProfileImage")?.Value ?? "/Images/avatar-default.svg";
     var provider = User?.FindFirstValue(ClaimTypes.AuthenticationMethod);
+    var role = User?.FindFirstValue(ClaimTypes.Role) ?? "User";
     
     if (string.IsNullOrEmpty(provider))
         provider = "Local Identity"; 
@@ -16,6 +17,9 @@
             <div class="account-name">
                 <img src="@Url.Content(profilePicture)" alt="Login user image" />
                 <span>@displayName</span>
+            </div>
+            <div class="account-details">
+                <span class="role">Role: <strong>@role</strong></span>
                 <span class="identity">@provider</span>
             </div>
         </div>
