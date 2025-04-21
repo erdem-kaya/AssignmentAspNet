@@ -434,6 +434,29 @@ document.querySelectorAll(".dropdown-action.trash.user-delete").forEach(btn => {
     });
 });
 
+//RoleHantering
+
+document.querySelectorAll(".btn-add-role").forEach(button => {
+    button.addEventListener("click", () => {
+        const userId = button.dataset.userId;
+        const modal = document.querySelector("#editUserRoleModal");
+        const content = modal.querySelector(".modal-content");
+
+        fetch(`/users/add-role/${userId}`)
+            .then(res => res.text())
+            .then(html => {
+                content.innerHTML = html;
+                modal.style.display = "flex";
+                const form = modal.querySelector("form");
+                attachFormValidation(form);
+                attachModalClose(modal);
+            })
+            .catch(err => {
+                console.error("Failed to load role form", err);
+            });
+    });
+});
+
 function updateRelativeTimes() {
     const elements = document.querySelectorAll('.notification .time');
     const now = new Date();

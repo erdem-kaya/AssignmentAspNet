@@ -1,17 +1,24 @@
 ﻿using Business.Interfaces;
+using Data.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using WebApp.Helpers;
+using WebApp.ViewModels;
 using WebApp.ViewModels.UserProfile;
 
 namespace WebApp.Controllers;
 
 [Authorize]
 [Route("users")]
-public class UserProfilesController(IUsersProfileService userProfileService, IWebHostEnvironment environment) : Controller
+public class UserProfilesController(IUsersProfileService userProfileService, IWebHostEnvironment environment, UserManager<ApplicationUserEntity> userManager, RoleManager<IdentityRole> roleManager) : Controller
 {
     private readonly IUsersProfileService _userProfileService = userProfileService;
     private readonly IWebHostEnvironment _environment = environment;
+    private readonly UserManager<ApplicationUserEntity> _userManager = userManager;
+    private readonly RoleManager<IdentityRole> _roleManager = roleManager;
 
 
     [HttpGet]
@@ -145,6 +152,49 @@ public class UserProfilesController(IUsersProfileService userProfileService, IWe
             .ToList();
 
         return Json(likeUsers);
+    }
+
+    //Add role för user
+    [HttpGet("add-role/{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> AddRole(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+            return NotFound();
+
+        var roles = await _roleManager.Roles.ToListAsync();
+        var viewModel = new RoleViewModel
+        {
+            UserId = user.Id,
+            RoleList = roles.Select(x => new SelectListItem
+            {
+                Value = x.Name,
+                Text = x.Name,
+            }).ToList()
+        };
+
+        return PartialView("~/Views/Shared/Partials/Components/UsersPartials/_AddRoleToUser.cshtml", viewModel);
+    }
+
+    [HttpPost("add-role/{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> AddRole(string id, RoleViewModel form)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+            return NotFound();
+
+        var result = await _userManager.AddToRoleAsync(user, form.Roles);
+
+        if (result.Succeeded)
+            return RedirectToAction("UsersList");
+
+        return BadRequest(new
+        {
+            success = false,
+            globalError = "Failed to update user"
+        });
     }
 }
 

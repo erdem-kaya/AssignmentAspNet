@@ -21,12 +21,14 @@
                             <span>Edit</span>
                         </a>
                     </nav>
-                    <nav class="dropdown-actions">
-                        <a class="dropdown-action" href="#">
-                                <i class="fa-duotone fa-solid fa-users-gear"></i>
-                            <span>Add Role</span>
-                        </a>
-                    </nav>
+                    @if (User.IsInRole("Admin")){
+                            <nav class="dropdown-actions">
+                                <a class="dropdown-action btn-add-role" data-user-id="@users.Id">
+                                    <i class="fa-duotone fa-solid fa-users-gear"></i>
+                                    <span>Add Role</span>
+                                </a>
+                            </nav>
+                    }
                     <div class="divider"></div>
                     <nav class="dropdown-actions">
                             <a href="#" class="dropdown-action trash user-delete" data-user-id="@users.Id">

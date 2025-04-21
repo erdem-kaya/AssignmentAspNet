@@ -1042,6 +1042,30 @@ textarea {
 #editProjectStatusModal .modal-content {
     width: 400px;
 }
+
+#editUserRoleModal .modal-content {
+    width: 400px;
+}
+
+
+#editUserRoleModal button {
+    width: 100%;
+    margin-top: 3rem;
+}
+
+#editUserRoleModal .modal-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+}
+
+    #editUserRoleModal .modal-header button {
+        margin-top: 0;
+    }
+
+
+
+
+
 /* image-previewer */
 .hide {
     display: none;

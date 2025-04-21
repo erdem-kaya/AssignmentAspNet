@@ -58,8 +58,6 @@ builder.Services.AddAuthentication(options =>
     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
 });
 
-
-
 var app = builder.Build();
 app.UseHsts();
 app.UseHttpsRedirection();

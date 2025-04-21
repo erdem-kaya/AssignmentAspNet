@@ -1,0 +1,17 @@
+﻿@model RoleViewModel
+
+@{
+    ViewData["Title"] = "Role";
+}
+
+<div class="modal-header">
+    <h3>Add Role</h3>
+    <button type="button" class="btn-close" data-close="true"></button>
+</div>
+<form method="post" asp-route-id="@Model.UserId">
+    <div class="form-group">
+        <label for="ProjectStatusId"></label>
+        <select asp-for="Roles" asp-items="Model.RoleList" class="form-control"></select>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
