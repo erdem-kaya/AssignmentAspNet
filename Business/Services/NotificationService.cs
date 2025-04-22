@@ -53,15 +53,7 @@ public class NotificationService(DataContext context, IHubContext<NotificationHu
             var adminUserIds = await GetAdminUserIdsAsync();
             foreach (var adminUserId in adminUserIds)
             {
-
-                await _notificationHub.Clients.User(adminUserId).SendAsync("AdminReceiveNotification", new
-                {
-                    id = adminsNotification.Id,
-                    icon = adminsNotification.Icon,
-                    message = adminsNotification.Message,
-                    created = adminsNotification.CreatedAt,
-                    notificationTypeId = adminsNotification.NotificationTypeId
-                });
+                await _notificationHub.Clients.User(adminUserId).SendAsync("AdminReceiveNotification", adminsNotification);
             }
         }     
     }
@@ -69,7 +61,6 @@ public class NotificationService(DataContext context, IHubContext<NotificationHu
 
     public async Task<IEnumerable<NotificationEntity>> GetNotificationsAsync(string userId, int take = 10)
     {
-        //ChatGpt hjälpte mig med denna kod
 
         var userRoles = await _context.UserRoles
             .Where(x => x.UserId == userId)
@@ -91,10 +82,6 @@ public class NotificationService(DataContext context, IHubContext<NotificationHu
         if (!isAdmin)
         {
             queryResult = queryResult.Where(x => x.TargetGroupId == 1);
-        }
-        else
-        {
-            queryResult = queryResult.Where(x => x.TargetGroupId == 2);
         }
 
         var notifications = await queryResult
