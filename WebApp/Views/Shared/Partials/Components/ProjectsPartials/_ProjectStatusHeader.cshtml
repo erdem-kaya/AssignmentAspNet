@@ -1,11 +1,20 @@
-﻿<div class="project-status">
-    <a class="status-all active">
-        ALL [0]
+﻿@{
+    var count = ViewBag.ProjectStatusCount;
+    var selectedFilter = string.IsNullOrWhiteSpace(Context.Request.Query["statusFilter"]) ? "all" : Context.Request.Query["statusFilter"].ToString();
+}
+
+
+<div class="project-status">
+    <a class="status status-all @(selectedFilter == "all" ? "active" : "")" href="@Url.Action("ProjectsList", "Project", new { statusFilter = "all"}) ">
+        ALL [@count.All]
     </a>
-    <a class="status-started">
-        STARTED [0]
+    <a class="status status-started @(selectedFilter == "started" ? "active" : "")" href=" @Url.Action("ProjectsList", "Project", new { statusFilter = "started" }) ">
+        STARTED [@count.Started]
     </a>
-    <a class="status-complete">
-        COMPLETED [0]
+    <a class="status status-complete @(selectedFilter == "completed" ? "active" : "")" href="@Url.Action("ProjectsList", "Project", new { statusFilter = "completed" }) ">
+        COMPLETED [@count.Completed]
+    </a>
+    <a class="status status-cancelled @(selectedFilter == "cancelled" ? "active" : "")" href="@Url.Action("ProjectsList", "Project", new { statusFilter = "cancelled" }) ">
+        CANCELLED [@count.Cancelled]
     </a>
 </div>

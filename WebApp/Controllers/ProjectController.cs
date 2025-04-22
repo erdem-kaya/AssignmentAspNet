@@ -1,8 +1,10 @@
 ﻿using Business.Interfaces;
+using Business.Models.Project;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Net.NetworkInformation;
 using WebApp.Helpers;
 using WebApp.ViewModels.Project;
 
@@ -18,14 +20,31 @@ public class ProjectController(IProjectService projectService, IClientService cl
 
 
     [HttpGet("")]
-    public async Task<IActionResult> ProjectsList()
+    public async Task<IActionResult> ProjectsList(string? statusFilter)
     {
         var clients = await _clientService.GetAllClientsAsync();
+        var allProjects = await _projectService.GetAllProjectsAsync();
 
+        var filteredProjects = statusFilter switch
+        {
+            "all" => allProjects.Where(p => p.ProjectStatusId == 1 || p.ProjectStatusId == 2 || p.ProjectStatusId == 3 || p.ProjectStatusId == 4),
+            "started" => allProjects.Where(p => p.ProjectStatusId == 2),
+            "completed" => allProjects.Where(p => p.ProjectStatusId == 3),
+            "cancelled" => allProjects.Where(p => p.ProjectStatusId == 4),
+            _ => allProjects
+        };
+
+        ViewBag.ProjectStatusCount = new
+        {
+            All = allProjects.Count(),
+            Started = allProjects.Count(p => p.ProjectStatusId == 2),
+            Completed = allProjects.Count(p => p.ProjectStatusId == 3),
+            Cancelled = allProjects.Count(p => p.ProjectStatusId == 4)
+        };
 
         var model = new ProjectViewModel
         {
-            ProjectList = await _projectService.GetAllProjectsAsync(),
+            ProjectList = filteredProjects,
             RegistrationForm = new ProjectRegistrationFormViewModel
             {
                 ClientList = clients.Select(c => new SelectListItem

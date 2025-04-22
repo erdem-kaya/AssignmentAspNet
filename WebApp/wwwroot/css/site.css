@@ -318,6 +318,10 @@ a {
         text-decoration: underline;
     }
 
+nav {
+    cursor: pointer;
+}
+
 .link-logotype {
     font-size: 1.625rem;
     font-weight: 700;
@@ -1199,8 +1203,19 @@ table {
     font-weight: var(--font-bold);
     color: var(--gray-800);
     border-bottom: 1px solid var(--gray-transparent);
-    padding-bottom: 1rem;
 }
+
+    .project-status .status {
+        cursor: pointer;
+        color: var(--gray-800)
+    }
+
+        .project-status .status.active {
+            color: var(--blue);
+            border-bottom: 5px solid var(--blue);
+            padding-bottom: 0.7rem;
+            
+        }
 
 .field-group.budget {
     position: relative;
