@@ -24,9 +24,10 @@
 
             @foreach (var notification in notifications)
             {
+                var imageClass = notification.NotificationTypeId == 2 ? "project-image-notification" : "user-image";
                 <div class="notification">
-                    <div class="user-image">
-                        <img class="user-image" src="@notification.Icon" alt="Alternate Text" />
+                    <div class="@imageClass">
+                        <img class="@imageClass" src="@notification.Icon" alt="Alternate Text" />
                     </div>
                     <div class="message">@notification.Message</div>
                     <div class="time" data-created="@notification.CreatedAt.ToString("s")">@notification.CreatedAt</div>
