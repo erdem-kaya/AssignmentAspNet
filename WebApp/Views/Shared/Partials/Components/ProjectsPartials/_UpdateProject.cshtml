@@ -78,19 +78,20 @@
             </div>
         </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="ProjectWithUsers"></label>
-        <div id="tagged-users-edit" class="field-group form-input form-tag-select">
-            <div id="tagged-user-list"></div>
-            <input type="hidden" id="ProjectWithUsersRaw" name="ProjectWithUsersRaw" value="@Model.ProjectWithUsersRaw" />
-            <input type="text" id="user-search-edit" class="form-tag-input" placeholder="Add member" />
-            <label for="user-search-edit"></label>
-            <div id="user-search-results-edit" class="search-results"></div>
-            <span asp-validation-for="ProjectWithUsersRaw"></span>
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="form-group">
+            <label asp-for="ProjectWithUsers"></label>
+            <div id="tagged-users-edit" class="field-group form-input form-tag-select">
+                <div id="tagged-user-list"></div>
+                <input type="hidden" id="ProjectWithUsersRaw" name="ProjectWithUsersRaw" value="@Model.ProjectWithUsersRaw" />
+                <input type="text" id="user-search-edit" class="form-tag-input" placeholder="Add member" />
+                <label for="user-search-edit"></label>
+                <div id="user-search-results-edit" class="search-results"></div>
+                <span asp-validation-for="ProjectWithUsersRaw"></span>
+            </div>
         </div>
-    </div>
-   
+    }
 
     <div class="form-group">
         <label asp-for="Budget"></label>

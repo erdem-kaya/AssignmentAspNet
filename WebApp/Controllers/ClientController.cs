@@ -5,7 +5,7 @@ using WebApp.ViewModels.Client;
 
 namespace WebApp.Controllers;
 
-[Authorize]
+[Authorize("Admin")]
 [Route("clients")]
 public class ClientController(IClientService clientService) : Controller
 {
