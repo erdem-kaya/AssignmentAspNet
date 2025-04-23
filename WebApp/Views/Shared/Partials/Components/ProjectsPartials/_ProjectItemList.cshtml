@@ -62,11 +62,25 @@
             <p>@Html.Raw(project.Description)</p>
         </div>
         <div class="project-card-footer">
-            <div class="project-time">
+            @{
+                var timeAlert = (project.EndDate - DateTime.Now).TotalDays < 7 &&
+                                (project.EndDate - DateTime.Now).TotalDays > 0;
+            }
+            <div class="project-time @(timeAlert ? "time-alert" : "")">
                 <i class="fa-duotone fa-solid fa-clock"></i>
                 <span class="">@project.EndDate.ToRemainingTime()</span>
             </div>
-            <div class="project-status-view">
+            @{
+                var statusClass = project.ProjectStatusName switch
+                {
+                    "NotStarted" => "status-not-started",
+                    "InProgress" => "status-in-progress",
+                    "Completed" => "status-completed",
+                    "Cancelled" => "status-cancelled",
+                    _ => ""
+                };
+            }
+            <div class="project-status-view @statusClass">
                 <i class="fa-duotone fa-solid fa-circle-info" ></i>
                 <span class="status">@project.ProjectStatusName</span>
             </div>

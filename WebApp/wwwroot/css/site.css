@@ -30,6 +30,7 @@
     --green-dark: #187848;
     /* yellow-color */
     --yellow-light: #FFF6C7;
+    --yellow-dark-light: #faeca2;
     --yellow-semilight: #FFF3B4;
     --yellow: #EFDF49;
     --yellow-dark: #8B7400;
@@ -1083,9 +1084,6 @@ textarea {
     }
 
 
-
-
-
 /* image-previewer */
 .hide {
     display: none;
@@ -1123,10 +1121,17 @@ textarea {
         bottom: 5px;
     }
 
-
-    .image-previewer.circle {
-        border-radius: 50%;
+    .image-previewer img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        position: absolute;
     }
+
+
+.image-previewer.circle {
+    border-radius: 50%;
+}
 
     .image-previewer.square {
         border-radius: 16px;
@@ -1302,6 +1307,7 @@ table {
     height: 56px;
     width: 56px;
     margin-block: 1rem;
+    border-radius: 10px;
 }
 
 .project-card-header .project-info {
@@ -1336,6 +1342,25 @@ table {
     }
 
 
+        .project-card .project-card-footer .project-status-view.status-not-started {
+            background-color: #fff6c7;
+            color: #9d8e01;
+        }
+
+        .project-card .project-card-footer .project-status-view.status-in-progress {
+            background-color: var(--blue-light-opacity);
+            color: var(--blue);
+        }
+
+        .project-card .project-card-footer .project-status-view.status-completed {
+            background-color: var(--green-light);
+            color: var(--green);
+        }
+
+        .project-card .project-card-footer .project-status-view.status-cancelled {
+            background-color: var(--danger-20);
+            color: var(--danger);
+        }
 
     .project-card .project-card-footer .project-time {
         background-color: var(--gray-200);
@@ -1343,6 +1368,12 @@ table {
         border-radius: 7px;
         gap: 1rem;
     }
+
+        .project-card .project-card-footer .project-time.time-alert {
+            background-color: var(--danger-20);
+            color: var(--danger);
+        }
+        
 
     .project-card .project-card-footer .project-members {
         display: flex;
@@ -1599,6 +1630,7 @@ table {
 
     .dropdown.dropdown-show {
         display: block;
+        z-index: 1;
     }
 
 
