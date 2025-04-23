@@ -93,6 +93,7 @@
     --btn-notification-text-hover-color: var(--dark-400);
     --btn-notification-background-color: var(--transparent);
     --btn-notification-background-hover-color: var(--blue-light-opacity);
+    --btn-ellipsis-color: var(--gray-800);
     /* link-color */
     --link-color: var(--blue);
     --link-hover-color: var(--blue-dark);
@@ -174,8 +175,44 @@
     --badge-green-text-color: var(--white-100);
     --badge-green-border-color: var(--white-100);
     --badge-green-background-color: var(--green);
+    /* status */
+    --project-status-filter-color: var(--gray-800);
+    /* user */
+    --jobtitle-background-color: var(--white-400);
+    --jobtitle-text-color: var(--text-color);
+    --user-tag-background-color: #f1f5f9;
+    /*Modal */
+    --modal-content-background-color: var(--white);
+    --modal-content-text-color: var(--text-color);
 }
 
+[data-theme="dark"] {
+    --background-color: #000000c1;
+    --text-color: #ffffff;
+    --navlink-text-color: #ffffff;
+    --btn-notification-text-color: #ffffff;
+    --project-status-filter-color: #ffffff;
+    --card-background-color: #202123;
+    --card-border-color: #202123;
+    --card-text-color: #ffffff;
+    --btn-ellipsis-color: #ffffff;
+    --dropdown-background-color: #202123;
+    --dropdown-border-color: #202123;
+    --dropdown-text-color: #ffffff;
+    --account-name-background-color: #62666b;
+    --account-name-border-color: #62666b;
+    --account-name-text-color: #ffffff;
+    --btn-account-text-color: #ffffff;
+    --jobtitle-background-color: #62666b;
+    --modal-content-background-color: #202123;
+    --form-background-color: #2F2F30;
+    --form-border-color: #2F2F30;
+    --form-input-border-color: #2F2F30;
+    --form-input-background-color: #2F2F30;
+    --form-input-text-color: var(--white-400);
+    --user-tag-background-color: #62666b;
+    --btn-border-color: #transparent;
+}
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -608,7 +645,9 @@ nav {
         text-decoration: none;
     }
 
-
+.btn-ellipsis {
+    color: var(--btn-ellipsis-color);
+}
 
 .btn-message {
     cursor: pointer;
@@ -907,6 +946,8 @@ textarea {
     padding: 0.5rem 1rem;
     border-radius: 10px;
     border: 1px solid var(--form-input-border-color);
+    background-color: var(--form-background-color);
+    color: var(--form-input-text-color);
     transition: border-color 0.1s ease-in-out;
     outline: none;
     font-family: var(--font-standart)
@@ -947,7 +988,8 @@ textarea {
    
 
     .member .jobtitle {
-        background-color: var(--white-400);
+        background-color: var(--jobtitle-background-color);
+        color: var(--jobtitle-text-color);
         display: inline;
         padding: 0.7rem 1.3rem;
         border-radius: 10px;
@@ -1021,7 +1063,8 @@ textarea {
 }
 
     .modal .modal-content {
-        background-color: var(--white);
+        background-color: var(--modal-content-background-color);
+        color:var(--modal-content-text-color);
         border-radius: 16px;
         box-shadow: 0 4px 4px 3px rgba(196, 196, 196, 0.1);
         padding: 2rem;
@@ -1212,7 +1255,7 @@ table {
 
     .project-status .status {
         cursor: pointer;
-        color: var(--gray-800)
+        color: var(--project-status-filter-color);
     }
 
         .project-status .status.active {
@@ -1231,7 +1274,7 @@ table {
     .field-group.budget i {
         position: absolute;
         left: 12px;
-        color: var(--dark-600);
+        color: var(--text-color);
         font-size: 14px;
         pointer-events: none;
     }
@@ -1467,7 +1510,7 @@ table {
     flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
-    background-color: #fff;
+    background-color: var(--form-background-color);
     border: 1px solid var(--form-input-border-color);
     padding: 0.5rem 0.75rem;
     border-radius: 14px;
@@ -1540,10 +1583,11 @@ table {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background-color: #f1f5f9;
+    background-color: var(--user-tag-background-color);
     border-radius: 12px;
     padding: 0.3rem 0.6rem;
     font-size: 0.9em;
+    
 }
 
 .user-avatar {
