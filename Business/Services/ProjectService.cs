@@ -78,8 +78,9 @@ public class ProjectService(ProjectsRepository projectsRepository, ProjectUsersR
             var allProjectUsers = await _projectsUsersRepository.GetAllAsync();
             var allUserProfiles = await _usersProfileRepository.GetAllAsync();
 
+            var viewProject = allProjects.OrderBy(project => project.ProjectName).ToList();
 
-            var result = allProjects.Select(project =>
+            var result = viewProject.Select(project =>
             {
                 var projectForm = ProjectFactory.Create(project);
 

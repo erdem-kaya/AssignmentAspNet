@@ -47,8 +47,13 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
         try
         {
             var users = await _usersProfileRepository.GetAllAsync();
+
+            var viewUsers = users
+                .OrderBy(user => user.FirstName)
+                .ToList();
+
             var newUserList = new List<User>();
-            foreach (var profile in users)
+            foreach (var profile in viewUsers)
             {
                 var appUser = await _userManager.FindByIdAsync(profile.Id);
                 if (appUser != null)

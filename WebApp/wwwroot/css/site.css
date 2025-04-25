@@ -177,6 +177,7 @@
     --badge-green-background-color: var(--green);
     /* status */
     --project-status-filter-color: var(--gray-800);
+    --project-time-text-color: var(--gray-800);
     /* user */
     --jobtitle-background-color: var(--white-400);
     --jobtitle-text-color: var(--text-color);
@@ -189,6 +190,7 @@
 [data-theme="dark"] {
     --background-color: #000000c1;
     --text-color: #ffffff;
+    --project-time-text-color: #1a1a1a;
     --navlink-text-color: #ffffff;
     --btn-notification-text-color: #ffffff;
     --project-status-filter-color: #ffffff;
@@ -1407,6 +1409,7 @@ table {
 
     .project-card .project-card-footer .project-time {
         background-color: var(--gray-200);
+        color: var(--project-time-text-color);
         padding: 0.5rem;
         border-radius: 7px;
         gap: 1rem;
