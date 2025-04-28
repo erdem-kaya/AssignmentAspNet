@@ -8,10 +8,11 @@ using System.Diagnostics;
 
 namespace Business.Services;
 
-public class UsersProfileService(UserManager<ApplicationUserEntity> userManager, UsersProfileRepository usersProfileRepository) : IUsersProfileService
+public class UsersProfileService(UserManager<ApplicationUserEntity> userManager, UsersProfileRepository usersProfileRepository, RoleManager<IdentityRole> roleManager) : IUsersProfileService
 {
     private readonly UserManager<ApplicationUserEntity> _userManager = userManager;
     private readonly UsersProfileRepository _usersProfileRepository = usersProfileRepository;
+    private readonly RoleManager<IdentityRole> _roleManager = roleManager;
 
 
     public async Task<bool> CreateUsersProfileAsync(UserRegistrationForm form)
@@ -25,6 +26,20 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
             var result = await _userManager.CreateAsync(appUser, "Exempel123!");
             if (result.Succeeded)
             {
+                //Add a Role to the user if the user is created on the Team Members Page
+                if (!await _roleManager.RoleExistsAsync("User"))
+                {
+                    await _roleManager.CreateAsync(new IdentityRole("User"));
+                }
+
+                var addRoleResult = await _userManager.AddToRoleAsync(appUser, "User");
+                if (!addRoleResult.Succeeded)
+                {
+                    Debug.WriteLine($"Error adding role to user: {string.Join(", ", addRoleResult.Errors.Select(e => e.Description))}");
+                    await _usersProfileRepository.RollbackTransactionAsync();
+                    return false;
+                }
+
                 await _usersProfileRepository.CreateAsync(userProfile);
                 await _usersProfileRepository.CommitTransactionAsync();
                 return true;
@@ -146,7 +161,7 @@ public class UsersProfileService(UserManager<ApplicationUserEntity> userManager,
         {
             await _usersProfileRepository.RollbackTransactionAsync();
             Debug.WriteLine($"Error deleting user, {ex.Message}");
-             
+
             return false;
         }
     }
